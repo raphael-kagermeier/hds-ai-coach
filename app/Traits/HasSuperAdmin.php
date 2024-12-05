@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\RolesEnum;
 use Spatie\Permission\Traits\HasRoles;
 
 trait HasSuperAdmin
@@ -10,6 +11,6 @@ trait HasSuperAdmin
 
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole('super-admin');
+        return $this->hasRole(RolesEnum::SuperAdmin->value);
     }
 }

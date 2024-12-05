@@ -3,12 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
+use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use App\Policies\RolePolicy;
-use App\Policies\PermissionPolicy;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
             return $user->isSuperAdmin() ? true: null;
         });
 
-        Gate::policy(Role::class, RolePolicy::class);
-        Gate::policy(Permission::class, PermissionPolicy::class);
+        FilamentShield::prohibitDestructiveCommands($this->app->isProduction());
+
     }
 }

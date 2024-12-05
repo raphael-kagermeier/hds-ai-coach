@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -75,13 +75,15 @@ class SharedPanelConfig
             ->login()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
-                FilamentSpatieRolesPermissionsPlugin::make(),
+                FilamentShieldPlugin::make(),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)
                     ->localStorageMaxItemsAllowed(25)
                     ->searchItemTree(false)
             ]);
+
+        $this->enableDeveloperLoginButton();
 
         return $this;
     }
@@ -98,8 +100,6 @@ class SharedPanelConfig
 
     public function superAdminPanel()
     {
-        $this->enableDeveloperLoginButton();
-
         return $this;
     }
 

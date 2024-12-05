@@ -16,9 +16,9 @@ class AdminPanelProvider extends PanelProvider
             ->getPanel()
             ->default()
             ->path('admin')
-            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Admin\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Admin\\Filament\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Admin\\Filament\\Widgets')
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->pages([
                 Pages\Dashboard::class,
             ])

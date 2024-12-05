@@ -21,6 +21,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Kainiklas\FilamentScout\FilamentScoutPlugin;
+use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class SharedPanelConfig
 {
@@ -73,6 +74,11 @@ class SharedPanelConfig
                 Platform::Mac => '⌘K',
                 default => null,
             })
+
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+
             ->login()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
@@ -103,6 +109,7 @@ class SharedPanelConfig
     public function superAdminPanel()
     {
         $this->panel
+            ->plugin(FilamentUsersPlugin::make())
             ->plugin(FilamentExceptionsPlugin::make());
 
         return $this;

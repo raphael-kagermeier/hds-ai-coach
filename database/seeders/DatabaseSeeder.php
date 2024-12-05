@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RolesAndPermissionsSeeder::class,
-            SuperAdminSeeder::class,
+            app()->environment('local', 'testing', 'staging')
+                ? UserForRoleSeeder::class
+                : SuperAdminSeeder::class,
         ]);
     }
 }

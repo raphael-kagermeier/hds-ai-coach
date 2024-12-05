@@ -3,7 +3,9 @@
 namespace App\Support;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use App\Models\User;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
+use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
@@ -39,16 +41,16 @@ class SharedPanelConfig
         $this->panel
             ->id($id)
             ->middleware([
-            EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            AuthenticateSession::class,
-            ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
-            SubstituteBindings::class,
-            DisableBladeIconComponents::class,
-            DispatchServingFilamentEvent::class,
-        ])
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
             ->font('Inter')
             ->brandLogo(fn() => view('components.brand.logo'))
             ->colors([
@@ -92,6 +94,25 @@ class SharedPanelConfig
             ->passwordReset();
 
         return $this;
+    }
+
+    public function superAdminPanel()
+    {
+        $this->enableDeveloperLoginButton();
+
+        return $this;
+    }
+
+    public function enableDeveloperLoginButton(): static
+    {
+        $this->panel->plugin(
+            FilamentDeveloperLoginsPlugin::make()
+                ->users(fn() => User::pluck('email', 'name')->toArray())
+                ->enabled(app()->environment('local'))
+        );
+
+        return $this;
+
     }
 
     /**

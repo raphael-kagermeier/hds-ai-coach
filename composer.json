@@ -9,6 +9,7 @@
         "php": "^8.2",
         "althinect/filament-spatie-roles-permissions": "^2.2",
         "charrafimed/global-search-modal": "^3.4",
+        "dutchcodingcompany/filament-developer-logins": "^1.5",
         "filament/filament": "^3.2",
         "kainiklas/filament-scout": "^0.4.0",
         "laravel/framework": "^11.31",

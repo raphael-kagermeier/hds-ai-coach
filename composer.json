@@ -12,6 +12,7 @@
         "charrafimed/global-search-modal": "^3.4",
         "dutchcodingcompany/filament-developer-logins": "^1.5",
         "filament/filament": "^3.2",
+        "jeffgreco13/filament-breezy": "^2.4",
         "kainiklas/filament-scout": "^0.4.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9"

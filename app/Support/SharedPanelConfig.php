@@ -19,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Kainiklas\FilamentScout\FilamentScoutPlugin;
 
 class SharedPanelConfig
@@ -62,7 +63,6 @@ class SharedPanelConfig
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
-            ->profile()
             ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
@@ -76,6 +76,7 @@ class SharedPanelConfig
             ->login()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
+                BreezyCore::make()->myProfile(),
                 FilamentShieldPlugin::make(),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()

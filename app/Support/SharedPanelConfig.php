@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\User;
+use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
@@ -100,6 +101,9 @@ class SharedPanelConfig
 
     public function superAdminPanel()
     {
+        $this->panel
+            ->plugin(FilamentExceptionsPlugin::make());
+
         return $this;
     }
 

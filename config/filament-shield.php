@@ -16,19 +16,19 @@ return [
     'tenant_model' => null,
 
     'auth_provider_model' => [
-        'fqcn' => \App\Models\User::class,
+        'fqcn' => 'App\\Models\\User',
     ],
 
     'super_admin' => [
         'enabled' => true,
-        'name' => \App\Enums\RolesEnum::SuperAdmin->value,
+        'name' => 'super_admin',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
 
     'panel_user' => [
         'enabled' => true,
-        'name' => \App\Enums\RolesEnum::Basic->value,
+        'name' => 'panel_user',
     ],
 
     'permission_prefixes' => [

@@ -2,15 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Traits\SuperAdminOnly;
 
 class RolePolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    use SuperAdminOnly;
 }

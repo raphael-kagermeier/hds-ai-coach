@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use App\Filament\Shared\Pages\Register;
-use App\Filament\Shared\Pages\Terms;
 use App\Models\User;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -28,17 +27,14 @@ use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class SharedPanelConfig
 {
-
-    public function __construct(protected Panel $panel)
-    {
-    }
+    public function __construct(protected Panel $panel) {}
 
     public static function make(Panel $panel, string $id = 'admin'): static
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return tap(
             new self($panel),
-            fn(self $obj) => $obj->defaultConfig($id)
+            fn (self $obj) => $obj->defaultConfig($id)
         );
     }
 
@@ -58,7 +54,7 @@ class SharedPanelConfig
                 DispatchServingFilamentEvent::class,
             ])
             ->font('Inter')
-            ->brandLogo(fn() => view('components.brand.logo'))
+            ->brandLogo(fn () => view('components.brand.logo'))
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Blue,
@@ -67,12 +63,12 @@ class SharedPanelConfig
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
-            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
             })
-            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
@@ -89,8 +85,9 @@ class SharedPanelConfig
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)
                     ->localStorageMaxItemsAllowed(25)
-                    ->searchItemTree(false)
+                    ->searchItemTree(false),
             ]);
+
         return $this;
     }
 
@@ -105,11 +102,10 @@ class SharedPanelConfig
         return $this;
     }
 
-
     public function withFooter(): static
     {
         $this->panel->renderHook(
-            PanelsRenderHook::FOOTER, fn() => view('filament.footer')
+            PanelsRenderHook::FOOTER, fn () => view('filament.footer')
         );
 
         return $this;
@@ -128,7 +124,7 @@ class SharedPanelConfig
     {
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()
-                ->users(fn() => User::pluck('email', 'name')->toArray())
+                ->users(fn () => User::pluck('email', 'name')->toArray())
                 ->enabled(app()->environment('local'))
         );
 
@@ -136,13 +132,8 @@ class SharedPanelConfig
 
     }
 
-    /**
-     * @return Panel
-     */
     public function getPanel(): Panel
     {
         return $this->panel;
     }
-
-
 }

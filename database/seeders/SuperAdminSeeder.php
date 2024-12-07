@@ -11,16 +11,20 @@ class SuperAdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Raphael Kagermeier',
-            'email' => 'r.kagermeier@performromance.com',
-            'password' => Hash::make('password')
-        ])->assignRole(RolesEnum::SuperAdmin);
+        User::factory()
+            ->withRole(RolesEnum::SuperAdmin)
+            ->create([
+                'name' => 'Raphael Kagermeier',
+                'email' => 'r.kagermeier@performromance.com',
+                'password' => Hash::make('password'),
+            ]);
 
-        User::factory()->create([
-            'name' => 'Kathi Elli',
-            'email' => 'hello@wednesday-concepts.com',
-            'password' => Hash::make('password')
-        ])->assignRole(RolesEnum::SuperAdmin);
+        User::factory()
+            ->withRole(RolesEnum::SuperAdmin)
+            ->create([
+                'name' => 'Kathi Elli',
+                'email' => 'hello@wednesday-concepts.com',
+                'password' => Hash::make('password'),
+            ]);
     }
 }

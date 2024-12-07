@@ -25,13 +25,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::before(function (User $user) {
-            return $user->isSuperAdmin() ? true: null;
+            return $user->isSuperAdmin() ? true : null;
         });
 
         FilamentShield::prohibitDestructiveCommands($this->app->isProduction());
 
         Gate::policy(Exception::class, ExceptionsPolicy::class);
-
 
     }
 }

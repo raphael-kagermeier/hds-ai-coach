@@ -7,6 +7,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel

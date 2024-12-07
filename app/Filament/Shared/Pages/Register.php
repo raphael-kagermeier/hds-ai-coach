@@ -29,11 +29,11 @@ class Register extends BaseRegister
     protected function getTermsFormComponent(): Component
     {
         return Checkbox::make('terms')
-            ->label(new HtmlString("<div class='text-xs text-gray-500 dark:text-gray-400'>" .
+            ->label(new HtmlString("<div class='text-xs text-gray-500 dark:text-gray-400'>".
                 trans('By clicking you accept our <a class="underline" href=":href" >terms and conditions</a>', [
-                        'href' => route('filament.guest.pages.terms')]
-                ) .
-                "</div>"))
+                    'href' => route('filament.guest.pages.terms')]
+                ).
+                '</div>'))
             ->markAsRequired(false)
             ->required();
     }

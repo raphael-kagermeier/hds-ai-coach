@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Enums;
 
 enum RolesEnum: string
@@ -9,8 +10,8 @@ enum RolesEnum: string
     public function label(): string
     {
         return match ($this) {
-            static::Basic => 'Basic',
-            static::SuperAdmin => 'Super Admin',
+            self::Basic => 'Basic',
+            self::SuperAdmin => 'Super Admin',
         };
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Filament\Shared\Pages\Register;
+use App\Filament\Shared\Pages\Terms;
 use App\Models\User;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -12,6 +14,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Platform;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -78,8 +81,6 @@ class SharedPanelConfig
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-
-            ->login()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
                 BreezyCore::make()->myProfile(),
@@ -90,18 +91,26 @@ class SharedPanelConfig
                     ->localStorageMaxItemsAllowed(25)
                     ->searchItemTree(false)
             ]);
-
-        $this->enableDeveloperLoginButton();
-
         return $this;
     }
 
     public function withAuthentication(): static
     {
 
+        $this->withDeveloperLoginButton();
         $this->panel->login()
-            ->registration()
+            ->registration(Register::class)
             ->passwordReset();
+
+        return $this;
+    }
+
+
+    public function withFooter(): static
+    {
+        $this->panel->renderHook(
+            PanelsRenderHook::FOOTER, fn() => view('filament.footer')
+        );
 
         return $this;
     }
@@ -115,7 +124,7 @@ class SharedPanelConfig
         return $this;
     }
 
-    public function enableDeveloperLoginButton(): static
+    public function withDeveloperLoginButton(): static
     {
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()

@@ -15,7 +15,6 @@ class AdminPanelProvider extends PanelProvider
         return SharedPanelConfig::make($panel)
             ->superAdminPanel()
             ->getPanel()
-            ->default()
             ->path('admin')
             ->login()
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')

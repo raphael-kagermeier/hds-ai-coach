@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Support\SharedPanelConfig;
+use Filament\Http\Middleware\Authenticate;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -16,8 +17,12 @@ class AppPanelProvider extends PanelProvider
             ->withDeveloperLoginButton()
             ->getPanel()
             ->path('app')
+            ->default()
             ->pages([
                 Pages\Dashboard::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
             ]);
     }
 }

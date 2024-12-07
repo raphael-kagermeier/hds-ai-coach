@@ -56,9 +56,12 @@ class UserResource extends Resource
     {
         $rows = [
             TextInput::make('name')
+                ->maxLength(255)
                 ->required()
                 ->label(trans('filament-users::user.resource.name')),
             TextInput::make('email')
+                ->maxLength(255)
+                ->unique()
                 ->email()
                 ->required()
                 ->label(trans('filament-users::user.resource.email')),

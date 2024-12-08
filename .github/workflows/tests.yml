@@ -54,7 +54,7 @@ jobs:
 
       - name: Setup Vector Extension
         run: |
-          PGPASSWORD=root psql -h localhost -p 5433 -U root -d testing -c 'CREATE EXTENSION IF NOT EXISTS vector;'
+          PGPASSWORD=password psql -h localhost -p 5433 -U sail -d testing -c 'CREATE EXTENSION IF NOT EXISTS vector;'
 
       - name: Migrations
         run: php artisan migrate --force -v

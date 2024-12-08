@@ -12,8 +12,8 @@ jobs:
         image: ankane/pgvector
         env:
           POSTGRES_DB: testing
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
         ports:
           - 5433:5432
         options: >-

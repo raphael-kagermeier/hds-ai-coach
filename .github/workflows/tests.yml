@@ -10,16 +10,16 @@ jobs:
       postgres:
         image: ankane/pgvector
         env:
-          POSTGRES_DB: testing
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
+          POSTGRES_DB: ${DB_DATABASE}
+          POSTGRES_USER: ${DB_USERNAME}
+          POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
         ports:
           - 5433:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5
+          --health-retries 3
 
     steps:
       - name: Checkout
@@ -28,22 +28,19 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, bcmath, soap, intl, gd, exif, iconv
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, bcmath, soap, intl, gd, exif, iconv, redis
           coverage: none
 
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 22
 
       - name: Install NodeJS dependencies
         run: |
           npm install
-
-      - name: Prepare env
-        run: |
-          cp .env.testing .env
+          npm install -g vite
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader

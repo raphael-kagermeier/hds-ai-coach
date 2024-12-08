@@ -37,6 +37,11 @@ jobs:
         with:
           node-version: 14
 
+      - name: Prepare env
+        run: |
+          cp .env.testing .env
+          php artisan key:generate
+
       - name: Install NodeJS dependencies
         run: |
           npm install
@@ -47,8 +52,6 @@ jobs:
       - name: Prepare Application
         run: |
           php artisan config:clear
-          cp .env.example .env
-          php artisan key:generate
           php artisan storage:link
           npm run build
 
@@ -60,4 +63,4 @@ jobs:
         run: php artisan migrate --force -v
 
       - name: PEST
-        run: php artisan test --parallel 
+        run: php artisan test --parallel

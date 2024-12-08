@@ -69,7 +69,7 @@
         ],
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
-        "phpstan": "./vendor/bin/phpstan analyse",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
         "review": [
             "@pint",
             "@pest",

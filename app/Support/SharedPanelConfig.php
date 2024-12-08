@@ -29,7 +29,7 @@ class SharedPanelConfig
 {
     public function __construct(protected Panel $panel) {}
 
-    public static function make(Panel $panel, string $id = 'admin'): static
+    public static function make(Panel $panel, string $id = 'admin'): self
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return tap(
@@ -38,7 +38,7 @@ class SharedPanelConfig
         );
     }
 
-    protected function defaultConfig(string $id = 'admin'): static
+    protected function defaultConfig(string $id = 'admin'): self
     {
         $this->panel
             ->id($id)
@@ -91,7 +91,7 @@ class SharedPanelConfig
         return $this;
     }
 
-    public function withAuthentication(): static
+    public function withAuthentication(): self
     {
 
         $this->withDeveloperLoginButton();
@@ -102,7 +102,7 @@ class SharedPanelConfig
         return $this;
     }
 
-    public function withFooter(): static
+    public function withFooter(): self
     {
         $this->panel->renderHook(
             PanelsRenderHook::FOOTER, fn () => view('filament.footer')
@@ -120,7 +120,7 @@ class SharedPanelConfig
         return $this;
     }
 
-    public function withDeveloperLoginButton(): static
+    public function withDeveloperLoginButton(): self
     {
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()

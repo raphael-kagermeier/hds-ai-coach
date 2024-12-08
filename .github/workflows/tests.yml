@@ -40,7 +40,6 @@ jobs:
       - name: Prepare env
         run: |
           cp .env.testing .env
-          php artisan key:generate
 
       - name: Install NodeJS dependencies
         run: |

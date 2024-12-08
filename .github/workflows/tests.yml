@@ -6,7 +6,7 @@ jobs:
   tests:
     name: Application Operational Test
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: ankane/pgvector
@@ -40,7 +40,7 @@ jobs:
 
       - name: Install NodeJS dependencies
         run: |
-          npm install
+          npm ci
           npm install -g vite
 
       - name: Install Composer dependencies

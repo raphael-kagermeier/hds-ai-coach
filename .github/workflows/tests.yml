@@ -6,13 +6,14 @@ jobs:
   tests:
     name: Application Operational Test
     runs-on: ubuntu-latest
+    
     services:
       postgres:
         image: ankane/pgvector
         env:
-          POSTGRES_DB: ${DB_DATABASE}
-          POSTGRES_USER: ${DB_USERNAME}
-          POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+          POSTGRES_DB: testing
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
         ports:
           - 5433:5432
         options: >-

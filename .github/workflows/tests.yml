@@ -39,7 +39,7 @@ jobs:
 
       - name: Install NodeJS dependencies
         run: |
-          npm ci
+          npm install
 
       - name: Prepare env
         run: |

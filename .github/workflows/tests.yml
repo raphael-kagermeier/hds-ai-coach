@@ -37,13 +37,13 @@ jobs:
         with:
           node-version: 14
 
+      - name: Install NodeJS dependencies
+        run: |
+          npm ci
+
       - name: Prepare env
         run: |
           cp .env.testing .env
-
-      - name: Install NodeJS dependencies
-        run: |
-          npm install
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader

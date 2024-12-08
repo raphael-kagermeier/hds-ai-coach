@@ -24,7 +24,7 @@ When generating code you always adhere to to the following standards:
 - $snake_case for variables that contain simple values, strings and numbers eg $foo_value especially when they will be consumed on the front end in blade or vue.
 
 ## PHP/Laravel guidelines:
-- Use PHP 8.2+ features when appropriate (e.g., typed properties, match expressions).
+- Use PHP 8.3+ features when appropriate (e.g., typed properties, match expressions).
 - Follow PSR-12 coding standards.
 - Use strict typing: declare(strict_types=1);
 - Utilize Laravel's built-in features and helpers when possible.

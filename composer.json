@@ -9,6 +9,9 @@
         "php": "^8.3",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
+        "bref/bref": "^2.3",
+        "bref/laravel-bridge": "^2.4",
+        "bref/secrets-loader": "^1.1",
         "charrafimed/global-search-modal": "^3.4",
         "dutchcodingcompany/filament-developer-logins": "^1.5",
         "filament/filament": "^3.2",
@@ -50,7 +53,8 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan filament:upgrade",
+            "@php artisan db:provision"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -70,6 +74,7 @@
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
+        "deploy": "sail php artisan config:clear && serverless deploy",
         "review": [
             "@pint",
             "@pest",

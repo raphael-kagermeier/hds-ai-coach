@@ -74,7 +74,8 @@
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
-        "deploy": "sail php artisan config:clear && serverless deploy",
+        "deploy": "sail php artisan config:clear && serverless deploy --stage staging",
+        "deploy-prod": "sail php artisan config:clear && serverless deploy --stage production",
         "review": [
             "@pint",
             "@pest",

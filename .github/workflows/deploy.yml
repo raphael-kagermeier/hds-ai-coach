@@ -5,6 +5,9 @@ on: [ push ]
 concurrency:
   group: deployment
 
+env:
+  APP_ENV: ${{ secrets.APP_ENV }}
+
 jobs:
   deploy:
     name: deploy

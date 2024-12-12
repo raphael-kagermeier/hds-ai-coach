@@ -20,19 +20,14 @@ app:
 
 
 # *****************************************************************
-# DOMAIN CONFIG                                                   +
+# 🌐 DOMAIN CONFIG                                                   +
 # *****************************************************************
 # IMPORTANT: Make sure to read ## Custom Domains in the README.md
 
 _domain_config:
-  base_domain: webmail-app.org
-  acm_certificate_arn: arn:aws:acm:us-east-1:202533508550:certificate/07b1d850-69e5-4241-9668-05aa3cc1f3cb
-  hostedZoneId: Z07029823PU9AS1YMWH5J
-
-# _domain_config:
-#   base_domain: 021-fast.fun
-#   acm_certificate_arn: arn:aws:acm:us-east-1:202533508550:certificate/6cc7d742-c495-4426-953a-9cc729e03886
-#   hostedZoneId: Z01423412GJ8N7Z1DA13O
+  base_domain: 021-fast.fun
+  acm_certificate_arn: arn:aws:acm:us-east-1:202533508550:certificate/6cc7d742-c495-4426-953a-9cc729e03886
+  hostedZoneId: Z01423412GJ8N7Z1DA13O
 
   # custom prefix per environment
   env_domain_prefix:
@@ -42,7 +37,7 @@ _domain_config:
 
 
 # *****************************************************************
-# DEPLOYMENT SETTING                                              +
+# 🛫 DEPLOYMENT SETTING                                              +
 # *****************************************************************
 # !IMPORTANT: this gets parsed by the serverless framework
 # see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml

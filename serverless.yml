@@ -5,10 +5,12 @@ provider:
   name: aws
   stage: ${opt:stage, 'staging'}
   region: ${opt:region, 'eu-central-1'} # this region also needs to be registered in ACM
-  # NOTE: Environment variables that that are shared between all environments
+  # NOTE: Environment variables that are shared between all environments
   environment:
     APP_NAME: ${self:custom.app_name}
     APP_URL: https://${self:custom.default_domain_config.domain_name}
+    APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
+    APP_DEBUG: ${switch(${self:custom.env}, ${file(project.yml):_env_debug_mode})}
 
     # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
     MAINTENANCE_MODE: ${param:maintenance, null}
@@ -86,7 +88,7 @@ constructs:
       "/robots.txt": public/robots.txt
       "/js/*": "public/js"
       "/css/*": "public/css"
-      
+
     # add here any file or directory that needs to be served from S3
     # Laravel uses some headers that are not in CloudFront's default whitelist.
     # To add any, we need to list all accepted headers to pass through.

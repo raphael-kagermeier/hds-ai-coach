@@ -20,7 +20,7 @@ app:
 
 
 # *****************************************************************
-# 🌐 DOMAIN CONFIG                                                   +
+# 🌐 DOMAIN CONFIG                                                +
 # *****************************************************************
 # IMPORTANT: Make sure to read ## Custom Domains in the README.md
 
@@ -37,7 +37,7 @@ _domain_config:
 
 
 # *****************************************************************
-# 🛫 DEPLOYMENT SETTING                                              +
+# 🛫 DEPLOYMENT SETTING                                           +
 # *****************************************************************
 # !IMPORTANT: this gets parsed by the serverless framework
 # see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
@@ -47,3 +47,13 @@ _deployment:
     # NOTE: Config you may not need to change
     php_runtime: php-83
     default_region: eu-central-1
+
+
+# *****************************************************************
+# 🔧 ENVIRONEMT DEBUG                                             +
+# *****************************************************************
+# !IMPORTANT: this gets parsed by the serverless framework
+# see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+_env_debug_mode:
+  production: false
+  '*': true

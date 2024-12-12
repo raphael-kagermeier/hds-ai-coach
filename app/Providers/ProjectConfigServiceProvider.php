@@ -29,6 +29,10 @@ class ProjectConfigServiceProvider extends ServiceProvider
     {
         $appConfig = Config::get('yml-config', []);
 
+        if(!$appConfig) {
+            return;
+        }
+
         foreach ($appConfig as $section => $config) {
             if(Str::startsWith($section, '_')) {
                 continue;
@@ -44,7 +48,7 @@ class ProjectConfigServiceProvider extends ServiceProvider
     {
         if (!is_array($config)) {
             if ($config) {
-                Config::set($prefix, Blade::render($config));
+                Config::set($prefix, $config);
             }
             return;
         }

@@ -1,0 +1,111 @@
+service: ${self:custom.project_config.app.id}
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'staging'}
+  region: ${opt:region, 'eu-central-1'} # this region also needs to be registered in ACM as well
+  environment: ${switch(${self:provider.stage}, ${self:custom.project_config._environments})}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: ssm:GetParameters
+          Resource: '*'
+        - Effect: Allow
+          Action: s3:*
+          Resource:
+            - !Sub "${Storage.Arn}" # the storage bucket
+            - !Sub "${Storage.Arn}/*" # and everything inside
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!public/storage'
+    - '!resources/assets/**'
+    - '!storage/**'
+    - '!tests/**'
+    - '!database/*.sqlite'
+
+functions:
+  web:
+    handler: public/index.php
+    runtime: ${self:custom.project_config._deployment.aws.php_runtime}-fpm
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    events:
+      - httpApi: '*'
+
+  artisan:
+    handler: artisan
+    runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
+    timeout: 720
+
+constructs:
+  website:
+    type: server-side-website
+    domain: ${self:custom.default_domain_config.domain_name}
+    certificate: ${self:custom.default_domain_config.acm_certificate_arn}
+    assets:
+      "/build/*": "public/build"
+      "/favicon.ico": public/favicon.ico
+      "/robots.txt": public/robots.txt
+      "/js/*": "public/js"
+      "/css/*": "public/css"
+
+    # add here any file or directory that needs to be served from S3
+    # Laravel uses some headers that are not in CloudFront's default whitelist.
+    # To add any, we need to list all accepted headers to pass through.
+    # https://github.com/getlift/lift/blob/master/docs/server-side-website.md#forwarded-headers
+    forwardedHeaders:
+      - Accept
+      - Accept-Language
+      - Content-Type
+      - Origin
+      - Referer
+      - User-Agent
+      - X-Forwarded-Host
+      - X-Requested-With
+      - X-Csrf-Token
+      - X-Livewire
+      - X-Inertia
+
+  jobs:
+    type: queue
+    worker:
+      handler: Bref\LaravelBridge\Queue\QueueHandler
+      runtime: ${self:custom.project_config._deployment.aws.php_runtime}
+      timeout: 900
+
+resources:
+  Resources:
+    Storage:
+      Type: AWS::S3::Bucket
+
+    Route53Record:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneId: ${self:custom.default_domain_config.hostedZoneId}
+        Name: ${self:custom.default_domain_config.domain_name}
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's hosted zone ID (constant)
+          DNSName: ${construct:website.cname}
+
+plugins:
+  - ./vendor/bref/bref
+  - serverless-lift
+  - serverless-plugin-utils
+
+custom:
+  project_config: ${file(project.yml)}
+
+  # NOTE: Hacky switch statement to set the domain prefix for the environment
+  domain_prefix: ${switch(${self:provider.stage}, ${self:custom.project_config._domain_config.stage_domain_prefix})}
+
+  app_id: ${self:custom.project_config.app.id}
+
+  default_domain_config:
+    base_domain: ${self:custom.project_config._domain_config.base_domain}
+    domain_name: ${self:custom.domain_prefix}${self:custom.default_domain_config.base_domain}
+    acm_certificate_arn: ${self:custom.project_config._domain_config.acm_certificate_arn}
+    hostedZoneId: ${self:custom.project_config._domain_config.hostedZoneId}

@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application ID
+    |--------------------------------------------------------------------------
+    |
+    | This value is a unique identifier for your application, which will be used
+    | for prefixing for infrastructure and other resources.
+    |
+    */
+
+    'id' => env('APP_ID', 'Laravel'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

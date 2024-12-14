@@ -9,6 +9,9 @@
         "php": "^8.3",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
+        "bref/bref": "^2.3",
+        "bref/laravel-bridge": "^2.4",
+        "bref/secrets-loader": "^1.1",
         "charrafimed/global-search-modal": "^3.4",
         "dutchcodingcompany/filament-developer-logins": "^1.5",
         "filament/filament": "^3.2",
@@ -70,6 +73,8 @@
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
+        "deploy": "sail php artisan config:clear && npm run build && serverless deploy --stage staging --verbose",
+        "deploy-prod": "sail php artisan config:clear && npm run build && serverless deploy --stage production --verbose",
         "review": [
             "@pint",
             "@pest",
@@ -82,6 +87,7 @@
         }
     },
     "config": {
+        "process-timeout": 900,
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,

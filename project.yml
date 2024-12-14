@@ -1,0 +1,127 @@
+# *****************************************************************
+# 🚀 PROJECT CONFIG                                               +
+# *****************************************************************
+# IMPORTANT: This allows you to **overwrite/add** config
+# values all form one place.
+#
+# It is intended to define variables that
+# do not change between environments
+
+app:
+  # TODO: change this to your project name
+  name: &app_name "LaravelFilamentTemplate"
+  # TODO: change this to your project id
+  id: &app_id "lft"
+
+
+
+# *****************************************************************
+# 🌐 DOMAIN CONFIG                                                +
+# *****************************************************************
+# IMPORTANT: Make sure to read ## Custom Domains in the README.md
+
+_domain_config:
+  base_domain: 021-fast.fun
+  acm_certificate_arn: arn:aws:acm:us-east-1:202533508550:certificate/6cc7d742-c495-4426-953a-9cc729e03886
+  hostedZoneId: Z01423412GJ8N7Z1DA13O
+
+  # custom prefix per environment
+  stage_domain_prefix:
+    production: ${self:custom.app_id}.
+    '*': ${self:provider.stage}-${self:custom.app_id}.
+
+
+
+# *****************************************************************
+# 🛫 DEPLOYMENT SETTING                                           +
+# *****************************************************************
+# !IMPORTANT: this gets parsed by the serverless framework
+# see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+
+_deployment:
+  aws:
+    # NOTE: Config you may not need to change
+    php_runtime: php-83
+    default_region: eu-central-1
+
+
+
+# *****************************************************************
+# 🔧 BASE ENV VARIABLES                                         +
+# *****************************************************************
+# !IMPORTANT: this gets parsed by the serverless framework
+# see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+
+_environment_base: &base_env
+  APP_NAME: *app_name
+  APP_ID: *app_id
+  APP_URL: https://${self:custom.default_domain_config.domain_name}
+  APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
+  APP_ENV: ${self:provider.stage}
+
+  # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
+  MAINTENANCE_MODE: ${param:maintenance, null}
+
+  QUEUE_CONNECTION: sqs
+  # reference of handler: Bref\LaravelBridge\Queue\QueueHandler
+  SQS_QUEUE: "${construct:jobs.queueUrl}"
+
+  DB_CONNECTION: pgsql
+  DB_PORT: 5432
+  DB_DATABASE: ${file(project.yml):app.id}-${self:provider.stage}
+  DB_PASSWORD: bref-ssm:/prod-primary-projects/rds-password
+  DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
+  DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
+
+  BROADCAST_CONNECTION: log
+  LOG_CHANNEL: Stderr
+
+  VITE_APP_NAME: ${self:custom.app_id}
+
+  SESSION_DRIVER: Cookie
+
+  FILESYSTEM_DISK: s3
+  FILESYSTEM_DRIVER: s3
+  FILESYSTEM_CLOUD: s3
+  AWS_BUCKET: !Ref Storage
+  PROJECT_AWS_BUCKET: !Ref Storage
+  PROJECT_AWS_DEFAULT_REGION: eu-central-1
+  PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
+
+  RESEND_API_KEY: /prod-primary-projects/rds-endpoint
+  MAIL_MAILER: resend
+  MAIL_FROM_ADDRESS: hello@021-fast.fun
+  MAIL_FROM_NAME: *app_name
+
+  APP_LOCALE: en
+  APP_FALLBACK_LOCALE: en
+  APP_FAKER_LOCALE: en_US
+
+
+
+# *****************************************************************
+# 🔧 ENVIRONMENT SPECIFIC VARIABLES                                +
+# *****************************************************************
+# !IMPORTANT: this gets parsed by the serverless framework
+# see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+
+_environments:
+  production:
+    <<: *base_env
+    APP_DEBUG: false
+
+  staging:
+    <<: *base_env
+    APP_DEBUG: true
+
+  development:
+    <<: *base_env
+    APP_DEBUG: true
+
+  testing:
+    <<: *base_env
+    APP_DEBUG: false
+
+  '*':
+    <<: *base_env
+    APP_DEBUG: false

@@ -25,7 +25,7 @@ jobs:
         run: composer global require laravel/pint
 
       - name: Run Pint
-        run: pint
+        run: -d error_reporting="E_ALL & ~E_DEPRECATED" pint
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5

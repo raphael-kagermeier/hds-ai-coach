@@ -68,7 +68,7 @@ _environment_base: &base_env
 
   DB_CONNECTION: pgsql
   DB_PORT: 5432
-  DB_DATABASE: ${file(project.yml):app.id}-${self:provider.stage}
+  DB_DATABASE: ${self:custom.project_config.app.id}-${self:provider.stage}
   DB_PASSWORD: bref-ssm:/prod-primary-projects/rds-password
   DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
   DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user

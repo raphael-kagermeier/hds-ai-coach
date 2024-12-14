@@ -29,8 +29,6 @@ provider:
     BROADCAST_CONNECTION: log
     LOG_CHANNEL: Stderr
 
-    MAIL_FROM_ADDRESS: "hello@021-factory.com"
-
     VITE_APP_NAME: ${self:custom.app_id}
 
     SESSION_DRIVER: Cookie
@@ -42,6 +40,10 @@ provider:
     PROJECT_AWS_BUCKET: !Ref Storage
     PROJECT_AWS_DEFAULT_REGION: eu-central-1
     PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
+
+    RESEND_API_KEY: /prod-primary-projects/rds-endpoint
+
+    MAIL_MAILER: resend
 
   iam:
     role:

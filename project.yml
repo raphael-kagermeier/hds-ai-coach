@@ -17,7 +17,10 @@ app:
   faker_locale: en_US
   timezone: CET
 
-
+mail:
+  from:
+    address: hello@021-fast.fun
+    name: LaravelFilamentTemplate
 
 # *****************************************************************
 # 🌐 DOMAIN CONFIG                                                +

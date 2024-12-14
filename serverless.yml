@@ -1,49 +1,10 @@
-service: ${file(project.yml):app.id}
-useDotenv: true
+service: ${self:custom.project_config.app.id}
 
 provider:
   name: aws
   stage: ${opt:stage, 'staging'}
-  region: ${opt:region, 'eu-central-1'} # this region also needs to be registered in ACM
-  # NOTE: Environment variables that are shared between all environments
-  environment:
-    APP_NAME: ${self:custom.app_name}
-    APP_URL: https://${self:custom.default_domain_config.domain_name}
-    APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
-    APP_DEBUG: ${switch(${self:custom.env}, ${file(project.yml):_env_debug_mode})}
-
-    # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
-    MAINTENANCE_MODE: ${param:maintenance, null}
-
-    QUEUE_CONNECTION: sqs
-    # reference of handler: Bref\LaravelBridge\Queue\QueueHandler
-    SQS_QUEUE: "${construct:jobs.queueUrl}"
-
-    DB_CONNECTION: pgsql
-    DB_PORT: 5432
-    DB_DATABASE: ${file(project.yml):app.id}-${self:custom.env}
-    DB_PASSWORD: bref-ssm:/prod-primary-projects/rds-password
-    DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
-    DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
-
-    BROADCAST_CONNECTION: log
-    LOG_CHANNEL: Stderr
-
-    VITE_APP_NAME: ${self:custom.app_id}
-
-    SESSION_DRIVER: Cookie
-
-    FILESYSTEM_DISK: s3
-    FILESYSTEM_DRIVER: s3
-    FILESYSTEM_CLOUD: s3
-    AWS_BUCKET: !Ref Storage
-    PROJECT_AWS_BUCKET: !Ref Storage
-    PROJECT_AWS_DEFAULT_REGION: eu-central-1
-    PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
-
-    RESEND_API_KEY: /prod-primary-projects/rds-endpoint
-
-    MAIL_MAILER: resend
+  region: ${opt:region, 'eu-central-1'} # this region also needs to be registered in ACM as well
+  environment: ${switch(${self:provider.stage}, ${self:custom.project_config._environments})}
 
   iam:
     role:
@@ -69,14 +30,14 @@ package:
 functions:
   web:
     handler: public/index.php
-    runtime: ${file(project.yml):_deployment.aws.php_runtime}-fpm
+    runtime: ${self:custom.project_config._deployment.aws.php_runtime}-fpm
     timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
     events:
       - httpApi: '*'
 
   artisan:
     handler: artisan
-    runtime: ${file(project.yml):_deployment.aws.php_runtime}-console
+    runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
     timeout: 720
 
 constructs:
@@ -112,7 +73,7 @@ constructs:
     type: queue
     worker:
       handler: Bref\LaravelBridge\Queue\QueueHandler
-      runtime: ${file(project.yml):_deployment.aws.php_runtime}
+      runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
 
 resources:
@@ -132,27 +93,19 @@ resources:
 
 plugins:
   - ./vendor/bref/bref
-  - serverless-dotenv-plugin
   - serverless-lift
   - serverless-plugin-utils
 
 custom:
-  dotenv:
-    path: .env.${self:provider.stage}
-    logging: false
-    required:
-      file: true
-
+  project_config: ${file(project.yml)}
 
   # NOTE: Hacky switch statement to set the domain prefix for the environment
-  domain_prefix: ${switch(${self:custom.env}, ${file(project.yml):_domain_config.env_domain_prefix})}
+  domain_prefix: ${switch(${self:provider.stage}, ${self:custom.project_config._domain_config.stage_domain_prefix})}
 
-  env: ${env:APP_ENV}
-  app_id: ${file(project.yml):app.id}
-  app_name: ${file(project.yml):app.name}
+  app_id: ${self:custom.project_config.app.id}
 
   default_domain_config:
-    base_domain: ${file(project.yml):_domain_config.base_domain}
+    base_domain: ${self:custom.project_config._domain_config.base_domain}
     domain_name: ${self:custom.domain_prefix}${self:custom.default_domain_config.base_domain}
-    acm_certificate_arn: ${file(project.yml):_domain_config.acm_certificate_arn}
-    hostedZoneId: ${file(project.yml):_domain_config.hostedZoneId}
+    acm_certificate_arn: ${self:custom.project_config._domain_config.acm_certificate_arn}
+    hostedZoneId: ${self:custom.project_config._domain_config.hostedZoneId}

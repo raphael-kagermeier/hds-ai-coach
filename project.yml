@@ -9,18 +9,11 @@
 
 app:
   # TODO: change this to your project name
-  name: "LaravelFilamentTemplate"
+  name: &app_name "LaravelFilamentTemplate"
   # TODO: change this to your project id
-  id: "lft"
+  id: &app_id "lft"
 
-  fallback_locale: en
-  faker_locale: en_US
-  timezone: CET
 
-mail:
-  from:
-    address: hello@021-fast.fun
-    name: LaravelFilamentTemplate
 
 # *****************************************************************
 # 🌐 DOMAIN CONFIG                                                +
@@ -33,9 +26,9 @@ _domain_config:
   hostedZoneId: Z01423412GJ8N7Z1DA13O
 
   # custom prefix per environment
-  env_domain_prefix:
+  stage_domain_prefix:
     production: ${self:custom.app_id}.
-    '*': ${self:custom.env}-${self:custom.app_id}.
+    '*': ${self:provider.stage}-${self:custom.app_id}.
 
 
 
@@ -52,11 +45,83 @@ _deployment:
     default_region: eu-central-1
 
 
+
 # *****************************************************************
-# 🔧 ENVIRONEMT DEBUG                                             +
+# 🔧 BASE ENV VARIABLES                                         +
 # *****************************************************************
 # !IMPORTANT: this gets parsed by the serverless framework
 # see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
-_env_debug_mode:
-  production: false
-  '*': true
+
+_environment_base: &base_env
+  APP_NAME: *app_name
+  APP_ID: *app_id
+  APP_URL: https://${self:custom.default_domain_config.domain_name}
+  APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
+  APP_ENV: ${self:provider.stage}
+
+  # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
+  MAINTENANCE_MODE: ${param:maintenance, null}
+
+  QUEUE_CONNECTION: sqs
+  # reference of handler: Bref\LaravelBridge\Queue\QueueHandler
+  SQS_QUEUE: "${construct:jobs.queueUrl}"
+
+  DB_CONNECTION: pgsql
+  DB_PORT: 5432
+  DB_DATABASE: ${file(project.yml):app.id}-${self:provider.stage}
+  DB_PASSWORD: bref-ssm:/prod-primary-projects/rds-password
+  DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
+  DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
+
+  BROADCAST_CONNECTION: log
+  LOG_CHANNEL: Stderr
+
+  VITE_APP_NAME: ${self:custom.app_id}
+
+  SESSION_DRIVER: Cookie
+
+  FILESYSTEM_DISK: s3
+  FILESYSTEM_DRIVER: s3
+  FILESYSTEM_CLOUD: s3
+  AWS_BUCKET: !Ref Storage
+  PROJECT_AWS_BUCKET: !Ref Storage
+  PROJECT_AWS_DEFAULT_REGION: eu-central-1
+  PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
+
+  RESEND_API_KEY: /prod-primary-projects/rds-endpoint
+  MAIL_MAILER: resend
+  MAIL_FROM_ADDRESS: hello@021-fast.fun
+  MAIL_FROM_NAME: *app_name
+
+  APP_LOCALE: en
+  APP_FALLBACK_LOCALE: en
+  APP_FAKER_LOCALE: en_US
+
+
+
+# *****************************************************************
+# 🔧 ENVIRONMENT SPECIFIC VARIABLES                                +
+# *****************************************************************
+# !IMPORTANT: this gets parsed by the serverless framework
+# see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+
+_environments:
+  production:
+    <<: *base_env
+    APP_DEBUG: false
+
+  staging:
+    <<: *base_env
+    APP_DEBUG: true
+
+  development:
+    <<: *base_env
+    APP_DEBUG: true
+
+  testing:
+    <<: *base_env
+    APP_DEBUG: false
+
+  '*':
+    <<: *base_env
+    APP_DEBUG: false

@@ -2,6 +2,9 @@ name: Fix Code Style
 
 on: [push]
 
+permissions:
+  contents: write  # Add this to grant write permissions
+
 jobs:
   lint:
     runs-on: ubuntu-latest

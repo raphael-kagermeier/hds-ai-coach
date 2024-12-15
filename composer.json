@@ -15,6 +15,7 @@
         "charrafimed/global-search-modal": "^3.4",
         "dutchcodingcompany/filament-developer-logins": "^1.5",
         "filament/filament": "^3.2",
+        "filament/spatie-laravel-settings-plugin": "^3.2",
         "jeffgreco13/filament-breezy": "^2.4",
         "kainiklas/filament-scout": "^0.4.0",
         "laravel-lang/common": "^6.4",
@@ -22,6 +23,7 @@
         "laravel/tinker": "^2.9",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",
         "spatie/laravel-health": "^1.31",
+        "spatie/laravel-settings": "^3.4",
         "stechstudio/filament-impersonate": "^3.15",
         "tomatophp/filament-users": "^2.0"
     },

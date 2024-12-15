@@ -23,10 +23,12 @@ class Home extends Page
     public function getQuote(): \Illuminate\Support\Collection
     {
         $quote = Inspiring::quotes()->random();
+
         return str($quote)->explode('-');
     }
 
-    public function mount(){
+    public function mount()
+    {
         $this->quote = $this->getQuote();
     }
 }

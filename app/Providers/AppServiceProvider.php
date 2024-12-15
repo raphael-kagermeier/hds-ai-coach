@@ -8,8 +8,8 @@ use BezhanSalleh\FilamentExceptions\Models\Exception;
 use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Health\Facades\Health;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Facades\Health;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Exception::class, ExceptionsPolicy::class);
 
         Health::checks([
-            DatabaseCheck::new()
+            DatabaseCheck::new(),
         ]);
 
     }

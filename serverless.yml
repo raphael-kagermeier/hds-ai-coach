@@ -26,6 +26,21 @@ package:
     - '!storage/**'
     - '!tests/**'
     - '!database/*.sqlite'
+    - '!.phpunit.cache/**'
+    - '!.idea/**'
+    - '!.vscode/**'
+    - '!.serverless/**'
+    - '!.env*'
+    - '!.phpunit.result.cache'
+    - '!npm-debug.log'
+    - '!vite.config.*'
+    - '!docker/**'
+    - '!docker-compose.yml'
+    - '!.github/**'
+    - '!.gitattributes'
+    - '!.editorconfig'
+    - '!cursorrules'
+    - '!README.md'
 
 functions:
   web:

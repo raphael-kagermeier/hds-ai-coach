@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Filament\Admin\Pages\HealthCheckResults;
 use App\Filament\Shared\Pages\Register;
 use App\Models\User;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
@@ -23,6 +24,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Kainiklas\FilamentScout\FilamentScoutPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class SharedPanelConfig
@@ -114,6 +116,10 @@ class SharedPanelConfig
     public function superAdminPanel()
     {
         $this->panel
+            ->plugin(
+                FilamentSpatieLaravelHealthPlugin::make()
+                    ->usingPage(HealthCheckResults::class)
+            )
             ->plugin(FilamentUsersPlugin::make())
             ->plugin(FilamentExceptionsPlugin::make());
 

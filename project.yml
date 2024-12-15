@@ -91,6 +91,7 @@ _environment_base: &base_env
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint
   MAIL_MAILER: resend
   MAIL_FROM_ADDRESS: hello@021-fast.fun
+  ADMIN_MAIL_ADDRESS: admin@021-factory.coms
   MAIL_FROM_NAME: *app_name
 
   APP_LOCALE: en

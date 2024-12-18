@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Policies\ExceptionsPolicy;
+use App\Support\TranslateableLabels;
 use BezhanSalleh\FilamentExceptions\Models\Exception;
 use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Support\Facades\Gate;
@@ -37,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         Health::checks([
             DatabaseCheck::new(),
         ]);
+
+        TranslateableLabels::make();
 
     }
 }

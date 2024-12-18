@@ -131,7 +131,7 @@ class SharedPanelConfig
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()
                 ->users(fn () => User::pluck('email', 'name')->toArray())
-                ->enabled(app()->environment('local'))
+                ->enabled(config('app.debug'))
         );
 
         return $this;

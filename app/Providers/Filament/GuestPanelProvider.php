@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Home;
 use App\Filament\Shared\Pages\DataPolicy;
 use App\Filament\Shared\Pages\Imprint;
 use App\Filament\Shared\Pages\Terms;
@@ -19,6 +20,8 @@ class GuestPanelProvider extends PanelProvider
             ->path('')
             ->topNavigation()
             ->pages([
+                Home::class,
+
                 Terms::class,
                 Imprint::class,
                 DataPolicy::class,

@@ -13,6 +13,14 @@ Every new project can be deployed to aws lambda without a lot of configuration.
 [] Create a hosted zone in Route 53
 [] Set hostedZoneId and acm_certificate_arn in project.yml
 [] Create an APP_KEY [SSM parameters]() syntax: /[app.id]/app_key
+[] start local dev:
+    - composer install
+    - make sure to rename the sail postgres volue to match with the projec it to avoid conflicts
+    - sail up --build
+    - sail npm i && sail npm run dev
+    - sa config:clear
+    - sa db:provision
+    - sa migrate
 [] Make your first deployment
 [] Set cloudflare cname:
     - name: @ or the subdomain

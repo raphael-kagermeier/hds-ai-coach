@@ -82,7 +82,6 @@ class SharedPanelConfig
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
                 BreezyCore::make()->myProfile(),
-                FilamentShieldPlugin::make(),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)
@@ -116,6 +115,7 @@ class SharedPanelConfig
     public function superAdminPanel()
     {
         $this->panel
+            ->plugin(FilamentShieldPlugin::make())
             ->plugin(
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->usingPage(HealthCheckResults::class)

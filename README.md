@@ -26,6 +26,7 @@ Every new project can be deployed to aws lambda without a lot of configuration.
     - name: @ or the subdomain
     - value: xyz.cloudfront.net (deployment output)
     - proxy status: on 
+[] Run the seeder `serverless bref:cli --stage production/staging/... --args='migrate:fresh --force'`
 
 
 ### Troubleshooting

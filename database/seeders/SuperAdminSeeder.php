@@ -15,12 +15,12 @@ class SuperAdminSeeder extends Seeder
         $data = [
             [
                 'name' => 'Raphael Kagermeier',
-                'email' => 'r.kagermeier@performromance1.com',
+                'email' => 'r.kagermeier@performromance.com',
                 'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Kathi Elli',
-                'email' => 'hello@wednesday-concepts1.com',
+                'email' => 'hello@wednesday-concepts.com',
                 'password' => Hash::make('password'),
             ],
         ];
@@ -32,21 +32,5 @@ class SuperAdminSeeder extends Seeder
                 'remember_token' => Str::random(10),
             ])->assignRole(RolesEnum::SuperAdmin);
         }
-
-        //        User::factory()
-        //            ->withRole(RolesEnum::SuperAdmin)
-        //            ->create([
-        //                'name' => 'Raphael Kagermeier',
-        //                'email' => 'r.kagermeier@performromance.com',
-        //                'password' => Hash::make('password'),
-        //            ]);
-        //
-        //        User::factory()
-        //            ->withRole(RolesEnum::SuperAdmin)
-        //            ->create([
-        //                'name' => 'Kathi Elli',
-        //                'email' => 'hello@wednesday-concepts.com',
-        //                'password' => Hash::make('password'),
-        //            ]);
     }
 }

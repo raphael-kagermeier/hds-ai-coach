@@ -22,7 +22,7 @@ class SuperAdminSeeder extends Seeder
                 'name' => 'Kathi Elli',
                 'email' => 'hello@wednesday-concepts1.com',
                 'password' => Hash::make('password'),
-            ]
+            ],
         ];
 
         foreach ($data as $d) {
@@ -33,21 +33,20 @@ class SuperAdminSeeder extends Seeder
             ])->assignRole(RolesEnum::SuperAdmin);
         }
 
-
-//        User::factory()
-//            ->withRole(RolesEnum::SuperAdmin)
-//            ->create([
-//                'name' => 'Raphael Kagermeier',
-//                'email' => 'r.kagermeier@performromance.com',
-//                'password' => Hash::make('password'),
-//            ]);
-//
-//        User::factory()
-//            ->withRole(RolesEnum::SuperAdmin)
-//            ->create([
-//                'name' => 'Kathi Elli',
-//                'email' => 'hello@wednesday-concepts.com',
-//                'password' => Hash::make('password'),
-//            ]);
+        //        User::factory()
+        //            ->withRole(RolesEnum::SuperAdmin)
+        //            ->create([
+        //                'name' => 'Raphael Kagermeier',
+        //                'email' => 'r.kagermeier@performromance.com',
+        //                'password' => Hash::make('password'),
+        //            ]);
+        //
+        //        User::factory()
+        //            ->withRole(RolesEnum::SuperAdmin)
+        //            ->create([
+        //                'name' => 'Kathi Elli',
+        //                'email' => 'hello@wednesday-concepts.com',
+        //                'password' => Hash::make('password'),
+        //            ]);
     }
 }

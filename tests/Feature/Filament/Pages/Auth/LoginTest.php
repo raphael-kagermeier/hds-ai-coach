@@ -38,5 +38,5 @@ test('an authenticated user can logout', function () {
 
     $this->post(Filament::getLogoutUrl());
 
-    $this->get(Filament::getLoginUrl())->assertRedirect();
+    $this->get(Filament::getLoginUrl())->assertOk();
 });

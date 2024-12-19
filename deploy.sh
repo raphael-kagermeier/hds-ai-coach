@@ -83,6 +83,9 @@ php artisan filament:optimize
 php artisan optimize:clear
 php artisan optimize
 
+# clear config
+php artisan config:clear
+
 ######################################################
 # Serverless Deployment
 ######################################################

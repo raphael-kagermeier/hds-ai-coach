@@ -99,3 +99,9 @@ serverless deploy --stage $STAGE --verbose
 
 serverless bref:cli --stage $STAGE --args='db:provision'
 serverless bref:cli --stage $STAGE --args='migrate --force'
+serverless bref:cli --stage $STAGE --args='config:cache'
+
+
+# reset cache
+php artisan filament:optimize-clear
+php artisan optimize:clear

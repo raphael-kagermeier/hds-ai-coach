@@ -21,7 +21,7 @@ return [
 
     'super_admin' => [
         'enabled' => true,
-        'name' => 'super_admin',
+        'name' => \App\Enums\RolesEnum::SuperAdmin->value,
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
@@ -85,7 +85,7 @@ return [
     ],
 
     'register_role_policy' => [
-        'enabled' => true,
+        'enabled' => false,
     ],
 
 ];

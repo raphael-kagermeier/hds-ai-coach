@@ -41,6 +41,7 @@ package:
     - '!.editorconfig'
     - '!cursorrules'
     - '!README.md'
+    - '!.env*'
 
 functions:
   web:

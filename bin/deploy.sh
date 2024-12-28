@@ -76,11 +76,14 @@ fi
 ######################################################
 
 # Optimize filament components and blade icons
-php artisan filament:optimize-clear
-php artisan filament:optimize
+php ../artisan filament:optimize-clear
+php ../artisan filament:optimize
 
-# clear config
-php artisan config:clear
+# clear caches
+php ../artisan config:clear
+php ../artisan view:clear   
+php ../artisan cache:clear
+php ../artisan route:clear 
 
 ######################################################
 # Serverless Deployment
@@ -98,4 +101,4 @@ serverless bref:cli --stage $STAGE --args='migrate --force'
 serverless bref:cli --stage $STAGE --args='config:cache'
 
 # reset cache
-php artisan filament:optimize-clear
+php ../artisan filament:optimize-clear

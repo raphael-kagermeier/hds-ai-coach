@@ -64,7 +64,6 @@ constructs:
     assets:
       "/build/*": "public/build"
       "/favicon.ico": public/favicon.ico
-      "/robots.txt": public/robots.txt
       "/js/*": "public/js"
       "/css/*": "public/css"
 

@@ -5,7 +5,7 @@ update_docker_file() {
     local app_id=$1
     local docker_file="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/docker-compose.yml"
     local replacements=(
-        "lft\.test/${app_id}\.test"
+        "lft\.app/${app_id}\.app"
         "lft-8\.3/${app_id}-8\.3"
         "lft-pgsql/${app_id}-pgsql"
         "lft-redis/${app_id}-redis"

@@ -26,20 +26,23 @@ update_env_file() {
     local env_file="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.env"
     local env_testing_file="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.env.testing"
 
-
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # MacOS
         sed -i '' "s/^APP_NAME=.*$/APP_NAME=\"$app_name\"/" "$env_file"
         sed -i '' "s/^APP_ID=.*$/APP_ID=\"$app_id\"/" "$env_file"
+        sed -i '' "s/^APP_SERVICE=.*$/APP_SERVICE=\"$app_id.app\"/" "$env_file"
 
         sed -i '' "s/^APP_NAME=.*$/APP_NAME=\"$app_name\"/" "$env_testing_file" 
         sed -i '' "s/^APP_ID=.*$/APP_ID=\"$app_id\"/" "$env_testing_file"
+        sed -i '' "s/^APP_SERVICE=.*$/APP_SERVICE=\"$app_id.app\"/" "$env_testing_file"
     else
         # Linux
         sed -i "s/^APP_NAME=.*$/APP_NAME=\"$app_name\"/" "$env_file"
         sed -i "s/^APP_ID=.*$/APP_ID=\"$app_id\"/" "$env_file"
+        sed -i "s/^APP_SERVICE=.*$/APP_SERVICE=\"$app_id.app\"/" "$env_file"
 
         sed -i "s/^APP_NAME=.*$/APP_NAME=\"$app_name\"/" "$env_testing_file"
         sed -i "s/^APP_ID=.*$/APP_ID=\"$app_id\"/" "$env_testing_file"
+        sed -i "s/^APP_SERVICE=.*$/APP_SERVICE=\"$app_id.app\"/" "$env_testing_file"
     fi
 }

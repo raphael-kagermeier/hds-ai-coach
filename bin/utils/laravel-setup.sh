@@ -15,7 +15,8 @@ setup_laravel() {
     
     # Start sail containers
     echo "Building and starting Docker containers..."
-    ./vendor/bin/sail up --build -d
+    ./vendor/bin/sail build
+    ./vendor/bin/sail up -d
     
     # Install npm dependencies
     echo "Installing npm dependencies..."

@@ -18,22 +18,23 @@ if [ $? -ne 0 ]; then
     exit 2
 fi
 
-######################################################
-# Laravel Optimizations
-######################################################
-
-# Get the project root directory (one level up from SCRIPT_DIR)
+# Get project root directory and change to it
 PROJECT_ROOT="$(dirname "${SCRIPT_DIR}")"
+cd "${PROJECT_ROOT}"
+
+######################################################
+# Laravel Optimizations
+######################################################
 
 # Laravel Optimizations
-php "${PROJECT_ROOT}/artisan" filament:optimize-clear
-php "${PROJECT_ROOT}/artisan" filament:optimize
+php artisan filament:optimize-clear
+php artisan filament:optimize
 
 # clear caches
-php "${PROJECT_ROOT}/artisan" config:clear
-php "${PROJECT_ROOT}/artisan" view:clear   
-php "${PROJECT_ROOT}/artisan" cache:clear
-php "${PROJECT_ROOT}/artisan" route:clear
+php artisan config:clear
+php artisan view:clear   
+php artisan cache:clear
+php artisan route:clear
 
 ######################################################
 # Serverless Deployment
@@ -57,4 +58,4 @@ serverless bref:cli --stage $STAGE --args='config:cache'
 serverless bref:cli --stage $STAGE --args='db:seed --class=DeploymentSeeder --force'
 
 # reset cache
-php "${PROJECT_ROOT}/artisan" filament:optimize-clear
+php artisan filament:optimize-clear

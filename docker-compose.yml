@@ -1,11 +1,11 @@
 services:
-    laravel.test:
+    lft.test:
         build:
             context: './vendor/laravel/sail/runtimes/8.3'
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: 'sail-8.3/app'
+        image: 'lft-8.3/app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -37,7 +37,7 @@ services:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
+            - 'lft-pgsql:/var/lib/postgresql/data'
             - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
             - './docker/pgsql/vector-extension.sql:/docker-entrypoint-initdb.d/11-vector-extension.sql'
         networks:
@@ -58,7 +58,7 @@ services:
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'sail-redis:/data'
+            - 'lft-redis:/data'
         networks:
             - sail
         healthcheck:
@@ -75,7 +75,7 @@ services:
         environment:
             MEILI_NO_ANALYTICS: '${MEILISEARCH_NO_ANALYTICS:-false}'
         volumes:
-            - 'sail-meilisearch:/meili_data'
+            - 'lft-meilisearch:/meili_data'
         networks:
             - sail
         healthcheck:
@@ -106,9 +106,9 @@ networks:
     sail:
         driver: bridge
 volumes:
-    sail-pgsql:
+    lft-pgsql:
         driver: local
-    sail-redis:
+    lft-redis:
         driver: local
-    sail-meilisearch:
+    lft-meilisearch:
         driver: local

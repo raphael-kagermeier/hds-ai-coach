@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace App\Filament\Guest\Pages;
 
 use Filament\Pages\Page;
 use Illuminate\Foundation\Inspiring;
@@ -12,7 +12,7 @@ class Home extends Page
 
     protected static string $view = 'filament.pages.home';
 
-    protected static ?string $slug = '';
+    protected static ?string $slug = '/';
 
     public ?Collection $quote = null;
 

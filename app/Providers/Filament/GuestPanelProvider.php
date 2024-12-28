@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Home;
 use App\Filament\Shared\Pages\DataPolicy;
 use App\Filament\Shared\Pages\Imprint;
 use App\Filament\Shared\Pages\Terms;
@@ -19,8 +18,10 @@ class GuestPanelProvider extends PanelProvider
             ->getPanel()
             ->path('')
             ->topNavigation()
+            ->discoverResources(in: app_path('Filament/Guest/Resources'), for: 'App\\Filament\\Guest\\Resources')
+            ->discoverPages(in: app_path('Filament/Guest/Pages'), for: 'App\\Filament\\Guest\\Pages')
+            ->discoverWidgets(in: app_path('Filament/Guest/Widgets'), for: 'App\\Filament\\Guest\\Widgets')
             ->pages([
-                Home::class,
 
                 Terms::class,
                 Imprint::class,

@@ -12,7 +12,6 @@ Every new project can be deployed to aws lambda without a lot of configuration.
     - then create a new certificate in eu-central-1
 [] Create a hosted zone in Route 53
 [] Set hostedZoneId and acm_certificate_arn in project.yml
-[] Create an APP_KEY [SSM parameters]() syntax: /[app.id]/app_key
 [] start local dev:
     - composer install
     - make sure to rename the sail postgres volue to match with the projec it to avoid conflicts

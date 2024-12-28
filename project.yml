@@ -10,7 +10,7 @@
 app:
   # TODO: change this to your project name
   name: &app_name "LaravelFilamentTemplate"
-  # TODO: change this to your project id
+  # TODO: change this to your project id. IMPORTANT: this is used to be a unique per project and needs to be in QUOTES
   id: &app_id "lft"
 
 

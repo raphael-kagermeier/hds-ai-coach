@@ -26,11 +26,16 @@ class SuperAdminSeeder extends Seeder
         ];
 
         foreach ($data as $d) {
-            User::create([
-                ...$d,
-                'email_verified_at' => now(),
-                'remember_token' => Str::random(10),
-            ])->assignRole(RolesEnum::SuperAdmin);
+            $user = User::firstOrCreate(
+                ['email' => $d['email']],
+                [
+                    ...$d,
+                    'email_verified_at' => now(),
+                    'remember_token' => Str::random(10),
+                ]
+            );
+            
+            $user->assignRole(RolesEnum::SuperAdmin);
         }
     }
 }

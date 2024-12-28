@@ -53,5 +53,8 @@ serverless bref:cli --stage $STAGE --args='db:provision'
 serverless bref:cli --stage $STAGE --args='migrate --force'
 serverless bref:cli --stage $STAGE --args='config:cache'
 
+# seed the database
+serverless bref:cli --stage $STAGE --args='db:seed --class=DeploymentSeeder --force'
+
 # reset cache
 php "${PROJECT_ROOT}/artisan" filament:optimize-clear

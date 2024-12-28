@@ -8,9 +8,8 @@
 # do not change between environments
 
 app:
-  # TODO: change this to your project name
   name: &app_name "LaravelFilamentTemplate"
-  # TODO: change this to your project id. IMPORTANT: this is used to be a unique per project and needs to be in QUOTES
+  # IMPORTANT: this must be unique per project and needs to be in wrapped QUOTES
   id: &app_id "lft"
 
 
@@ -91,7 +90,7 @@ _environment_base: &base_env
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint
   MAIL_MAILER: resend
   MAIL_FROM_ADDRESS: hello@021-fast.fun
-  ADMIN_MAIL_ADDRESS: admin@021-factory.coms
+  ADMIN_MAIL_ADDRESS: admin@021-factory.com
   MAIL_FROM_NAME: *app_name
 
   APP_LOCALE: en

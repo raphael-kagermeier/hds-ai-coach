@@ -42,6 +42,7 @@ package:
     - '!cursorrules'
     - '!README.md'
     - '!.env*'
+    - '!bin/**'
 
 functions:
   web:

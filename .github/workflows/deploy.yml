@@ -33,6 +33,15 @@ jobs:
         with:
           composer-options: "--no-dev --no-interaction --prefer-dist --optimize-autoloader"
 
+      - name: Run Filament Optimizations
+        run: |
+          php artisan filament:optimize-clear
+          php artisan filament:optimize
+          php artisan config:clear
+          php artisan view:clear   
+          php artisan cache:clear
+          php artisan route:clear
+
       - name: Serverless Deploy
         uses: serverless/github-action@master
         with:

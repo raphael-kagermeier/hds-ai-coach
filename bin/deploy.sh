@@ -23,20 +23,6 @@ PROJECT_ROOT="$(dirname "${SCRIPT_DIR}")"
 cd "${PROJECT_ROOT}"
 
 ######################################################
-# Laravel Optimizations
-######################################################
-
-# Laravel Optimizations
-php artisan filament:optimize-clear
-php artisan filament:optimize
-
-# clear caches
-php artisan config:clear
-php artisan view:clear   
-php artisan cache:clear
-php artisan route:clear
-
-######################################################
 # Serverless Deployment
 ######################################################
 
@@ -47,15 +33,9 @@ serverless deploy --stage $STAGE --verbose
 # Post Deployment
 ######################################################
 
-# generate app key if not already set
-"${SCRIPT_DIR}/generate-app-key.sh" $APP_ID
-
 serverless bref:cli --stage $STAGE --args='db:provision'
 serverless bref:cli --stage $STAGE --args='migrate --force'
 serverless bref:cli --stage $STAGE --args='config:cache'
 
 # seed the database
 serverless bref:cli --stage $STAGE --args='db:seed --class=DeploymentSeeder --force'
-
-# reset cache
-php artisan filament:optimize-clear

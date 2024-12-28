@@ -8,6 +8,7 @@ source "$SCRIPT_DIR/utils/env-updater.sh"
 source "$SCRIPT_DIR/utils/project-updater.sh"
 source "$SCRIPT_DIR/utils/docker-updater.sh"
 source "$SCRIPT_DIR/utils/laravel-setup.sh"
+source "$SCRIPT_DIR/utils/readme-updater.sh"
 
 # Initialize variables
 APP_NAME=""
@@ -33,6 +34,7 @@ validate_required_files
 update_env_file "$APP_NAME" "$APP_ID"
 update_project_file "$APP_NAME" "$APP_ID"
 update_docker_file "$APP_ID"
+update_readme_file "$APP_NAME"
 
 # Run Laravel setup
 setup_laravel "$APP_ID"

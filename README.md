@@ -1,59 +1,60 @@
 
-# Deploying a new project
-Every new project can be deployed to aws lambda without a lot of configuration.
+# LaravelFilamentTemplate
 
-## Start a new Project:
-
-
-## Default Urls
-- Staging: https://{project-name}-staging.projects.021-factory.com
-- Production: https://{project-name}.projects.021-factory.com
-## Custom Domains
-[] Register Domain (CloudFlare recommended)
-[] Register [ACM Certificate in AWS](https://eu-central-1.console.aws.amazon.com/acm/home?region=us-east-1#/certificates/list): Make sure to copy the cname name and value from aws to cloudflare (proxy status off)
-    - first create a new certificate in us-east-1
-    - then create a new certificate in eu-central-1
-[] Create a hosted zone in Route 53
-[] Set hostedZoneId and acm_certificate_arn in project.yml
-[] start local dev:
-    - composer install
-    - make sure to rename the sail postgres volue to match with the projec it to avoid conflicts
-    - sail up --build
-    - sail npm i && sail npm run dev
-    - sa config:clear
-    - sa db:provision
-    - sa migrate
-[] Make your first deployment
-[] Set cloudflare cname:
-    - name: @ or the subdomain
-    - value: xyz.cloudfront.net (deployment output)
-    - proxy status: on 
+## Quick Start
+`./bin/new-project.sh`
 
 
-### Troubleshooting
-ERROR:
-API Mappings:
-Invalid domain name identifier specified
+## URL Structure
 
-SOLUTION:
-- Check if the domainName is valid and correct
+### Default URLs
+Each project is automatically provisioned with URLs by serverless stage (configurable in `project.yml`):
+- 🚀 **Production**: `https://{app_id}.021-fast.fun`
+- 🔧 **Other Stages**: `https://{app_id}-{stage}.021-fast.fun`
 
-ISSUE:
-- Deployment takes longer than usual after updating project.yml
+### Custom Domain Setup
+1. **Domain Registration**
+   - ✅ Register domain ([CloudFlare](https://dash.cloudflare.com/) recommended)
 
-ISSUE:
-Stack:arn:aws:cloudformation:eu-central-1:202533508550:stack/lft-staging/df28e240-b7ef-11ef-9605-0a9da4db0c3f is in UPDATE_IN_PROGRESS state and can not be updated.
+2. **SSL Certificate Setup**
+   - ✅ Register [ACM Certificate in AWS](https://eu-central-1.console.aws.amazon.com/acm/home?region=us-east-1#/certificates/list)
+   - Create certificates in:
+     - `us-east-1` region
+     - `eu-central-1` region
+   - Copy CNAME name/value from AWS to CloudFlare (proxy status: OFF)
 
-ISSUE:
-New domain too many redirects.
+3. **DNS Configuration**
+   - ✅ Create hosted zone in Route 53
+   - ✅ Update `project.yml` with:
+     - `hostedZoneId`
+     - `acm_certificate_arn`
 
-SOLUTION:
-- Make sure cloudflare ssl/tls is set to full (not strict)
+4. **Post-Deployment**
+   - Configure CloudFlare CNAME:
+     - Name: `@` or subdomain
+     - Value: `xyz.cloudfront.net` (from deployment output)
+     - Proxy status: ON
 
 
-## Email
-We use resend as the prefefered email provider since it is very easy to set up and has a great DX.
-By default, you can use any email from the domain 021-fast.fun. 
-If the project requires a different domain, we can always create a [new domain](https://resend.com/domains)
+### Troubleshooting Guide
 
+#### Common Issues & Solutions
 
+**Invalid Domain Name Identifier**
+ERROR: API Mappings: Invalid domain name identifier specified
+➡️ Solution: Verify domain name validity and format
+
+**Deployment Delays**
+- Issue: Extended deployment time after `project.yml` updates
+- Note: This is normal behavior for configuration changes
+
+**Stack Update Conflicts**
+Stack:arn:aws:cloudformation:eu-central-1:[ID]:stack/lft-staging/[...] is in UPDATE_IN_PROGRESS state
+➡️ Wait for current stack update to complete
+
+**Domain Redirect Loop**
+- Issue: Too many redirects with new domain
+- Solution: Set CloudFlare SSL/TLS to "Full" (not "Strict")
+
+## Email Configuration
+We use [Resend](https://resend.com) as our preferred email provider for its excellent developer experience.

@@ -7,6 +7,7 @@ source "$SCRIPT_DIR/utils/file-validators.sh"
 source "$SCRIPT_DIR/utils/env-updater.sh"
 source "$SCRIPT_DIR/utils/project-updater.sh"
 source "$SCRIPT_DIR/utils/docker-updater.sh"
+source "$SCRIPT_DIR/utils/laravel-setup.sh"
 
 # Initialize variables
 APP_NAME=""
@@ -33,15 +34,8 @@ update_env_file "$APP_NAME" "$APP_ID"
 update_project_file "$APP_NAME" "$APP_ID"
 update_docker_file "$APP_ID"
 
-# Things to run:
-# - composer install
-# - sail up --build -d
-# - sail npm i
-# - sail artisan key:generate
-# - sail artisan config:clear
-# - sail artisan db:provision
-# - sail artisan migrate
-# - sail artisan db:seed
+# Run Laravel setup
+setup_laravel "$APP_ID"
 
 # Output success message
 echo "App configuration updated:"

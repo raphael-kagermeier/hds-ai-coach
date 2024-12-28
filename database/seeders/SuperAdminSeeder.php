@@ -34,7 +34,7 @@ class SuperAdminSeeder extends Seeder
                     'remember_token' => Str::random(10),
                 ]
             );
-            
+
             $user->assignRole(RolesEnum::SuperAdmin);
         }
     }

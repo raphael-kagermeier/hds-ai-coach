@@ -59,7 +59,7 @@ return [
 
         'robots' => [
             'driver' => 'local',
-            'root' => storage_path('app/robots'),
+            'root' => resource_path('misc/robots'),
             'throw' => false,
         ],
 

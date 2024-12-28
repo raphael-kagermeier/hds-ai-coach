@@ -110,19 +110,24 @@ _environments:
   production:
     <<: *base_env
     APP_DEBUG: false
+    ALLOW_ROBOTS: true
 
   staging:
     <<: *base_env
     APP_DEBUG: true
+    ALLOW_ROBOTS: false
 
   development:
     <<: *base_env
     APP_DEBUG: true
+    ALLOW_ROBOTS: false
 
   testing:
     <<: *base_env
     APP_DEBUG: false
+    ALLOW_ROBOTS: false
 
   '*':
     <<: *base_env
     APP_DEBUG: false
+    ALLOW_ROBOTS: false

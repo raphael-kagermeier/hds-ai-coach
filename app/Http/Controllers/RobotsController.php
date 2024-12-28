@@ -1,32 +1,56 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class RobotsController extends Controller
 {
+    private const DEFAULT_ROBOTS_CONTENT = "User-agent: *\nDisallow: /\n";
+
+    private const CONTENT_TYPE = 'text/plain; charset=UTF-8';
+
     public function __invoke(): Response
     {
-        $environment = App::environment();
-        $robotsPath = "robots-{$environment}.txt";
-        
-        $disk = Storage::disk('robots');
-
-        // If environment-specific robots.txt doesn't exist, use default
-        if (!$disk->exists($robotsPath)) {
-            $robotsPath = 'robots.txt';
+        if (! config('app.allow_robots')) {
+            return $this->getDisallowAllResponse();
         }
 
-        // If no robots file exists at all, return default content
-        if (!$disk->exists($robotsPath)) {
-            $contents = "User-agent: *\nDisallow: /\n";
-        } else {
-            $contents = $disk->get($robotsPath);
-        }
+        $contents = $this->getRobotsContents();
 
         return response($contents, 200)
-            ->header('Content-Type', 'text/plain');
+            ->header('Content-Type', self::CONTENT_TYPE);
+    }
+
+    private function getDisallowAllResponse(): Response
+    {
+        return response(self::DEFAULT_ROBOTS_CONTENT, 200)
+            ->header('Content-Type', self::CONTENT_TYPE);
+    }
+
+    private function getRobotsContents(): string
+    {
+        $robotsPath = $this->getRobotsPath();
+        $disk = Storage::disk('robots');
+
+        if (! $disk->exists($robotsPath)) {
+            return self::DEFAULT_ROBOTS_CONTENT;
+        }
+
+        return $disk->get($robotsPath);
+    }
+
+    private function getRobotsPath(): string
+    {
+        $environment = App::environment();
+        $environmentPath = "robots-{$environment}.txt";
+
+        if (Storage::disk('robots')->exists($environmentPath)) {
+            return $environmentPath;
+        }
+
+        return 'robots.txt';
     }
 }

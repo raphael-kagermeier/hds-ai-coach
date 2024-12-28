@@ -7,6 +7,7 @@ beforeEach(function () {
 });
 
 it('serves default robots.txt content when no file exists', function () {
+    config(['app.allow_robots' => true]);
     $response = $this->get('robots.txt');
 
     $response->assertStatus(200)
@@ -16,6 +17,7 @@ it('serves default robots.txt content when no file exists', function () {
 });
 
 it('serves environment-specific robots.txt when available', function () {
+    config(['app.allow_robots' => true]);
     $environment = app()->environment();
     $content = "User-agent: Googlebot\nAllow: /";
 
@@ -29,6 +31,7 @@ it('serves environment-specific robots.txt when available', function () {
 });
 
 it('falls back to default robots.txt when environment-specific file not found', function () {
+    config(['app.allow_robots' => true]);
     $content = "User-agent: *\nAllow: /sitemap.xml";
 
     Storage::disk('robots')->put('robots.txt', $content);
@@ -41,6 +44,7 @@ it('falls back to default robots.txt when environment-specific file not found', 
 });
 
 it('serves correct robots.txt based on environment', function () {
+    config(['app.allow_robots' => true]);
     $environment = app()->environment();
     $envContent = "User-agent: Googlebot\nAllow: /";
     $defaultContent = "User-agent: *\nAllow: /sitemap.xml";
@@ -56,4 +60,14 @@ it('serves correct robots.txt based on environment', function () {
         ->assertHeader('Content-Type', 'text/plain; charset=UTF-8')
         ->assertSee($envContent)
         ->assertDontSee($defaultContent);
+});
+
+it('serves default robots.txt when allow_robots is false', function () {
+    config(['app.allow_robots' => false]);
+
+    $response = $this->get('robots.txt');
+
+    $response->assertStatus(200)
+        ->assertSee('User-agent: *')
+        ->assertSee('Disallow: /');
 });

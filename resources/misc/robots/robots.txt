@@ -1,0 +1,15 @@
+# Allow Google bots
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Googlebot-Mobile
+User-agent: Googlebot-News
+Allow: /
+
+# Allow Microsoft bots
+User-agent: Bingbot
+User-agent: MSNBot
+Allow: /
+
+# Block all other bots
+User-agent: *
+Disallow: /

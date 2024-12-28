@@ -135,4 +135,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+   |--------------------------------------------------------------------------
+   | Allow Robots
+   |--------------------------------------------------------------------------
+   |
+   | When true, the robots.txt file will be served from the storage/app/robots
+   | directory. Otherwise, robots.txt requests will disallow all bots.
+   |
+   */
+
+    'allow_robots' => env('ALLOW_ROBOTS', true),
+
 ];

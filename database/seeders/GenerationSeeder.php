@@ -25,61 +25,27 @@ class GenerationSeeder extends Seeder
         }
 
         // Create 50 random generations
-        Generation::factory()
-            ->count(50)
-            ->sequence(fn ($sequence) => [
-                'user_id' => $users->random()->id,
-                'lesson_id' => $lessons->random()->id,
-            ])
-            ->create();
+        Generation::withoutEvents(function () use ($users, $lessons) {
+            Generation::factory()
+                ->count(50)
+                ->sequence(fn ($sequence) => [
+                    'user_id' => $users->random()->id,
+                    'lesson_id' => $lessons->random()->id,
+                ])
+                ->create();
+        });
 
         // Create 10 completed generations with images
+        Generation::withoutEvents(function () use ($users, $lessons) {
         Generation::factory()
             ->count(10)
             ->completed()
             ->withImages(2)
             ->sequence(fn ($sequence) => [
                 'user_id' => $users->random()->id,
-                'lesson_id' => $lessons->random()->id,
-            ])
-            ->create();
-
-        // Create 5 failed generations
-        Generation::factory()
-            ->count(5)
-            ->failed()
-            ->sequence(fn ($sequence) => [
-                'user_id' => $users->random()->id,
-                'lesson_id' => $lessons->random()->id,
-            ])
-            ->create();
-
-        // Create 5 pending generations
-        Generation::factory()
-            ->count(5)
-            ->state(fn (array $attributes) => [
-                'status' => 'pending',
-                'generated_text' => null,
-                'final_text' => null,
-            ])
-            ->sequence(fn ($sequence) => [
-                'user_id' => $users->random()->id,
-                'lesson_id' => $lessons->random()->id,
-            ])
-            ->create();
-
-        // Create 5 processing generations
-        Generation::factory()
-            ->count(5)
-            ->state(fn (array $attributes) => [
-                'status' => 'processing',
-                'generated_text' => null,
-                'final_text' => null,
-            ])
-            ->sequence(fn ($sequence) => [
-                'user_id' => $users->random()->id,
-                'lesson_id' => $lessons->random()->id,
-            ])
-            ->create();
+                    'lesson_id' => $lessons->random()->id,
+                ])
+                ->create();
+        });
     }
 }

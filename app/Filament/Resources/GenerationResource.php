@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\GenerationResource\Pages;
 use App\Models\Generation;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class GenerationResource extends Resource
 {
@@ -33,6 +35,7 @@ class GenerationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('images')
+                    ->disk('public')
                     ->multiple()
                     ->image()
                     ->required(),
@@ -91,6 +94,7 @@ class GenerationResource extends Resource
             'create' => Pages\CreateGeneration::route('/create'),
             'edit' => Pages\EditGeneration::route('/{record}/edit'),
             'generate' => Pages\Generate::route('/generate'),
+            'review' => Pages\ReviewGeneration::route('/{record}/review'),
         ];
     }
 }

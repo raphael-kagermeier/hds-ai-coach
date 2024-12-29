@@ -56,6 +56,7 @@ _environment_base: &base_env
   APP_ID: *app_id
   APP_URL: https://${self:custom.default_domain_config.domain_name}
   APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
+  OPENAI_API_KEY: bref-ssm:/hds-ai-coach/OPENAI_API_KEY
   APP_ENV: ${self:provider.stage}
 
   # allows: serverless deploy function --function=web --update-config --param="maintenance=1"

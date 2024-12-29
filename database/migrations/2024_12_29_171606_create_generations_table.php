@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('generations', function (Blueprint $table) {
             $table->id();
-            $table->longText('input_text');
+            $table->longText('input_text')->nullable();
             $table->foreignIdFor(Lesson::class);
             $table->foreignIdFor(User::class);
             $table->string('status');
-            $table->json('images')->nullable();
+            $table->jsonb('images')->nullable();
             $table->longText('generated_text')->nullable();
             $table->longText('final_text')->comment('The final text if the user edits the generated text')->nullable();
             $table->timestamps();

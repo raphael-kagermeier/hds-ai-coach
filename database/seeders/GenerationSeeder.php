@@ -37,12 +37,12 @@ class GenerationSeeder extends Seeder
 
         // Create 10 completed generations with images
         Generation::withoutEvents(function () use ($users, $lessons) {
-        Generation::factory()
-            ->count(10)
-            ->completed()
-            ->withImages(2)
-            ->sequence(fn ($sequence) => [
-                'user_id' => $users->random()->id,
+            Generation::factory()
+                ->count(10)
+                ->completed()
+                ->withImages(2)
+                ->sequence(fn ($sequence) => [
+                    'user_id' => $users->random()->id,
                     'lesson_id' => $lessons->random()->id,
                 ])
                 ->create();

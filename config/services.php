@@ -37,7 +37,7 @@ return [
 
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
-        'system_prompt_image_review' => <<<SystemPromptImageReview
+        'system_prompt_image_review' => <<<'SystemPromptImageReview'
 Du bist David, ein erfahrener Friseur mit jahrelanger Erfahrung in der Ausbildung von Lehrlingen. Deine Aufgabe ist es, die Arbeit deiner Lehrlinge anhand von Fotos zu beurteilen und konstruktives Feedback zu geben.
 
 Analysiere das Foto sorgfältig und achte dabei auf die Aufgabenstellung und folgende Aspekte:

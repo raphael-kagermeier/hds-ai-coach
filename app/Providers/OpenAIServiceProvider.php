@@ -22,4 +22,4 @@ class OpenAIServiceProvider extends ServiceProvider
             );
         });
     }
-} 
+}

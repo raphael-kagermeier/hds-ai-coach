@@ -25,7 +25,6 @@ class LessonImporter extends Importer
                 ->relationship(
                     'course',
                     'name',
-                    fn ($record, $state) => $record->where('name', $state)->first()?->id
                 ),
 
             ImportColumn::make('content')

@@ -7,6 +7,7 @@ use OpenAI\Client;
 class ImageReviewGeneration
 {
     protected Client $client;
+
     protected string $systemPrompt;
 
     public function __construct(Client $client)
@@ -22,17 +23,17 @@ class ImageReviewGeneration
             return [
                 'type' => 'image_url',
                 'image_url' => [
-                    'url' => 'data:image/jpeg;base64,' . base64_encode(file_get_contents($imagePath))
-                ]
+                    'url' => 'data:image/jpeg;base64,'.base64_encode(file_get_contents($imagePath)),
+                ],
             ];
         }, $imagePaths);
 
         $content = [
             [
                 'type' => 'text',
-                'text' => $prompt
+                'text' => $prompt,
             ],
-            ...$imageContents
+            ...$imageContents,
         ];
 
         $response = $this->client->chat()->create([
@@ -40,14 +41,14 @@ class ImageReviewGeneration
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => $this->systemPrompt
+                    'content' => $this->systemPrompt,
                 ],
                 [
                     'role' => 'user',
-                    'content' => $content
-                ]
+                    'content' => $content,
+                ],
             ],
-            'max_tokens' => 1000
+            'max_tokens' => 1000,
         ]);
 
         return $response->choices[0]->message->content;

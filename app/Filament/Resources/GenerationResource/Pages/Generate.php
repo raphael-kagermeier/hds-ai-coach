@@ -3,17 +3,11 @@
 namespace App\Filament\Resources\GenerationResource\Pages;
 
 use App\Filament\Resources\GenerationResource;
-use App\Models\Generation;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
-use Filament\Support\Exceptions\Halt;
-use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Auth;
-use function Filament\Support\is_app_url;
 
 class Generate extends CreateRecord
 {
@@ -30,6 +24,7 @@ class Generate extends CreateRecord
     {
         $data['user_id'] = Auth::id();
         $data['status'] = 'pending';
+
         return $data;
     }
 
@@ -52,5 +47,4 @@ class Generate extends CreateRecord
             ])
             ->columns(null);
     }
-
 }

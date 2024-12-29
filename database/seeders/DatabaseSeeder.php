@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
                 ? UserForRoleSeeder::class
                 : SuperAdminSeeder::class,
             CourseLessonSeeder::class,
-            GenerationSeeder::class
+            GenerationSeeder::class,
         ]);
     }
 }

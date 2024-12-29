@@ -19,7 +19,7 @@ class GenerationObserver
         }
 
         // Get the lesson content as context for the prompt
-        $lessonContent = $generation->lesson?->content ?? '';
+        $lessonContent = $generation->lesson->content ?? '';
 
         // Generate the prompt
         $prompt = "Please review these images in the context of the following lesson:\n\n{$lessonContent}\n\nProvide a detailed analysis of the images, focusing on the hairdressing techniques shown and how they relate to the lesson content.";
@@ -31,14 +31,14 @@ class GenerationObserver
             $generation->update([
                 'generated_text' => $generatedText,
                 'final_text' => $generatedText,
-                'status' => 'completed'
+                'status' => 'completed',
             ]);
         } catch (\Exception $e) {
             // Update status to failed and log the error
             $generation->update(['status' => 'failed']);
             Log::error('Image review generation failed', [
                 'generation_id' => $generation->id,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         }
     }

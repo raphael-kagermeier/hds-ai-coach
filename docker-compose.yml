@@ -1,11 +1,11 @@
 services:
-    lft.app:
+    hds-ai-coach.app:
         build:
             context: './vendor/laravel/sail/runtimes/8.3'
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: 'lft-8.3/app'
+        image: 'hds-ai-coach-8.3/app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -37,7 +37,7 @@ services:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'lft-pgsql:/var/lib/postgresql/data'
+            - 'hds-ai-coach-pgsql:/var/lib/postgresql/data'
             - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
             - './docker/pgsql/vector-extension.sql:/docker-entrypoint-initdb.d/11-vector-extension.sql'
         networks:
@@ -58,7 +58,7 @@ services:
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'lft-redis:/data'
+            - 'hds-ai-coach-redis:/data'
         networks:
             - sail
         healthcheck:
@@ -75,7 +75,7 @@ services:
         environment:
             MEILI_NO_ANALYTICS: '${MEILISEARCH_NO_ANALYTICS:-false}'
         volumes:
-            - 'lft-meilisearch:/meili_data'
+            - 'hds-ai-coach-meilisearch:/meili_data'
         networks:
             - sail
         healthcheck:
@@ -106,9 +106,9 @@ networks:
     sail:
         driver: bridge
 volumes:
-    lft-pgsql:
+    hds-ai-coach-pgsql:
         driver: local
-    lft-redis:
+    hds-ai-coach-redis:
         driver: local
-    lft-meilisearch:
+    hds-ai-coach-meilisearch:
         driver: local

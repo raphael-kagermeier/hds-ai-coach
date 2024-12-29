@@ -8,9 +8,9 @@
 # do not change between environments
 
 app:
-  name: &app_name "LaravelFilamentTemplate"
+  name: &app_name "HDS AiCoach"
   # IMPORTANT: this must be unique per project and needs to be in wrapped QUOTES
-  id: &app_id "lft"
+  id: &app_id "hds-ai-coach"
 
 
 

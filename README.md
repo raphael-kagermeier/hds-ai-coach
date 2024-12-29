@@ -1,5 +1,5 @@
 
-# LaravelFilamentTemplate
+# HDS AiCoach
 
 ## Quick Start
 `./bin/new-project.sh`

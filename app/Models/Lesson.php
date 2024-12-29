@@ -10,7 +10,6 @@ use Spatie\EloquentSortable\SortableTrait;
 
 class Lesson extends Model implements Sortable
 {
-    /** @use HasFactory<\Database\Factories\LessonsFactory> */
     use HasFactory, SortableTrait;
 
     protected $fillable = ['name', 'course_id', 'content', 'order_column'];

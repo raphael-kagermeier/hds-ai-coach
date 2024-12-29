@@ -18,7 +18,7 @@ class LessonImporter extends Importer
                 ->label('Lesson Name')
                 ->requiredMapping()
                 ->rules(['required', 'string', 'max:255']),
-                
+
             ImportColumn::make('course_name')
                 ->label('Course name')
                 ->requiredMapping()
@@ -27,12 +27,12 @@ class LessonImporter extends Importer
                     'name',
                     fn ($record, $state) => $record->where('name', $state)->first()?->id
                 ),
-                
+
             ImportColumn::make('content')
                 ->label('Lesson Content')
                 ->requiredMapping()
                 ->rules(['required', 'string']),
-                
+
             ImportColumn::make('order_column')
                 ->label('Order')
                 ->numeric()
@@ -43,15 +43,15 @@ class LessonImporter extends Importer
     public function resolveRecord(): ?Lesson
     {
         // Create a new record for each row
-        return new Lesson();
+        return new Lesson;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Lesson import completed! ' . number_format($import->successful_rows) . ' ' . str('lesson')->plural($import->successful_rows) . ' imported.';
+        $body = 'Lesson import completed! '.number_format($import->successful_rows).' '.str('lesson')->plural($import->successful_rows).' imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to import.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
         }
 
         return $body;

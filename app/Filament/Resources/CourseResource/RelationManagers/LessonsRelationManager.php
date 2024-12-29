@@ -1,35 +1,33 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\CourseResource\RelationManagers;
 
-use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
-use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CourseResource extends Resource
+class LessonsRelationManager extends RelationManager
 {
-    protected static ?string $model = Course::class;
+    protected static string $relationship = 'lessons';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $recordTitleAttribute = 'name';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Textarea::make('content')
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -44,32 +42,22 @@ class CourseResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('order_column', 'asc')
+            ->reorderable('order_column')
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\LessonsRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListCourses::route('/'),
-            'create' => Pages\CreateCourse::route('/create'),
-            'edit' => Pages\EditCourse::route('/{record}/edit'),
-        ];
     }
 }

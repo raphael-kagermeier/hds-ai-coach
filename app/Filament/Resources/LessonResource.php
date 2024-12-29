@@ -10,8 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\SelectFilter;
 
 class LessonResource extends Resource
 {
@@ -54,7 +53,10 @@ class LessonResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                // filter by course
+                SelectFilter::make('course_id')
+                    ->label('Course')
+                    ->relationship('course', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -63,7 +65,9 @@ class LessonResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('order_column', 'asc')
+            ->reorderable('order_column');
     }
 
     public static function getRelations(): array
@@ -77,8 +81,6 @@ class LessonResource extends Resource
     {
         return [
             'index' => Pages\ListLessons::route('/'),
-            'create' => Pages\CreateLesson::route('/create'),
-            'edit' => Pages\EditLesson::route('/{record}/edit'),
         ];
     }
 }

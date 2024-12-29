@@ -22,6 +22,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",
+        "spatie/eloquent-sortable": "^4.4",
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-settings": "^3.4",
         "stechstudio/filament-impersonate": "^3.15",

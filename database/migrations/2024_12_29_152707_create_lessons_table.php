@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignIdFor(Course::class);
             $table->longText('content');
+            $table->integer('order_column')->default(0);
             $table->timestamps();
         });
     }

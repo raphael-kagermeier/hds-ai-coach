@@ -20,6 +20,7 @@ class GenerationSeeder extends Seeder
 
         if ($users->isEmpty() || $lessons->isEmpty()) {
             $this->command->warn('Please seed users and lessons first!');
+
             return;
         }
 

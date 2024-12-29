@@ -8,7 +8,6 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +45,7 @@ class Generate extends CreateRecord
                     $data = $get();
                     $data['user_id'] = Auth::id();
                     $data['status'] = 'pending';
-                    
+
                     $this->generatedRecord = Generation::create($data);
                 }),
 

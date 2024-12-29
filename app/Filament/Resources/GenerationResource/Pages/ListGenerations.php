@@ -15,9 +15,9 @@ class ListGenerations extends ListRecords
         return [
             Actions\CreateAction::make()->color('gray'),
             Actions\Action::make('generate')
-                    ->url(GenerationResource::getUrl('generate'))
-                    ->label('Generate')
-                    ->icon('heroicon-o-play'),
+                ->url(GenerationResource::getUrl('generate'))
+                ->label('Generate')
+                ->icon('heroicon-o-play'),
         ];
     }
 }

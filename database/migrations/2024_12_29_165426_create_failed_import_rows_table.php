@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('failed_import_rows', function (Blueprint $table) {
             $table->id();
-            $table->json('data');
+            $table->jsonb('data');
             $table->foreignId('import_id')->constrained()->cascadeOnDelete();
             $table->text('validation_error')->nullable();
             $table->timestamps();

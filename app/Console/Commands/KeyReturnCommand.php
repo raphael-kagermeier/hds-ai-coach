@@ -28,6 +28,6 @@ class KeyReturnCommand extends KeyGenerateCommand
     public function handle(): void
     {
         $key = $this->generateRandomKey();
-        $this->line('<comment>' . $key . '</comment>');
+        $this->line('<comment>'.$key.'</comment>');
     }
-} 
+}

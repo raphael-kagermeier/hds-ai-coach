@@ -160,6 +160,11 @@ setup_git_remotes() {
     
     validate_git_repository || return 1
     
+    # Get and cd to the git repository root
+    local repo_root
+    repo_root=$(git rev-parse --show-toplevel)
+    cd "$repo_root" || return 1
+    
     # Check origin remote status but don't fail if it's not template
     origin_status=$(validate_origin_remote; echo $?)
     
@@ -185,8 +190,8 @@ setup_git_remotes() {
         git remote add origin "https://github.com/raphael-kagermeier/${repo_name}.git"
     fi
     
-    # Check if we have any changes to commit
-    if ! git diff-index --quiet HEAD -- || ! git diff --staged --quiet; then
+    # Check for untracked files and changes
+    if [ -n "$(git status --porcelain)" ]; then
         echo "Creating initial commit..."
         git add .
         git commit -m "Initial template commit"

@@ -190,10 +190,16 @@ setup_git_remotes() {
     fi
     
     # Check for untracked files and changes
-    if [ -n "$(git status --porcelain)" ]; then
-        echo "Creating initial commit..."
+    local git_status
+    git_status=$(git status --porcelain)
+    echo "Git status output: '$git_status'"
+    
+    if [ -n "$git_status" ]; then
+        echo "Changes detected, creating initial commit..."
         git add .
         git commit -m "Initial template commit"
+    else
+        echo "No changes detected to commit"
     fi
     
     git push -u origin main

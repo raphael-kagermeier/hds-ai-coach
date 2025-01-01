@@ -160,14 +160,18 @@ setup_git_remotes() {
     
     # Get the project root directory
     local PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+    echo "DEBUG: Project root is $PROJECT_ROOT"
     cd "$PROJECT_ROOT" || return 1
     
     validate_git_repository || return 1
+    echo "DEBUG: Git repository validated"
     
     # Check origin remote status but don't fail if it's not template
     origin_status=$(validate_origin_remote; echo $?)
+    echo "DEBUG: Origin status is $origin_status"
     
     setup_template_remote
+    echo "DEBUG: Template remote setup complete"
     
     if [ -z "$repo_name" ]; then
         local default_name
@@ -186,13 +190,15 @@ setup_git_remotes() {
     
     # Only add origin if it doesn't exist or if it was the template
     if [ "$origin_status" -ne 2 ]; then
+        echo "DEBUG: Adding origin remote"
         git remote add origin "https://github.com/raphael-kagermeier/${repo_name}.git"
     fi
     
     # Check for untracked files and changes
+    echo "DEBUG: Checking git status"
     local git_status
     git_status=$(git status --porcelain)
-    echo "Git status output: '$git_status'"
+    echo "DEBUG: Git status output: '$git_status'"
     
     if [ -n "$git_status" ]; then
         echo "Changes detected, creating initial commit..."
@@ -202,6 +208,7 @@ setup_git_remotes() {
         echo "No changes detected to commit"
     fi
     
+    echo "DEBUG: Pushing to origin"
     git push -u origin main
     
     echo "Remote setup completed successfully!"

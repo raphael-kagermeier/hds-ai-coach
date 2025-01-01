@@ -185,9 +185,11 @@ setup_git_remotes() {
         git remote add origin "https://github.com/raphael-kagermeier/${repo_name}.git"
     fi
     
-    if [ -z "$(git log -1 2>/dev/null)" ]; then
+    # Check if we have any changes to commit
+    if ! git diff-index --quiet HEAD -- || ! git diff --staged --quiet; then
+        echo "Creating initial commit..."
         git add .
-        git commit -m "Initial commit"
+        git commit -m "Initial template commit"
     fi
     
     git push -u origin main

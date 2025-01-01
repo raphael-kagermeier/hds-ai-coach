@@ -5,6 +5,7 @@ DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/input-helpers.sh"
 . "$DIR/file-validators.sh"
+. "$DIR/get-project-name.sh"
 
 validate_git_repository() {
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
@@ -33,10 +34,15 @@ setup_template_remote() {
     git config remote.template.fetch "+refs/heads/main:refs/remotes/template/main"
 }
 
-validate_github_url() {
-    local url=$1
-    if [[ ! $url =~ ^https://github\.com/.+/.+\.git$ ]] && [[ ! $url =~ ^git@github\.com:.+/.+\.git$ ]]; then
-        echo "Error: Invalid GitHub URL format. Please use HTTPS (https://github.com/user/repo.git) or SSH (git@github.com:user/repo.git) format."
+construct_github_url() {
+    local repo_name=$1
+    echo "https://github.com/raphael-kagermeier/${repo_name}.git"
+}
+
+validate_repo_name() {
+    local repo_name=$1
+    if [[ ! $repo_name =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo "Error: Invalid repository name. Only alphanumeric characters, hyphens, and underscores are allowed."
         return 1
     fi
 }
@@ -61,19 +67,30 @@ push_to_origin() {
 }
 
 setup_git_remotes() {
-    local new_origin_url=$1
+    local repo_name=$1
     
     validate_git_repository || return 1
     validate_origin_remote || return 1
     
     setup_template_remote
     
-    if [ -z "$new_origin_url" ]; then
-        echo -e "\nPlease enter the new GitHub repository URL for 'origin':"
-        read -r new_origin_url
+    if [ -z "$repo_name" ]; then
+        # Get default repository name from project folder
+        local default_name
+        default_name=$(get_project_folder_name)
+        echo -e "\nPlease enter the repository name for 'origin' [${default_name}]:"
+        read -r repo_name
+        
+        # Use default if no input provided
+        if [ -z "$repo_name" ]; then
+            repo_name=$default_name
+        fi
     fi
     
-    validate_github_url "$new_origin_url" || return 1
+    validate_repo_name "$repo_name" || return 1
+    local new_origin_url
+    new_origin_url=$(construct_github_url "$repo_name")
+    
     setup_new_origin "$new_origin_url"
     create_initial_commit
     push_to_origin

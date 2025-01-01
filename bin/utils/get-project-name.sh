@@ -11,7 +11,13 @@ get_project_folder_name() {
     fi
     
     # Extract just the folder name using basename
-    basename "$project_root"
+    local folder_name
+    folder_name=$(basename "$project_root")
+    
+    # Sanitize the folder name to be a valid repository name
+    # Replace spaces and special characters with hyphens
+    # Convert to lowercase and remove any invalid characters
+    echo "$folder_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | sed 's/-\+/-/g' | sed 's/^-\|-$//'
 }
 
 # If script is run directly (not sourced), execute the function

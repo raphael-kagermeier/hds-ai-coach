@@ -23,7 +23,7 @@ if [ -n "$ZSH_VERSION" ] && [ -f ~/.zshrc ]; then
 fi
 
 # Source common utilities
-DIR="${BASH_SOURCE%/*}"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/get-project-name.sh"
 

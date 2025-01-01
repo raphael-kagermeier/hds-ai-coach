@@ -36,14 +36,16 @@ update_project_file "$APP_NAME" "$APP_ID"
 update_docker_file "$APP_ID"
 update_readme_file "$APP_NAME"
 
-# Run Laravel setup
-setup_laravel "$APP_ID"
 
 # Generate and store APP_KEY in SSM
 generate_and_store_app_key true
 
 # Setup git remotes
 setup_git_remotes "$GITHUB_URL"
+
+
+# Run Laravel setup
+setup_laravel "$APP_ID"
 
 # Output success message
 echo "App configuration completed successfully:"

@@ -2,15 +2,12 @@
 
 # Source utility functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/utils/input-helpers.sh"
-source "$SCRIPT_DIR/utils/file-validators.sh"
-source "$SCRIPT_DIR/utils/env-updater.sh"
-source "$SCRIPT_DIR/utils/project-updater.sh"
-source "$SCRIPT_DIR/utils/docker-updater.sh"
-source "$SCRIPT_DIR/utils/laravel-setup.sh"
-source "$SCRIPT_DIR/utils/readme-updater.sh"
-source "$SCRIPT_DIR/utils/app-key-generator.sh"
-source "$SCRIPT_DIR/utils/git-remote-setup.sh"
+UTILS_DIR="$SCRIPT_DIR/utils"
+
+# Source all utility scripts
+for util in "$UTILS_DIR"/*.sh; do
+    source "$util"
+done
 
 # Initialize variables
 APP_NAME=""

@@ -158,12 +158,11 @@ add_github_secrets() {
 setup_git_remotes() {
     local repo_name=$1
     
-    validate_git_repository || return 1
+    # Get the project root directory
+    local PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+    cd "$PROJECT_ROOT" || return 1
     
-    # Get and cd to the git repository root
-    local repo_root
-    repo_root=$(git rev-parse --show-toplevel)
-    cd "$repo_root" || return 1
+    validate_git_repository || return 1
     
     # Check origin remote status but don't fail if it's not template
     origin_status=$(validate_origin_remote; echo $?)

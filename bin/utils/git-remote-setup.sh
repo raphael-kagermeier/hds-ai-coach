@@ -43,7 +43,7 @@ validate_origin_remote() {
     # Get the URL of the origin remote
     origin_url=$(git remote get-url origin)
     # Return 2 if origin is not pointing to template (but exists)
-    if [[ ! "$origin_url" =~ github\.com/raphael-kagermeier/LaravelFilamentTemplate ]]; then
+    if [[ ! "$origin_url" =~ github\.com/raphael-kagermeier/lft ]]; then
         return 2
     fi
     return 0
@@ -62,7 +62,7 @@ setup_template_remote() {
             git fetch template
         else
             echo "Adding template remote..."
-            git remote add template "https://github.com/raphael-kagermeier/LaravelFilamentTemplate.git"
+            git remote add template "https://github.com/raphael-kagermeier/lft.git"
             git fetch template
         fi
     fi

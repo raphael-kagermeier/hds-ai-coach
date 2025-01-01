@@ -130,3 +130,17 @@ _environments:
     <<: *base_env
     APP_DEBUG: false
     ALLOW_ROBOTS: false
+
+
+    
+# *****************************************************************
+# 🔧 GITHUB VARIABLES                                             +
+# *****************************************************************
+# secret keys for github, key represents the name 
+# and the value the enpass field name
+
+github:
+  secrets:
+    AWS_ACCESS_KEY_ID:GH_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:GH_AWS_SECRET_ACCESS_KEY
+

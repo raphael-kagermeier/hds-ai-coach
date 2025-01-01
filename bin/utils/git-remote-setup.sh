@@ -70,6 +70,9 @@ setup_template_remote() {
     # Configure template remote to track only main branch
     git config --unset-all remote.template.fetch
     git config remote.template.fetch "+refs/heads/main:refs/remotes/template/main"
+    
+    # Set NO_PUSH configuration for template remote
+    git remote set-url --push template NO_PUSH
 }
 
 validate_repo_name() {

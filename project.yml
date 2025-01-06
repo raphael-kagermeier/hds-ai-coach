@@ -73,7 +73,7 @@ _environment_base: &base_env
   DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
 
   BROADCAST_CONNECTION: log
-  LOG_CHANNEL: Stderr
+  LOG_CHANNEL: stderr
 
   VITE_APP_NAME: ${self:custom.app_id}
 

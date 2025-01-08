@@ -29,7 +29,6 @@ class LessonResource extends Resource
                     ->relationship('course', 'name')
                     ->required(),
                 Forms\Components\Textarea::make('content')
-                    ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('images')
                     ->multiple()

@@ -22,7 +22,10 @@ class LessonsRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('content')
-                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('images')
+                    ->multiple()
+                    ->image()
                     ->columnSpanFull(),
             ]);
     }

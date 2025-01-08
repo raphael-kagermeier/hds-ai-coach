@@ -31,6 +31,10 @@ class LessonResource extends Resource
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\FileUpload::make('images')
+                    ->multiple()
+                    ->image()
+                    ->columnSpanFull(),
             ]);
     }
 

@@ -12,7 +12,11 @@ class Lesson extends Model implements Sortable
 {
     use HasFactory, SortableTrait;
 
-    protected $fillable = ['name', 'course_id', 'content', 'order_column'];
+    protected $fillable = ['name', 'course_id', 'content', 'order_column', 'images'];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
 
     public function course(): BelongsTo
     {

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[ObservedBy(GenerationObserver::class)]
 class Generation extends Model
@@ -59,5 +61,13 @@ class Generation extends Model
         return array_map(function (string $image) {
             return Storage::disk('public')->path($image);
         }, $this->images);
+    }
+
+    protected function finalText(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => Str::markdown($value ?? ''),
+            set: fn (string $value) => Str::of($value)->markdown()->toString() ?? null,
+        );
     }
 }

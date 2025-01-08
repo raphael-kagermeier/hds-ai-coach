@@ -4,7 +4,11 @@ namespace App\Filament\Resources\GenerationResource\Pages;
 
 use App\Filament\Resources\GenerationResource;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Resources\Pages\EditRecord;
 
 class ReviewGeneration extends EditRecord
@@ -15,10 +19,14 @@ class ReviewGeneration extends EditRecord
     {
         return parent::form($form)
             ->schema([
-                MarkdownEditor::make('final_text')
+                RichEditor::make('final_text')
                     ->label('Final Text')
                     ->required()
                     ->live(debounce: 500)
+                    ->disableGrammarly()
+                    ->disableToolbarButtons([
+                        'attachFiles'
+                    ])
                     ->columnSpanFull(),
             ])
             ->columns(null);

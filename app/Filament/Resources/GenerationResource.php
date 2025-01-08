@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 
 class GenerationResource extends Resource
 {
@@ -69,12 +71,30 @@ class GenerationResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('lesson.name')
+                    ->label('Lesson'),
+                Infolists\Components\TextEntry::make('status'),
+                Infolists\Components\TextEntry::make('input_text')
+                    ->columnSpanFull(),
+                Infolists\Components\ImageEntry::make('images')
+                    ->columnSpanFull(),
+                Infolists\Components\TextEntry::make('final_text')
+                    ->html()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -93,6 +113,7 @@ class GenerationResource extends Resource
             'edit' => Pages\EditGeneration::route('/{record}/edit'),
             'generate' => Pages\Generate::route('/generate'),
             'review' => Pages\ReviewGeneration::route('/{record}/review'),
+            'view' => Pages\ViewGeneration::route('/{record}'),
         ];
     }
 }

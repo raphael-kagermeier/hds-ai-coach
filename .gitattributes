@@ -9,3 +9,6 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+
+# Automatically resolve composer.lock conflicts in favor of local version
+composer.lock merge=ours

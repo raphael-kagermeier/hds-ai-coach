@@ -6,11 +6,11 @@ use App\Filament\Resources\GenerationResource\Pages;
 use App\Models\Generation;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
 
 class GenerationResource extends Resource
 {

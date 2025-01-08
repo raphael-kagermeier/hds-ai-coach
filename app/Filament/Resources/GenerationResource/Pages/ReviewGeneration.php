@@ -3,12 +3,8 @@
 namespace App\Filament\Resources\GenerationResource\Pages;
 
 use App\Filament\Resources\GenerationResource;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Resources\Pages\EditRecord;
 
 class ReviewGeneration extends EditRecord
@@ -25,7 +21,7 @@ class ReviewGeneration extends EditRecord
                     ->live(debounce: 500)
                     ->disableGrammarly()
                     ->disableToolbarButtons([
-                        'attachFiles'
+                        'attachFiles',
                     ])
                     ->columnSpanFull(),
             ])

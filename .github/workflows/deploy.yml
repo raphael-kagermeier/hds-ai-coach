@@ -42,7 +42,7 @@ jobs:
           php artisan route:clear
 
       - name: Serverless Deploy
-        uses: serverless/github-action@master
+        uses: serverless/github-action@v3.2
         with:
           args: -c "./bin/deploy.sh"
           entrypoint: /bin/bash

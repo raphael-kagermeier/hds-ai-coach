@@ -23,7 +23,7 @@ store_ssm_parameter() {
         return 1
     fi
 
-    local ssm_param_name="/hds-ai-coach/${param_name}"
+    local ssm_param_name="/${project_name}/${param_name}"
 
     # Check if parameter already exists
     if aws ssm get-parameter --name "$ssm_param_name" --region eu-central-1 &> /dev/null; then

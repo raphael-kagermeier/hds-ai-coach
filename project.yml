@@ -74,7 +74,7 @@ _environment_base: &base_env
   DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
 
   BROADCAST_CONNECTION: log
-  LOG_CHANNEL: Stderr
+  LOG_CHANNEL: stderr
 
   VITE_APP_NAME: ${self:custom.app_id}
 
@@ -83,6 +83,7 @@ _environment_base: &base_env
   FILESYSTEM_DISK: s3
   FILESYSTEM_DRIVER: s3
   FILESYSTEM_CLOUD: s3
+  FILAMENT_FILESYSTEM_DISK: s3
   AWS_BUCKET: !Ref Storage
   PROJECT_AWS_BUCKET: !Ref Storage
   PROJECT_AWS_DEFAULT_REGION: eu-central-1
@@ -131,3 +132,17 @@ _environments:
     <<: *base_env
     APP_DEBUG: false
     ALLOW_ROBOTS: false
+
+
+    
+# *****************************************************************
+# 🔧 GITHUB VARIABLES                                             +
+# *****************************************************************
+# secret keys for github, key represents the name 
+# and the value the enpass field name
+
+github:
+  secrets:
+    AWS_ACCESS_KEY_ID:GH_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:GH_AWS_SECRET_ACCESS_KEY
+

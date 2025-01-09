@@ -20,7 +20,7 @@ class ImageReviewGeneration
     {
         return collect($images)
             ->filter()
-            ->map(fn($base64_image) => [
+            ->map(fn ($base64_image) => [
                 'type' => 'image_url',
                 'image_url' => [
                     'url' => $base64_image,

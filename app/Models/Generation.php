@@ -65,9 +65,9 @@ class Generation extends Model
                 return '';
             }
 
-            return 'data:image/' .
-                Str::afterLast($image, '.') .
-                ';base64,' .
+            return 'data:image/'.
+                Str::afterLast($image, '.').
+                ';base64,'.
                 base64_encode(Storage::disk('public')->get($image));
         }, $this->images);
     }
@@ -75,8 +75,8 @@ class Generation extends Model
     protected function finalText(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => Str::markdown($value ?? ''),
-            set: fn(string $value) => Str::of($value ?? '')->markdown()->toString() ?? null,
+            get: fn (?string $value) => Str::markdown($value ?? ''),
+            set: fn (string $value) => Str::of($value ?? '')->markdown()->toString() ?? null,
         );
     }
 }

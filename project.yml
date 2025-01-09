@@ -85,7 +85,7 @@ _environment_base: &base_env
   FILAMENT_FILESYSTEM_DISK: s3
   AWS_BUCKET: !Ref Storage
   PROJECT_AWS_BUCKET: !Ref Storage
-  PROJECT_AWS_DEFAULT_REGION: eu-central-1
+  AWS_PROJECT_DEFAULT_REGION: eu-central-1
   PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
 
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint

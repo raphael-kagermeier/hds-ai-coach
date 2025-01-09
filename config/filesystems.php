@@ -40,7 +40,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -49,7 +49,7 @@ return [
             'driver' => 's3',
             'key' => env('PROJECT_AWS_ACCESS_KEY_ID'),
             'secret' => env('PROJECT_AWS_SECRET_ACCESS_KEY'),
-            'region' => env('PROJECT_AWS_DEFAULT_REGION'),
+            'region' => env('AWS_PROJECT_DEFAULT_REGION'),
             'bucket' => env('PROJECT_AWS_BUCKET'),
             'url' => env('PROJECT_AWS_BUCKET_URL'),
             'endpoint' => env('PROJECT_AWS_ENDPOINT'),

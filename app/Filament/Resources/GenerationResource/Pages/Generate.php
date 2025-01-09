@@ -3,15 +3,14 @@
 namespace App\Filament\Resources\GenerationResource\Pages;
 
 use App\Filament\Resources\GenerationResource;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\TextInput;
-use Filament\Actions\Action;
 
 class Generate extends CreateRecord
 {
@@ -20,7 +19,6 @@ class Generate extends CreateRecord
     protected static ?string $title = 'Generate Response';
 
     protected static bool $canCreateAnother = false;
-
 
     protected function getRedirectUrl(): string
     {
@@ -49,9 +47,9 @@ class Generate extends CreateRecord
                             ->relationship(
                                 name: 'lesson',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: fn($query) => $query->with('course')
+                                modifyQueryUsing: fn ($query) => $query->with('course')
                             )
-                            ->getOptionLabelFromRecordUsing(fn($record) => "{$record->course->name}: {$record->name}")
+                            ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->course->name}: {$record->name}")
                             ->searchable()
                             ->preload()
                             ->required(),

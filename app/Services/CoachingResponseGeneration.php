@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use OpenAI\Client;
 use Illuminate\Support\Str;
+use OpenAI\Client;
 
 class CoachingResponseGeneration
 {
@@ -25,14 +25,14 @@ class CoachingResponseGeneration
                 ':current_lesson_title',
                 ':current_lesson_content',
                 ':lesson_contents',
-                ':course_name'
+                ':course_name',
             ],
             [
                 $talentName,
                 $current_lesson_title,
                 $currentLessonContent,
                 implode("\n\n", $courseLessonsContent),
-                $courseName
+                $courseName,
             ],
             $this->systemPrompt
         );
@@ -59,6 +59,7 @@ class CoachingResponseGeneration
             ],
             'max_tokens' => 1000,
         ]);
+
         return $response->choices[0]->message->content;
     }
 }

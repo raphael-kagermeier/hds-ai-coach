@@ -43,6 +43,8 @@ class GenerationResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('final_text')
                     ->columnSpanFull(),
+                Forms\Components\TextInput::make('name')
+                    ->columnSpanFull(),
             ]);
     }
 

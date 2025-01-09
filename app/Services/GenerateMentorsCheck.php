@@ -32,9 +32,9 @@ class GenerateMentorsCheck
         }
 
         $imageReview = app(ImageReviewGeneration::class)->generate(
-            $this->generation->image_paths,
+            $this->generation->base64_images,
             $this->generation->lesson->content ?? '',
-            $this->generation->lesson->image_paths
+            $this->generation->lesson->base64_images
         );
 
         $this->generation->update([
@@ -60,7 +60,7 @@ class GenerateMentorsCheck
         $courseLessonsContent = $course->lessons()
             ->orderBy('order_column')
             ->get()
-            ->map(fn ($lesson) => $lesson->formatted_content)
+            ->map(fn($lesson) => $lesson->formatted_content)
             ->toArray();
 
         $coachingCheck = app(CoachingResponseGeneration::class)->generate(

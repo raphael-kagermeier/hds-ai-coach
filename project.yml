@@ -88,7 +88,7 @@ _environment_base: &base_env
   PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
 
   AWS_PROJECT_DEFAULT_REGION: eu-central-1
-  AWS_USE_PATH_STYLE_ENDPOINT: false
+  AWS_USE_PATH_STYLE_ENDPOINT: true
 
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint
   MAIL_MAILER: resend

@@ -88,7 +88,7 @@ _environment_base: &base_env
   PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}
   PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
 
-  AWS_DEFAULT_REGION: eu-central-1
+  AWS_PROJECT_DEFAULT_REGION: eu-central-1
   AWS_USE_PATH_STYLE_ENDPOINT: false
 
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint

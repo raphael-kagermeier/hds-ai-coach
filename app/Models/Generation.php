@@ -68,8 +68,8 @@ class Generation extends Model
     protected function finalText(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => Str::markdown($value ?? ''),
-            set: fn(string $value) => Str::of($value)->markdown()->toString() ?? null,
+            get: fn (?string $value) => Str::markdown($value ?? ''),
+            set: fn (string $value) => Str::of($value)->markdown()->toString() ?? null,
         );
     }
 }

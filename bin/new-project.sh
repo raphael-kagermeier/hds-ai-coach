@@ -2,17 +2,17 @@
 
 # Source utility functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/utils/input-helpers.sh"
-source "$SCRIPT_DIR/utils/file-validators.sh"
-source "$SCRIPT_DIR/utils/env-updater.sh"
-source "$SCRIPT_DIR/utils/project-updater.sh"
-source "$SCRIPT_DIR/utils/docker-updater.sh"
-source "$SCRIPT_DIR/utils/laravel-setup.sh"
-source "$SCRIPT_DIR/utils/readme-updater.sh"
+UTILS_DIR="$SCRIPT_DIR/utils"
+
+# Source all utility scripts
+for util in "$UTILS_DIR"/*.sh; do
+    source "$util"
+done
 
 # Initialize variables
 APP_NAME=""
 APP_ID=""
+GITHUB_URL=""
 
 # Parse arguments
 parse_arguments APP_NAME APP_ID "$@"
@@ -36,11 +36,21 @@ update_project_file "$APP_NAME" "$APP_ID"
 update_docker_file "$APP_ID"
 update_readme_file "$APP_NAME"
 
+
+# Generate and store APP_KEY in SSM
+generate_and_store_app_key true
+
+# Setup git remotes
+setup_git_remotes "$GITHUB_URL"
+
+
 # Run Laravel setup
 setup_laravel "$APP_ID"
 
 # Output success message
-echo "App configuration updated:"
+echo "App configuration completed successfully:"
 echo "APP_NAME: $APP_NAME"
 echo "APP_ID: $APP_ID"
-echo "Files modified: .env, project.yml, docker-compose.yml"
+if [ ! -z "$GITHUB_URL" ]; then
+    echo "GITHUB_URL: $GITHUB_URL"
+fi

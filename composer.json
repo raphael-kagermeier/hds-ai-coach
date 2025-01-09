@@ -3,7 +3,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -21,7 +24,10 @@
         "laravel-lang/common": "^6.4",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "openai-php/client": "^0.10.3",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",
+        "spatie/eloquent-sortable": "^4.4",
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-settings": "^3.4",
         "stechstudio/filament-impersonate": "^3.15",

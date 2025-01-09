@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             app()->environment('local', 'testing', 'staging')
                 ? UserForRoleSeeder::class
                 : SuperAdminSeeder::class,
+            CourseLessonSeeder::class,
+            GenerationSeeder::class,
         ]);
     }
 }

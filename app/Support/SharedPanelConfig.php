@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use App\Filament\Admin\Pages\HealthCheckResults;
-use App\Filament\Shared\Pages\Register;
 use App\Models\User;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -93,7 +92,6 @@ class SharedPanelConfig
 
         $this->withDeveloperLoginButton();
         $this->panel->login()
-            ->registration(Register::class)
             ->passwordReset();
 
         return $this;
@@ -102,7 +100,8 @@ class SharedPanelConfig
     public function withFooter(): self
     {
         $this->panel->renderHook(
-            PanelsRenderHook::FOOTER, fn () => view('filament.footer')
+            PanelsRenderHook::FOOTER,
+            fn () => view('filament.footer')
         );
 
         return $this;
@@ -131,7 +130,6 @@ class SharedPanelConfig
         );
 
         return $this;
-
     }
 
     public function getPanel(): Panel

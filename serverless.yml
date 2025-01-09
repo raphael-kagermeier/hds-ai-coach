@@ -13,7 +13,9 @@ provider:
           Action: ssm:GetParameters
           Resource: '*'
         - Effect: Allow
-          Action: s3:*
+          Action:
+            - s3:*
+            - s3:PutObjectAcl
           Resource:
             - ${construct:public_storage.bucketArn}
             - ${construct:public_storage.bucketArn}/*
@@ -109,7 +111,7 @@ constructs:
             RestrictPublicBuckets: false
           OwnershipControls:
             Rules:
-              - ObjectOwnership: ObjectWriter
+              - ObjectOwnership: BucketOwnerPreferred
           CorsConfiguration:
             CorsRules:
               - AllowedOrigins: ['*']

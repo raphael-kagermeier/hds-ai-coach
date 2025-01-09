@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Support\Facades\Storage;
 
 class Lesson extends Model implements Sortable
 {
@@ -21,5 +22,13 @@ class Lesson extends Model implements Sortable
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+
+    public function getImagePathsAttribute(): array
+    {
+        return array_map(function (string $image) {
+            return Storage::disk('public')->path($image);
+        }, $this->images);
     }
 }

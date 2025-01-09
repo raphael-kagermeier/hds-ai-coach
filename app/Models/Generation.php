@@ -25,6 +25,7 @@ class Generation extends Model
         'images',
         'generated_text',
         'final_text',
+        'image_review',
         'name',
     ];
 

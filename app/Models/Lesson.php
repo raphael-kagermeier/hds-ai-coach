@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class Lesson extends Model implements Sortable
 {
@@ -30,5 +32,18 @@ class Lesson extends Model implements Sortable
         return array_map(function (string $image) {
             return Storage::disk('public')->path($image);
         }, $this->images);
+    }
+
+    public function getFormattedContentAttribute(): string
+    {
+        return "**{$this->name}**\n{$this->content}";
+    }
+
+    protected function content(): Attribute
+    {
+        return Attribute::make(
+            get: fn(?string $value) => Str::markdown($value ?? ''),
+            set: fn(string $value) => Str::of($value)->markdown()->toString() ?? null,
+        );
     }
 }

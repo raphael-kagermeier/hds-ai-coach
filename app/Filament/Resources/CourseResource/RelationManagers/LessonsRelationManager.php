@@ -21,9 +21,20 @@ class LessonsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
+                    ->label('Lesson Content')
+                    ->toolbarButtons([
+                        'bold',
+                        'bulletList',
+                        'italic',
+                        'orderedList',
+                        'redo',
+                        'underline',
+                        'undo',
+                    ])
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('images')
+                    ->label('Final Result Headshots')
                     ->multiple()
                     ->image()
                     ->columnSpanFull(),

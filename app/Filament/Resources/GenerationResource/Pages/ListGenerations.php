@@ -13,10 +13,10 @@ class ListGenerations extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->color('gray'),
             Actions\Action::make('generate')
                 ->url(GenerationResource::getUrl('generate'))
-                ->label('Generate')
+                ->label('Generate new')
+                ->iconPosition('after')
                 ->icon('heroicon-o-play'),
         ];
     }

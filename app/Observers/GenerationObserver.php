@@ -21,11 +21,9 @@ class GenerationObserver
         // Get the lesson content as context for the prompt
         $lessonContent = $generation->lesson->content ?? '';
 
-        // Generate the prompt
-        $prompt = "Please review these images in the context of the following lesson:\n\n{$lessonContent}\n\nProvide a detailed analysis of the images, focusing on the hairdressing techniques shown and how they relate to the lesson content.";
+        $generatedText = $this->imageReviewService->generate($generation->image_paths, $lessonContent, $generation->lesson->image_paths);
 
         try {
-            $generatedText = $this->imageReviewService->generate($generation->image_paths, $prompt);
 
             // Update the generation with the AI response
             $generation->update([

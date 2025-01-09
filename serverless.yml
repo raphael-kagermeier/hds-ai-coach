@@ -127,7 +127,7 @@ resources:
                     -   Effect: Allow
                         Principal: '*' # everyone
                         Action: s3:GetObject # to read
-                            Resource: !Join ['/', [!GetAtt UploadedFiles.Arn, '*']] # things in the bucket
+                        Resource: !Join ['/', [!GetAtt UploadedFiles.Arn, '*']] # things in the bucket
 
 
 plugins:

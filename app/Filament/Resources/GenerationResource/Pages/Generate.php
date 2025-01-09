@@ -54,6 +54,7 @@ class Generate extends CreateRecord
                             ->preload()
                             ->required(),
                         FileUpload::make('images')
+                            ->disk('s3_public')
                             ->multiple()
                             ->image()
                             ->required()

@@ -61,7 +61,7 @@ class Generation extends Model
     public function getImagePathsAttribute(): array
     {
         return array_map(function (string $image) {
-            return Storage::path($image);
+            return Storage::disk('s3_public')->path($image);
         }, $this->images);
     }
 

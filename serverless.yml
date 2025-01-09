@@ -109,6 +109,11 @@ resources:
     UploadedFiles:
         Type: AWS::S3::Bucket
         Properties:
+            PublicAccessBlockConfiguration:
+                BlockPublicAcls: false
+                BlockPublicPolicy: false
+                IgnorePublicAcls: false
+                RestrictPublicBuckets: false
             # CORS policy
             CorsConfiguration:
                 CorsRules:
@@ -117,18 +122,20 @@ resources:
                         AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
                         MaxAge: 3000
 
-    # The policy that makes the bucket publicly readable
     UploadedFilesBucketPolicy:
         Type: AWS::S3::BucketPolicy
         Properties:
-            Bucket: !Ref UploadedFiles # References the bucket we defined above
+            Bucket: !Ref UploadedFiles
             PolicyDocument:
+                Version: '2012-10-17'
                 Statement:
                     -   Effect: Allow
-                        Principal: '*' # everyone
-                        Action: s3:GetObject # to read
-                        Resource: !Join ['/', [!GetAtt UploadedFiles.Arn, '*']] # things in the bucket
-
+                        Principal: '*'
+                        Action: s3:GetObject
+                        Resource: !Join ['/', [!GetAtt UploadedFiles.Arn, '*']]
+                        Condition:
+                            StringEquals:
+                                aws:RequestedRegion: ${self:provider.region}
 
 plugins:
   - ./vendor/bref/bref

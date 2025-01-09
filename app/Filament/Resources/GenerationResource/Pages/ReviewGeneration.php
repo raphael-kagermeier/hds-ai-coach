@@ -31,7 +31,6 @@ class ReviewGeneration extends EditRecord
                 FileUpload::make('images')
                     ->multiple()
                     ->image()
-                    ->disk('public')
                     ->required()
                     ->disabled()
                     ->columnSpanFull(),
@@ -41,7 +40,7 @@ class ReviewGeneration extends EditRecord
 
     public function getTitle(): string|Htmlable
     {
-        return 'Review Generation for '.$this->getRecord()->name;
+        return 'Review Generation for ' . $this->getRecord()->name;
     }
 
     public function updated(string $_): void

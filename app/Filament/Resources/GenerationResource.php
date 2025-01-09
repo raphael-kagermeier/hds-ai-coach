@@ -35,7 +35,6 @@ class GenerationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('images')
-                    ->disk('public')
                     ->multiple()
                     ->image()
                     ->required(),
@@ -80,7 +79,7 @@ class GenerationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                Tables\Actions\ViewAction::make()->url(fn (Generation $record) => self::getUrl('review', ['record' => $record->id])),
+                Tables\Actions\ViewAction::make()->url(fn(Generation $record) => self::getUrl('review', ['record' => $record->id])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

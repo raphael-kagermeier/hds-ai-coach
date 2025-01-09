@@ -40,7 +40,7 @@ class ReviewGeneration extends EditRecord
 
     public function getTitle(): string|Htmlable
     {
-        return 'Review Generation for ' . $this->getRecord()->name;
+        return 'Review Generation for '.$this->getRecord()->name;
     }
 
     public function updated(string $_): void

@@ -79,7 +79,7 @@ class GenerationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                Tables\Actions\ViewAction::make()->url(fn(Generation $record) => self::getUrl('review', ['record' => $record->id])),
+                Tables\Actions\ViewAction::make()->url(fn (Generation $record) => self::getUrl('review', ['record' => $record->id])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -16,25 +16,27 @@ class ImageReviewGeneration
         $this->systemPrompt = config('services.openai.system_prompt_image_review');
     }
 
-    private function convertImagesToBase64Array(array $images): array
+    private function prepareImages(array $images): array
     {
-        return array_map(function ($imagePath) {
-            return [
+        return collect($images)
+            ->filter()
+            ->map(fn ($base64_image) => [
                 'type' => 'image_url',
                 'image_url' => [
-                    'url' => 'data:image/jpeg;base64,'.base64_encode(file_get_contents($imagePath)),
+                    'url' => $base64_image,
                 ],
-            ];
-        }, $images);
+            ])
+            ->values()
+            ->all();
     }
 
     public function generate(array $userImages, string $lessonContent, array $lessonImages = []): string
     {
         // Convert user images to base64
-        $userImageContents = $this->convertImagesToBase64Array($userImages);
+        $userImageContents = $this->prepareImages($userImages);
 
         // Convert lesson images to base64 if they exist
-        $lessonImageContents = $lessonImages ? $this->convertImagesToBase64Array($lessonImages) : [];
+        $lessonImageContents = $lessonImages ? $this->prepareImages($lessonImages) : [];
 
         $userContent = [
             [

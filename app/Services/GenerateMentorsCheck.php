@@ -32,9 +32,9 @@ class GenerateMentorsCheck
         }
 
         $imageReview = app(ImageReviewGeneration::class)->generate(
-            $this->generation->image_paths,
+            $this->generation->base64_images,
             $this->generation->lesson->content ?? '',
-            $this->generation->lesson->image_paths
+            $this->generation->lesson->base64_images
         );
 
         $this->generation->update([

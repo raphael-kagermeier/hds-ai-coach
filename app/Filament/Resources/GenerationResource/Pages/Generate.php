@@ -56,7 +56,6 @@ class Generate extends CreateRecord
                         FileUpload::make('images')
                             ->multiple()
                             ->image()
-                            ->disk('public')
                             ->required()
                             ->columnSpanFull(),
                     ]),

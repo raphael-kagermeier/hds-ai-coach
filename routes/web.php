@@ -7,3 +7,7 @@ Route::get('robots.txt', App\Http\Controllers\RobotsController::class);
 
 Route::redirect('/app', '/app/generations/generate');
 Route::redirect('/', '/app');
+
+Route::get('/test', function () {
+    dd(config('filesystems'));
+});

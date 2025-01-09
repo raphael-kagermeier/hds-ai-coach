@@ -58,10 +58,17 @@ class Generation extends Model
         return ! empty($this->images);
     }
 
-    public function getImagePathsAttribute(): array
+    public function getBase64ImagesAttribute(): array
     {
         return array_map(function (string $image) {
-            return Storage::disk('public')->path($image);
+            if (! Storage::disk('public')->exists($image)) {
+                return '';
+            }
+
+            return 'data:image/'.
+                Str::afterLast($image, '.').
+                ';base64,'.
+                base64_encode(Storage::disk('public')->get($image));
         }, $this->images);
     }
 
@@ -69,7 +76,7 @@ class Generation extends Model
     {
         return Attribute::make(
             get: fn (?string $value) => Str::markdown($value ?? ''),
-            set: fn (string $value) => Str::of($value)->markdown()->toString() ?? null,
+            set: fn (string $value) => Str::of($value ?? '')->markdown()->toString() ?? null,
         );
     }
 }

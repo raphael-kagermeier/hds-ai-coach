@@ -80,14 +80,15 @@ _environment_base: &base_env
 
   SESSION_DRIVER: Cookie
 
-  FILESYSTEM_DISK: s3
   FILESYSTEM_DRIVER: s3
-  FILESYSTEM_CLOUD: s3
-  FILAMENT_FILESYSTEM_DISK: s3
-  AWS_BUCKET: !Ref Storage
-  PROJECT_AWS_BUCKET: !Ref Storage
-  PROJECT_AWS_DEFAULT_REGION: eu-central-1
-  PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
+  FILESYSTEM_DISK: public
+  FILAMENT_FILESYSTEM_DISK: public # TODO: change to private
+
+  PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}
+  PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
+
+  AWS_PROJECT_DEFAULT_REGION: eu-central-1
+  AWS_USE_PATH_STYLE_ENDPOINT: true
 
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint
   MAIL_MAILER: resend

@@ -35,7 +35,6 @@ class GenerationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('images')
-                    ->disk('public')
                     ->multiple()
                     ->image()
                     ->required(),

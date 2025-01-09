@@ -31,7 +31,6 @@ class ReviewGeneration extends EditRecord
                 FileUpload::make('images')
                     ->multiple()
                     ->image()
-                    ->disk('public')
                     ->required()
                     ->disabled()
                     ->columnSpanFull(),

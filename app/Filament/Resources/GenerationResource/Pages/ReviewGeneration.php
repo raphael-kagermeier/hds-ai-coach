@@ -6,6 +6,11 @@ use App\Filament\Resources\GenerationResource;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
+use Filament\Forms\Components\FileUpload;
+use Filament\Actions\Action;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ReviewGeneration extends EditRecord
 {
@@ -24,12 +29,33 @@ class ReviewGeneration extends EditRecord
                         'attachFiles',
                     ])
                     ->columnSpanFull(),
+
+                FileUpload::make('images')
+                    ->multiple()
+                    ->image()
+                    ->disk('public')
+                    ->required()
+                    ->disabled()
+                    ->columnSpanFull(),
             ])
             ->columns(null);
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        return 'Review Generation for ' . $this->getRecord()->name;
     }
 
     public function updated(string $_): void
     {
         $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('cancel')
+            ->label(__('filament-panels::resources/pages/edit-record.form.actions.cancel.label'))
+            ->hidden()
+            ->color('gray');
     }
 }

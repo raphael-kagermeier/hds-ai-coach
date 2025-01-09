@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
-    'public' => env('FILESYSTEM_DISK', 'public_local'),
+    'default' => env('FILESYSTEM_DISK', 'private'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,41 +29,39 @@ return [
     */
 
     'disks' => [
-
-        'local' => [
+        'private' => env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
+            'driver' => env('FILESYSTEM_DRIVER', 'local'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('PRIVATE_AWS_BUCKET'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'private',
+            'throw' => false,
+        ] : [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
             'throw' => false,
         ],
 
-        'public_local' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('PROJECT_AWS_DEFAULT_REGION'),
-            'bucket' => env('PROJECT_AWS_BUCKET'),
-            'use_path_style_endpoint' => env('PROJECT_AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => true,
-        ],
-
-        's3_public' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('PROJECT_AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_PUBLIC_BUCKET'),
-            'use_path_style_endpoint' => env('PROJECT_AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => true,
-        ],
+        'public' => env('FILESYSTEM_DRIVER', 'local') === 's3' ?
+            [
+                'driver' => 's3',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_DEFAULT_REGION'),
+                'bucket' => env('PUBLIC_AWS_BUCKET'),
+                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+                'visibility' => 'public',
+                'throw' => false,
+            ] : [
+                'driver' => 'local',
+                'root' => storage_path('app/public'),
+                'url' => env('APP_URL') . '/storage',
+                'visibility' => 'public',
+                'throw' => false,
+            ],
 
         'robots' => [
             'driver' => 'local',

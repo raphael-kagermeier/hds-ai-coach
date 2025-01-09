@@ -12,11 +12,6 @@ provider:
         - Effect: Allow
           Action: ssm:GetParameters
           Resource: '*'
-        - Effect: Allow
-          Action: s3:*
-          Resource:
-            - !Sub "${Storage.Arn}" # the storage bucket
-            - !Sub "${Storage.Arn}/*" # and everything inside
 
 package:
   patterns:
@@ -92,11 +87,25 @@ constructs:
       runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
 
+  private_storage:
+    type: storage
+
+  public_storage:
+    type: storage
+    extensions:
+      bucket:
+        Properties:
+          AccessControl: PublicRead
+          CorsConfiguration:
+            CorsRules:
+              - AllowedOrigins: ['*']
+                AllowedHeaders: ['*']
+                AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
+                ExposeHeaders: ['x-amz-server-side-encryption', 'x-amz-request-id', 'x-amz-id-2']
+                MaxAge: 3000
+
 resources:
   Resources:
-    Storage:
-      Type: AWS::S3::Bucket
-
     Route53Record:
       Type: AWS::Route53::RecordSet
       Properties:
@@ -106,46 +115,7 @@ resources:
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's hosted zone ID (constant)
           DNSName: ${construct:website.cname}
-    UploadedFiles:
-        Type: AWS::S3::Bucket
-        Properties:
-            PublicAccessBlockConfiguration:
-                BlockPublicAcls: false
-                BlockPublicPolicy: false
-                IgnorePublicAcls: false
-                RestrictPublicBuckets: false
-            CorsConfiguration:
-                CorsRules:
-                    - AllowedHeaders: ['*']
-                      AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
-                      AllowedOrigins:
-                        - https://*.021-fast.fun
-                        - http://localhost:*
-                      ExposedHeaders:
-                        - ETag
-                        - x-amz-meta-custom-header
-                        - x-amz-server-side-encryption
-                        - x-amz-request-id
-                        - x-amz-id-2
-                      MaxAge: 3600
-
-    UploadedFilesBucketPolicy:
-        Type: AWS::S3::BucketPolicy
-        Properties:
-            Bucket: !Ref UploadedFiles
-            PolicyDocument:
-                Version: '2012-10-17'
-                Statement:
-                    - Effect: Allow
-                      Principal: '*'
-                      Action: 
-                        - s3:GetObject
-                        - s3:PutObject
-                      Resource: !Join ['/', [!GetAtt UploadedFiles.Arn, '*']]
-                      Condition:
-                          StringLike:
-                              aws:Referer: ['*.021-fast.fun/*', 'http://localhost:*/*']
-
+          
 plugins:
   - ./vendor/bref/bref
   - serverless-lift

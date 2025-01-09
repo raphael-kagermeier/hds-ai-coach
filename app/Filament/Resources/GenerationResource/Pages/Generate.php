@@ -47,9 +47,9 @@ class Generate extends CreateRecord
                             ->relationship(
                                 name: 'lesson',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: fn($query) => $query->with('course')
+                                modifyQueryUsing: fn ($query) => $query->with('course')
                             )
-                            ->getOptionLabelFromRecordUsing(fn($record) => "{$record->course->name}: {$record->name}")
+                            ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->course->name}: {$record->name}")
                             ->searchable()
                             ->preload()
                             ->required(),

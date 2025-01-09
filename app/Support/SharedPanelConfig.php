@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use App\Filament\Admin\Pages\HealthCheckResults;
-use App\Filament\Shared\Pages\Register;
 use App\Models\User;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -36,7 +35,7 @@ class SharedPanelConfig
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return tap(
             new self($panel),
-            fn(self $obj) => $obj->defaultConfig($id)
+            fn (self $obj) => $obj->defaultConfig($id)
         );
     }
 
@@ -56,7 +55,7 @@ class SharedPanelConfig
                 DispatchServingFilamentEvent::class,
             ])
             ->font('Inter')
-            ->brandLogo(fn() => view('components.brand.logo'))
+            ->brandLogo(fn () => view('components.brand.logo'))
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Blue,
@@ -65,12 +64,12 @@ class SharedPanelConfig
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
-            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
             })
-            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
@@ -102,7 +101,7 @@ class SharedPanelConfig
     {
         $this->panel->renderHook(
             PanelsRenderHook::FOOTER,
-            fn() => view('filament.footer')
+            fn () => view('filament.footer')
         );
 
         return $this;
@@ -126,7 +125,7 @@ class SharedPanelConfig
     {
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()
-                ->users(fn() => User::pluck('email', 'name')->toArray())
+                ->users(fn () => User::pluck('email', 'name')->toArray())
                 ->enabled(config('app.debug'))
         );
 

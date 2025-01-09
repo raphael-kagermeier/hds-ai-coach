@@ -101,8 +101,11 @@ constructs:
               - AllowedOrigins: ['*']
                 AllowedHeaders: ['*']
                 AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
-                ExposeHeaders: ['x-amz-server-side-encryption', 'x-amz-request-id', 'x-amz-id-2']
                 MaxAge: 3000
+                ExposedHeaders:
+                  - x-amz-server-side-encryption
+                  - x-amz-request-id
+                  - x-amz-id-2
 
 resources:
   Resources:

@@ -22,7 +22,7 @@ class ImageReviewGeneration
             return [
                 'type' => 'image_url',
                 'image_url' => [
-                    'url' => 'data:image/jpeg;base64,' . base64_encode(file_get_contents($imagePath)),
+                    'url' => 'data:image/jpeg;base64,'.base64_encode(file_get_contents($imagePath)),
                 ],
             ];
         }, $images);
@@ -48,10 +48,10 @@ class ImageReviewGeneration
             [
                 'type' => 'text',
                 'text' => match (true) {
-                    !empty($lessonImageContents) && $lessonContent => "Das sind die Bilder aus der Lektion (Abenteuer) welche als vorlage für die Bewertung dienen. Folgendes sind außerdem meine Notizen aus der Lektion: {$lessonContent}",
-                    !empty($lessonImageContents) => "Das sind die Bilder aus der Lektion (Abenteuer) welche als vorlage für die Bewertung dienen.",
+                    ! empty($lessonImageContents) && $lessonContent => "Das sind die Bilder aus der Lektion (Abenteuer) welche als vorlage für die Bewertung dienen. Folgendes sind außerdem meine Notizen aus der Lektion: {$lessonContent}",
+                    ! empty($lessonImageContents) => 'Das sind die Bilder aus der Lektion (Abenteuer) welche als vorlage für die Bewertung dienen.',
                     $lessonContent => "Folgendes sind meine Notizen aus der Lektion: {$lessonContent}",
-                    default => "",
+                    default => '',
                 },
             ],
             ...$lessonImageContents,
@@ -60,7 +60,7 @@ class ImageReviewGeneration
         $assistantContent = [
             [
                 'type' => 'text',
-                'text' => "Ok Verstehe. Nun teile bitte deine Arbeit im chat",
+                'text' => 'Ok Verstehe. Nun teile bitte deine Arbeit im chat',
             ],
         ];
 
@@ -87,6 +87,7 @@ class ImageReviewGeneration
             ],
             'max_tokens' => 1000,
         ]);
+
         return $response->choices[0]->message->content;
     }
 }

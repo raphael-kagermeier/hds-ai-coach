@@ -3,13 +3,11 @@
 namespace App\Filament\Resources\GenerationResource\Pages;
 
 use App\Filament\Resources\GenerationResource;
+use Filament\Actions\Action;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Filament\Forms\Components\FileUpload;
-use Filament\Actions\Action;
 use Illuminate\Contracts\Support\Htmlable;
 
 class ReviewGeneration extends EditRecord
@@ -41,9 +39,9 @@ class ReviewGeneration extends EditRecord
             ->columns(null);
     }
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
-        return 'Review Generation for ' . $this->getRecord()->name;
+        return 'Review Generation for '.$this->getRecord()->name;
     }
 
     public function updated(string $_): void

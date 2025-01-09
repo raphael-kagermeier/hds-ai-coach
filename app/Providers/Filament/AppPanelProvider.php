@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use App\Support\SharedPanelConfig;
 use Filament\Http\Middleware\Authenticate;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 

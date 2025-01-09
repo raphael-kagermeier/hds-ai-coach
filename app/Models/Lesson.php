@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Str;
 
 class Lesson extends Model implements Sortable
 {
@@ -26,7 +26,6 @@ class Lesson extends Model implements Sortable
         return $this->belongsTo(Course::class);
     }
 
-
     public function getImagePathsAttribute(): array
     {
         return array_map(function (string $image) {
@@ -42,8 +41,8 @@ class Lesson extends Model implements Sortable
     protected function content(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => Str::markdown($value ?? ''),
-            set: fn(string $value) => Str::of($value)->markdown()->toString() ?? null,
+            get: fn (?string $value) => Str::markdown($value ?? ''),
+            set: fn (string $value) => Str::of($value)->markdown()->toString() ?? null,
         );
     }
 }

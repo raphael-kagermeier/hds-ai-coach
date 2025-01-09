@@ -6,13 +6,9 @@ use App\Filament\Resources\GenerationResource\Pages;
 use App\Models\Generation;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Resources\Pages\Page;
-
 
 class GenerationResource extends Resource
 {
@@ -84,7 +80,7 @@ class GenerationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                Tables\Actions\ViewAction::make()->url(fn(Generation $record) => Self::getUrl('review', ['record' => $record->id])),
+                Tables\Actions\ViewAction::make()->url(fn (Generation $record) => self::getUrl('review', ['record' => $record->id])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

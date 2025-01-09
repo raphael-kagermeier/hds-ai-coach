@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Models\Generation;
-use App\Services\CoachingResponseGeneration;
-use App\Services\ImageReviewGeneration;
 
 class GenerateMentorsCheck
 {
@@ -62,7 +60,7 @@ class GenerateMentorsCheck
         $courseLessonsContent = $course->lessons()
             ->orderBy('order_column')
             ->get()
-            ->map(fn($lesson) => $lesson->formatted_content)
+            ->map(fn ($lesson) => $lesson->formatted_content)
             ->toArray();
 
         $coachingCheck = app(CoachingResponseGeneration::class)->generate(

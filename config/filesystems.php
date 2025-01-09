@@ -30,14 +30,14 @@ return [
 
     'disks' => [
         'private' => env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
-            'driver' => env('FILESYSTEM_DRIVER', 'local'),
+            'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_PROJECT_DEFAULT_REGION'),
             'bucket' => env('PRIVATE_AWS_BUCKET'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'visibility' => 'private',
-            'throw' => false,
+            'throw' => true,
         ] : [
             'driver' => 'local',
             'root' => storage_path('app/private'),
@@ -54,7 +54,7 @@ return [
                 'bucket' => env('PUBLIC_AWS_BUCKET'),
                 'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
                 'visibility' => 'public',
-                'throw' => false,
+                'throw' => true,
             ] : [
                 'driver' => 'local',
                 'root' => storage_path('app/public'),

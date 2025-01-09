@@ -80,8 +80,8 @@ _environment_base: &base_env
 
   SESSION_DRIVER: Cookie
 
-  FILESYSTEM_DISK: public
   FILESYSTEM_DRIVER: s3
+  FILESYSTEM_DISK: public
   FILAMENT_FILESYSTEM_DISK: public # TODO: change to private
 
   PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}

@@ -12,6 +12,13 @@ provider:
         - Effect: Allow
           Action: ssm:GetParameters
           Resource: '*'
+        - Effect: Allow
+          Action: s3:*
+          Resource:
+            - ${construct:public_storage.bucketArn}
+            - ${construct:public_storage.bucketArn}/*
+            - ${construct:private_storage.bucketArn}
+            - ${construct:private_storage.bucketArn}/*
 
 package:
   patterns:

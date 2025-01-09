@@ -95,7 +95,14 @@ constructs:
     extensions:
       bucket:
         Properties:
-          AccessControl: PublicRead
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: false
+            BlockPublicPolicy: false
+            IgnorePublicAcls: false
+            RestrictPublicBuckets: false
+          OwnershipControls:
+            Rules:
+              - ObjectOwnership: ObjectWriter
           CorsConfiguration:
             CorsRules:
               - AllowedOrigins: ['*']

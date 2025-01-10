@@ -11,7 +11,7 @@ $s3BaseConfig = [
 $localBaseConfig = [
     'driver' => 'local',
     'root' => storage_path('app/public'),
-    'url' => env('APP_URL').'/storage',
+    'url' => env('APP_URL') . '/storage',
 ];
 
 return [
@@ -73,7 +73,7 @@ return [
                 'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
             ],
             env('FILESYSTEM_DRIVER', 'local') === 's3'
-                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET'), 'root' => 'avatars'])
+                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET')])
                 : [
                     'driver' => 'local',
                     'root' => storage_path('app/public'),

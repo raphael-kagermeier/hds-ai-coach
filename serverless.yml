@@ -22,6 +22,13 @@ provider:
           Resource:
             - ${construct:public_storage.bucketArn}
             - Fn::Join: ['', ['${construct:public_storage.bucketArn}', '/*']]
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:DeleteObject
+            - s3:ListBucket
+          Resource:
             - ${construct:private_storage.bucketArn}
             - Fn::Join: ['', ['${construct:private_storage.bucketArn}', '/*']]
 

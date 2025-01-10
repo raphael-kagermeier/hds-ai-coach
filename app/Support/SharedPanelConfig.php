@@ -36,7 +36,7 @@ class SharedPanelConfig
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return tap(
             new self($panel),
-            fn (self $obj) => $obj->defaultConfig($id)
+            fn(self $obj) => $obj->defaultConfig($id)
         );
     }
 
@@ -56,7 +56,7 @@ class SharedPanelConfig
                 DispatchServingFilamentEvent::class,
             ])
             ->font('Inter')
-            ->brandLogo(fn () => view('components.brand.logo'))
+            ->brandLogo(fn() => view('components.brand.logo'))
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Blue,
@@ -65,19 +65,29 @@ class SharedPanelConfig
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
-            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
             })
-            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
                 default => null,
             })
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
-                BreezyCore::make()->myProfile(),
+                BreezyCore::make()
+                    ->myProfile(
+                        hasAvatars: true,
+                        shouldRegisterNavigation: false,
+                    )
+                    ->avatarUploadComponent(fn($fileUpload) => $fileUpload
+                        ->disableLabel()
+                        ->disk('avatars')
+                        ->avatar()
+                        ->imageEditor()
+                        ->circleCropper()),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)
@@ -103,7 +113,7 @@ class SharedPanelConfig
     {
         $this->panel->renderHook(
             PanelsRenderHook::FOOTER,
-            fn () => view('filament.footer')
+            fn() => view('filament.footer')
         );
 
         return $this;
@@ -127,7 +137,7 @@ class SharedPanelConfig
     {
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()
-                ->users(fn () => User::pluck('email', 'name')->toArray())
+                ->users(fn() => User::pluck('email', 'name')->toArray())
                 ->enabled(config('app.debug'))
         );
 

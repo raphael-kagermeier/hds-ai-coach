@@ -101,6 +101,17 @@ constructs:
 
   private_storage:
     type: storage
+    extensions:
+      bucket:
+        Properties:
+          OwnershipControls:
+            Rules:
+              - ObjectOwnership: BucketOwnerPreferred
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: true
+            BlockPublicPolicy: true
+            IgnorePublicAcls: true
+            RestrictPublicBuckets: true
 
   public_storage:
     type: storage

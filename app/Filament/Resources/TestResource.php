@@ -21,12 +21,16 @@ class TestResource extends Resource
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('single_image')
+                    ->disk('public')
                     ->image(),
                 Forms\Components\FileUpload::make('multiple_images')
+                    ->disk('public')
                     ->multiple(),
                 Forms\Components\FileUpload::make('single_image_private')
+                    ->disk('private')
                     ->image(),
                 Forms\Components\FileUpload::make('multiple_images_private')
+                    ->disk('private')
                     ->multiple(),
             ]);
     }

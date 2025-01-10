@@ -23,7 +23,7 @@ class TestResource extends Resource
             ->schema([
 
                 Forms\Components\Toggle::make('file_exists')
-                    ->formatStateUsing(fn($record) => $record?->file_path ? Storage::disk('private')->exists($record?->file_path ?? '') : false)
+                    ->formatStateUsing(fn ($record) => $record?->file_path ? Storage::disk('private')->exists($record?->file_path ?? '') : false)
                     ->disabled(),
                 Forms\Components\FileUpload::make('file_path')
                     ->disk('private')

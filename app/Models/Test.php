@@ -8,5 +8,6 @@ class Test extends Model
 {
     protected $fillable = [
         'file_path',
+        'file_path_private',
     ];
 }

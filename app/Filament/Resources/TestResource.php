@@ -23,12 +23,21 @@ class TestResource extends Resource
             ->schema([
 
                 Forms\Components\Toggle::make('file_exists')
-                    ->formatStateUsing(fn ($record) => $record?->file_path ? Storage::disk('private')->exists($record?->file_path ?? '') : false)
+                    ->label('Public File Exists')
+                    ->formatStateUsing(fn($record) => $record?->file_path ? Storage::disk('public')->exists($record?->file_path ?? '') : false)
                     ->disabled(),
                 Forms\Components\FileUpload::make('file_path')
+                    ->label('Public File')
+                    ->disk('public')
+                    ->downloadable(),
+                Forms\Components\Toggle::make('file_exists_private')
+                    ->label('Private File Exists')
+                    ->formatStateUsing(fn($record) => $record?->file_path_private ? Storage::disk('private')->exists($record?->file_path_private ?? '') : false)
+                    ->disabled(),
+                Forms\Components\FileUpload::make('file_path_private')
+                    ->label('Private File')
                     ->disk('private')
-                    ->downloadable()
-                    ->required(),
+                    ->downloadable(),
             ]);
     }
 

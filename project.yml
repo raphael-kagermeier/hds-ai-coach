@@ -84,8 +84,8 @@ _environment_base: &base_env
   FILESYSTEM_DRIVER: s3
   FILESYSTEM_DISK: private
   FILAMENT_FILESYSTEM_DISK: private
-  PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}
-  PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
+  PUBLIC_AWS_BUCKET: !Ref PublicStorage
+  PRIVATE_AWS_BUCKET: !Ref PrivateStorage
 
   # SESSION CONFIGURATION
   SESSION_DRIVER: Cookie

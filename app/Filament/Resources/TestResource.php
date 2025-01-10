@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class TestResource extends Resource
 {
@@ -20,8 +21,13 @@ class TestResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\Toggle::make('file_exists')
+                    ->formatStateUsing(fn($record) => $record?->file_path ? Storage::disk('private')->exists($record?->file_path ?? '') : false)
+                    ->disabled(),
                 Forms\Components\FileUpload::make('file_path')
                     ->disk('private')
+                    ->downloadable()
                     ->required(),
             ]);
     }

@@ -11,7 +11,7 @@ $s3BaseConfig = [
 $localBaseConfig = [
     'driver' => 'local',
     'root' => storage_path('app/public'),
-    'url' => env('APP_URL').'/storage',
+    'url' => env('APP_URL') . '/storage',
 ];
 
 return [
@@ -57,7 +57,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
-            'throw' => false,
+            'throw' => true,
         ],
 
         'public' => env('FILESYSTEM_DRIVER', 'local') === 's3' ?
@@ -73,9 +73,9 @@ return [
             ] : [
                 'driver' => 'local',
                 'root' => storage_path('app/public'),
-                'url' => env('APP_URL').'/storage',
+                'url' => env('APP_URL') . '/storage',
                 'visibility' => 'public',
-                'throw' => false,
+                'throw' => true,
             ],
 
         'avatars' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?

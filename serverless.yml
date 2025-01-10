@@ -20,11 +20,9 @@ provider:
             - s3:ListBucket
             - s3:PutObjectAcl
           Resource:
-            - ${construct:public_storage.bucketArn}
-            - Fn::Join: ['', ['${construct:public_storage.bucketArn}', '/*']]
-            - ${construct:private_storage.bucketArn}
-            - Fn::Join: ['', ['${construct:private_storage.bucketArn}', '/*']]
-            
+            - !Ref '${PublicStorage.Arn}'
+            - !Ref '${PrivateStorage.Arn}'
+
 package:
   patterns:
     - '!node_modules/**'
@@ -99,24 +97,10 @@ constructs:
       runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
 
-  private_storage:
-    type: storage
-    extensions:
-      bucket:
-        Properties:
-          OwnershipControls:
-            Rules:
-              - ObjectOwnership: BucketOwnerPreferred
-          PublicAccessBlockConfiguration:
-            BlockPublicAcls: true
-            BlockPublicPolicy: true
-            IgnorePublicAcls: true
-            RestrictPublicBuckets: true
-
-  public_storage:
-    type: storage
-    extensions:
-      bucket:
+resources:
+  Resources:
+    PublicStorage:
+        Type: AWS::S3::Bucket
         Properties:
           PublicAccessBlockConfiguration:
             BlockPublicAcls: false
@@ -137,8 +121,9 @@ constructs:
                   - x-amz-request-id
                   - x-amz-id-2
 
-resources:
-  Resources:
+    PrivateStorage:
+      Type: AWS::S3::Bucket
+
     Route53Record:
       Type: AWS::Route53::RecordSet
       Properties:

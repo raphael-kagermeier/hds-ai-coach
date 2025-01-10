@@ -11,7 +11,7 @@ $s3BaseConfig = [
 $localBaseConfig = [
     'driver' => 'local',
     'root' => storage_path('app/public'),
-    'url' => env('APP_URL').'/storage',
+    'url' => env('APP_URL') . '/storage',
 ];
 
 return [
@@ -44,27 +44,43 @@ return [
 
     'disks' => [
 
-        'public' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
+        'private' => array_merge(
             [
-                ...$localBaseConfig,
-                'visibility' => 'public',
-                'throw' => false,
-            ] :
-            [
-                ...$s3BaseConfig,
-                'bucket' => env('PUBLIC_AWS_BUCKET'),
-            ],
-
-        'private' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
-            [
-                ...$localBaseConfig,
                 'visibility' => 'private',
-                'throw' => false,
-            ] :
-            [
-                ...$s3BaseConfig,
-                'bucket' => env('PRIVATE_AWS_BUCKET'),
+                'throw' => true,
             ],
+            env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
+                'driver' => 's3',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_PROJECT_DEFAULT_REGION'),
+                'bucket' => env('PRIVATE_AWS_BUCKET'),
+                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            ] : [
+                'driver' => 'local',
+                'root' => storage_path('app/private'),
+                'serve' => true,
+            ]
+        ),
+
+        'public' => array_merge(
+            [
+                'visibility' => 'public',
+                'throw' => true,
+            ],
+            env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
+                'driver' => 's3',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_PROJECT_DEFAULT_REGION'),
+                'bucket' => env('PUBLIC_AWS_BUCKET'),
+                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            ] : [
+                'driver' => 'local',
+                'root' => storage_path('app/public'),
+                'url' => env('APP_URL') . '/storage',
+            ]
+        ),
 
         'avatars' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
             [

@@ -20,8 +20,10 @@ provider:
             - s3:ListBucket
             - s3:PutObjectAcl
           Resource:
-            - !Ref '${PublicStorage.Arn}'
-            - !Ref '${PrivateStorage.Arn}'
+            - Fn::GetAtt: [PublicStorage, Arn]
+            - Fn::Join: ['', [Fn::GetAtt: [PublicStorage, Arn], '/*']]
+            - Fn::GetAtt: [PrivateStorage, Arn]
+            - Fn::Join: ['', [Fn::GetAtt: [PrivateStorage, Arn], '/*']]
 
 package:
   patterns:

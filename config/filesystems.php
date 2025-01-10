@@ -1,19 +1,5 @@
 <?php
 
-$s3BaseConfig = [
-    'driver' => 's3',
-    'key' => env('AWS_ACCESS_KEY_ID'),
-    'secret' => env('AWS_SECRET_ACCESS_KEY'),
-    'region' => env('AWS_PROJECT_DEFAULT_REGION'),
-    'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-];
-
-$localBaseConfig = [
-    'driver' => 'local',
-    'root' => storage_path('app/public'),
-    'url' => env('APP_URL').'/storage',
-];
-
 return [
 
     /*
@@ -52,12 +38,12 @@ return [
             'bucket' => env('PRIVATE_AWS_BUCKET'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'visibility' => 'private',
-            'throw' => true,
+            'throw' => (bool) env('APP_DEBUG', false),
         ] : [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
-            'throw' => true,
+            'throw' => (bool) env('APP_DEBUG', false),
         ],
 
         'public' => env('FILESYSTEM_DRIVER', 'local') === 's3' ?
@@ -69,30 +55,39 @@ return [
                 'bucket' => env('PUBLIC_AWS_BUCKET'),
                 'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
                 'visibility' => 'public',
-                'throw' => true,
+                'throw' => (bool) env('APP_DEBUG', false),
             ] : [
                 'driver' => 'local',
                 'root' => storage_path('app/public'),
-                'url' => env('APP_URL').'/storage',
+                'url' => env('APP_URL') . '/storage',
                 'visibility' => 'public',
-                'throw' => true,
+                'throw' => (bool) env('APP_DEBUG', false),
             ],
 
-        'avatars' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
+        'avatars' => env('FILESYSTEM_DRIVER', 'local') === 's3' ?
             [
-                ...$localBaseConfig,
-                'visibility' => 'private',
-                'throw' => false,
-            ] :
-            [
-                ...$s3BaseConfig,
-                'bucket' => env('PRIVATE_AWS_BUCKET'),
+                'driver' => 's3',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_PROJECT_DEFAULT_REGION'),
+                'bucket' => env('PUBLIC_AWS_BUCKET'),
+                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+                'visibility' => 'public',
+                'throw' => (bool) env('APP_DEBUG', false),
+                'root' => 'avatars',
+            ] : [
+                'driver' => 'local',
+                'root' => storage_path('app/public'),
+                'url' => env('APP_URL') . '/storage',
+                'visibility' => 'public',
+                'throw' => (bool) env('APP_DEBUG', false),
             ],
+
 
         'robots' => [
             'driver' => 'local',
             'root' => resource_path('misc/robots'),
-            'throw' => false,
+            'throw' => (bool) env('APP_DEBUG', false),
         ],
     ],
 

@@ -94,7 +94,6 @@ return [
             'root' => resource_path('misc/robots'),
             'throw' => false,
         ],
-
     ],
 
     /*

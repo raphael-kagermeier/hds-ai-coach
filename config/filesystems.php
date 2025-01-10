@@ -11,7 +11,7 @@ $s3BaseConfig = [
 $localBaseConfig = [
     'driver' => 'local',
     'root' => storage_path('app/public'),
-    'url' => env('APP_URL').'/storage',
+    'url' => env('APP_URL') . '/storage',
 ];
 
 return [
@@ -44,41 +44,38 @@ return [
 
     'disks' => [
 
-        'public' => array_merge(
+        'public' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
             [
+                ...$localBaseConfig,
                 'visibility' => 'public',
-                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
-            ],
-            env('FILESYSTEM_DRIVER', 'local') === 's3'
-                ? array_merge($s3BaseConfig, ['bucket' => env('PUBLIC_AWS_BUCKET')])
-                : $localBaseConfig
-        ),
-
-        'private' => array_merge(
+                'throw' => false,
+            ] :
             [
-                'visibility' => 'private',
-                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
+                ...$s3BaseConfig,
+                'bucket' => env('PUBLIC_AWS_BUCKET')
             ],
-            env('FILESYSTEM_DRIVER', 'local') === 's3'
-                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET')])
-                : [
-                    'driver' => 'local',
-                    'root' => storage_path('app/public'),
-                ]
-        ),
 
-        'avatars' => array_merge(
+        'private' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
             [
+                ...$localBaseConfig,
                 'visibility' => 'private',
-                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
+                'throw' => false,
+            ] :
+            [
+                ...$s3BaseConfig,
+                'bucket' => env('PRIVATE_AWS_BUCKET')
             ],
-            env('FILESYSTEM_DRIVER', 'local') === 's3'
-                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET')])
-                : [
-                    'driver' => 'local',
-                    'root' => storage_path('app/public'),
-                ]
-        ),
+
+        'avatars' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
+            [
+                ...$localBaseConfig,
+                'visibility' => 'private',
+                'throw' => false,
+            ] :
+            [
+                ...$s3BaseConfig,
+                'bucket' => env('PRIVATE_AWS_BUCKET')
+            ],
 
         'robots' => [
             'driver' => 'local',

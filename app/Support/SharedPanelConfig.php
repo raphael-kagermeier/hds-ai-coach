@@ -77,7 +77,18 @@ class SharedPanelConfig
             })
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->plugins([
-                BreezyCore::make()->myProfile(),
+                BreezyCore::make()
+                    ->myProfile(
+                        hasAvatars: true,
+                        shouldRegisterNavigation: false,
+                    )
+                    ->avatarUploadComponent(fn ($fileUpload) => $fileUpload
+                        ->extraAttributes(['class' => 'h-full flex items-center px-12'])
+                        ->disableLabel()
+                        ->disk('avatars')
+                        ->avatar()
+                        ->imageEditor()
+                        ->circleCropper()),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)

@@ -52,19 +52,22 @@ _deployment:
 # see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
 
 _environment_base: &base_env
+  # APPLICATION CORE SETTINGS
   APP_NAME: *app_name
   APP_ID: *app_id
-  APP_URL: https://${self:custom.default_domain_config.domain_name}
   APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
   APP_ENV: ${self:provider.stage}
-
-  # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
   MAINTENANCE_MODE: ${param:maintenance, null}
 
-  QUEUE_CONNECTION: sqs
-  # reference of handler: Bref\LaravelBridge\Queue\QueueHandler
-  SQS_QUEUE: "${construct:jobs.queueUrl}"
+  # LOCALIZATION SETTINGS
+  APP_LOCALE: en
+  APP_FALLBACK_LOCALE: en
+  APP_FAKER_LOCALE: en_US
 
+  # URL & DOMAIN CONFIGURATION
+  APP_URL: https://${self:custom.default_domain_config.domain_name}
+
+  # DATABASE CONFIGURATION
   DB_CONNECTION: pgsql
   DB_PORT: 5432
   DB_DATABASE: ${self:custom.project_config.app.id}-${self:provider.stage}
@@ -72,33 +75,39 @@ _environment_base: &base_env
   DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
   DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
 
-  BROADCAST_CONNECTION: log
-  LOG_CHANNEL: stderr
+  # AWS CONFIGURATION
+  AWS_PROJECT_DEFAULT_REGION: eu-central-1
+  AWS_USE_PATH_STYLE_ENDPOINT: true
+  OPENAI_API_KEY: bref-ssm:/hds-ai-coach/OPENAI_API_KEY
 
-  VITE_APP_NAME: ${self:custom.app_id}
+  # STORAGE & FILESYSTEM
+  FILESYSTEM_DRIVER: s3
+  FILESYSTEM_DISK: private
+  FILAMENT_FILESYSTEM_DISK: private
+  PUBLIC_AWS_BUCKET: !Ref PublicStorage
+  PRIVATE_AWS_BUCKET: !Ref PrivateStorage
 
+  # SESSION CONFIGURATION
   SESSION_DRIVER: Cookie
 
-  FILESYSTEM_DISK: s3
-  FILESYSTEM_DRIVER: s3
-  FILESYSTEM_CLOUD: s3
-  FILAMENT_FILESYSTEM_DISK: s3
-  AWS_BUCKET: !Ref Storage
-  PROJECT_AWS_BUCKET: !Ref Storage
-  AWS_PROJECT_DEFAULT_REGION: eu-central-1
-  PROJECT_AWS_USE_PATH_STYLE_ENDPOINT: true
+  # SYSTEM SERVICES
+  BROADCAST_CONNECTION: log
+  LOG_CHANNEL: stderr
+  QUEUE_CONNECTION: sqs
+  SQS_QUEUE: "${construct:jobs.queueUrl}"
 
+  # MAIL SETTINGS
   RESEND_API_KEY: /prod-primary-projects/rds-endpoint
   MAIL_MAILER: resend
   MAIL_FROM_ADDRESS: hello@021-fast.fun
   ADMIN_MAIL_ADDRESS: admin@021-factory.com
   MAIL_FROM_NAME: *app_name
 
-  APP_LOCALE: en
-  APP_FALLBACK_LOCALE: en
-  APP_FAKER_LOCALE: en_US
+  # FRONTEND CONFIGURATION
+  VITE_APP_NAME: ${self:custom.app_id}
 
-
+# misc
+# ...
 
 # *****************************************************************
 # 🔧 ENVIRONMENT SPECIFIC VARIABLES                                +

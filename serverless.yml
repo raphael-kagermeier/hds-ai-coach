@@ -15,8 +15,10 @@ provider:
         - Effect: Allow
           Action: s3:*
           Resource:
-            - !Sub "${Storage.Arn}" # the storage bucket
-            - !Sub "${Storage.Arn}/*" # and everything inside
+            - Fn::GetAtt: [PublicStorage, Arn]
+            - Fn::Join: ['', [Fn::GetAtt: [PublicStorage, Arn], '/*']]
+            - Fn::GetAtt: [PrivateStorage, Arn]
+            - Fn::Join: ['', [Fn::GetAtt: [PrivateStorage, Arn], '/*']]
 
 package:
   patterns:
@@ -94,8 +96,30 @@ constructs:
 
 resources:
   Resources:
-    Storage:
+    PrivateStorage:
       Type: AWS::S3::Bucket
+
+    PublicStorage:
+        Type: AWS::S3::Bucket
+        Properties:
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: false
+            BlockPublicPolicy: false
+            IgnorePublicAcls: false
+            RestrictPublicBuckets: false
+          OwnershipControls:
+            Rules:
+              - ObjectOwnership: BucketOwnerPreferred
+          CorsConfiguration:
+            CorsRules:
+              - AllowedOrigins: ['*']
+                AllowedHeaders: ['*']
+                AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
+                MaxAge: 3000
+                ExposedHeaders:
+                  - x-amz-server-side-encryption
+                  - x-amz-request-id
+                  - x-amz-id-2
 
     Route53Record:
       Type: AWS::Route53::RecordSet
@@ -106,7 +130,7 @@ resources:
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's hosted zone ID (constant)
           DNSName: ${construct:website.cname}
-
+          
 plugins:
   - ./vendor/bref/bref
   - serverless-lift

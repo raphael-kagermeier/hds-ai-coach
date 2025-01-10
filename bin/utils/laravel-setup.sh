@@ -42,6 +42,10 @@ setup_laravel() {
     echo "Seeding database..."
     ./vendor/bin/sail artisan db:seed
 
+    # Link storage
+    echo "Linking storage..."
+    ./vendor/bin/sail artisan storage:link
+
     echo "Laravel setup completed successfully!"
 
     # cd back to the original directory

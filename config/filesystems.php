@@ -11,7 +11,7 @@ $s3BaseConfig = [
 $localBaseConfig = [
     'driver' => 'local',
     'root' => storage_path('app/public'),
-    'url' => env('APP_URL') . '/storage',
+    'url' => env('APP_URL').'/storage',
 ];
 
 return [
@@ -52,7 +52,7 @@ return [
             ] :
             [
                 ...$s3BaseConfig,
-                'bucket' => env('PUBLIC_AWS_BUCKET')
+                'bucket' => env('PUBLIC_AWS_BUCKET'),
             ],
 
         'private' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
@@ -63,7 +63,7 @@ return [
             ] :
             [
                 ...$s3BaseConfig,
-                'bucket' => env('PRIVATE_AWS_BUCKET')
+                'bucket' => env('PRIVATE_AWS_BUCKET'),
             ],
 
         'avatars' => env('FILESYSTEM_DRIVER', 'local') === 'local' ?
@@ -74,7 +74,7 @@ return [
             ] :
             [
                 ...$s3BaseConfig,
-                'bucket' => env('PRIVATE_AWS_BUCKET')
+                'bucket' => env('PRIVATE_AWS_BUCKET'),
             ],
 
         'robots' => [

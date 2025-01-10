@@ -102,6 +102,9 @@ constructs:
 
 resources:
   Resources:
+    PrivateStorage:
+      Type: AWS::S3::Bucket
+
     PublicStorage:
         Type: AWS::S3::Bucket
         Properties:
@@ -123,18 +126,6 @@ resources:
                   - x-amz-server-side-encryption
                   - x-amz-request-id
                   - x-amz-id-2
-
-    PrivateStorage:
-      Type: AWS::S3::Bucket
-      Properties:
-        OwnershipControls:
-          Rules:
-            - ObjectOwnership: BucketOwnerPreferred
-        PublicAccessBlockConfiguration:
-          BlockPublicAcls: true
-          BlockPublicPolicy: true
-          IgnorePublicAcls: true
-          RestrictPublicBuckets: true
 
     Route53Record:
       Type: AWS::Route53::RecordSet

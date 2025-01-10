@@ -1,5 +1,19 @@
 <?php
 
+$s3BaseConfig = [
+    'driver' => 's3',
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'region' => env('AWS_PROJECT_DEFAULT_REGION'),
+    'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+];
+
+$localBaseConfig = [
+    'driver' => 'local',
+    'root' => storage_path('app/public'),
+    'url' => env('APP_URL') . '/storage',
+];
+
 return [
 
     /*
@@ -30,42 +44,40 @@ return [
 
     'disks' => [
 
-        'private' => array_merge(
-            [
-                'visibility' => 'private',
-                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
-            ],
-            env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
-                'driver' => 's3',
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                'region' => env('AWS_PROJECT_DEFAULT_REGION'),
-                'bucket' => env('PRIVATE_AWS_BUCKET'),
-                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            ] : [
-                'driver' => 'local',
-                'root' => storage_path('app/private'),
-                'serve' => true,
-            ]
-        ),
-
         'public' => array_merge(
             [
                 'visibility' => 'public',
                 'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
             ],
-            env('FILESYSTEM_DRIVER', 'local') === 's3' ? [
-                'driver' => 's3',
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                'region' => env('AWS_PROJECT_DEFAULT_REGION'),
-                'bucket' => env('PUBLIC_AWS_BUCKET'),
-                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            ] : [
-                'driver' => 'local',
-                'root' => storage_path('app/public'),
-                'url' => env('APP_URL').'/storage',
-            ]
+            env('FILESYSTEM_DRIVER', 'local') === 's3'
+                ? array_merge($s3BaseConfig, ['bucket' => env('PUBLIC_AWS_BUCKET')])
+                : $localBaseConfig
+        ),
+
+        'private' => array_merge(
+            [
+                'visibility' => 'private',
+                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
+            ],
+            env('FILESYSTEM_DRIVER', 'local') === 's3'
+                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET')])
+                : [
+                    'driver' => 'local',
+                    'root' => storage_path('app/public'),
+                ]
+        ),
+
+        'avatars' => array_merge(
+            [
+                'visibility' => 'private',
+                'throw' => env('FILESYSTEM_DRIVER', 'local') === 's3',
+            ],
+            env('FILESYSTEM_DRIVER', 'local') === 's3'
+                ? array_merge($s3BaseConfig, ['bucket' => env('PRIVATE_AWS_BUCKET'), 'root' => 'avatars'])
+                : [
+                    'driver' => 'local',
+                    'root' => storage_path('app/public'),
+                ]
         ),
 
         'robots' => [

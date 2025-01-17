@@ -3,7 +3,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -79,7 +82,7 @@
         ],
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
-        "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit 512M",
         "deploy": "sail php artisan config:clear && npm run build && serverless deploy --stage staging --verbose",
         "deploy-prod": "sail php artisan config:clear && npm run build && serverless deploy --stage production --verbose",
         "review": [

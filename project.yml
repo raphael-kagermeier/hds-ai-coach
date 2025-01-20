@@ -97,7 +97,7 @@ _environment_base: &base_env
   SQS_QUEUE: "${construct:jobs.queueUrl}"
 
   # MAIL SETTINGS
-  RESEND_API_KEY: /prod-primary-projects/rds-endpoint
+  RESEND_API_KEY: bref-ssm:/prod-primary-projects/resend-api-key
   MAIL_MAILER: resend
   MAIL_FROM_ADDRESS: hello@021-fast.fun
   ADMIN_MAIL_ADDRESS: admin@021-factory.com

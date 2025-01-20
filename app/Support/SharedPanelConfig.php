@@ -82,6 +82,9 @@ class SharedPanelConfig
                         hasAvatars: true,
                         shouldRegisterNavigation: false,
                     )
+                    ->enableTwoFactorAuthentication(
+                        force: false,
+                    )
                     ->avatarUploadComponent(fn ($fileUpload) => $fileUpload
                         ->extraAttributes(['class' => 'h-full flex items-center px-12'])
                         ->disableLabel()

@@ -29,6 +29,18 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'remember_token',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            if (! $user->hasAnyRole()) {
+                $defaultRole = config('permission.default_role');
+                if ($defaultRole) {
+                    $user->assignRole($defaultRole);
+                }
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [

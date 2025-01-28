@@ -1,4 +1,6 @@
 {
+    "filament-shield::filament-shield.nav.group": "User Management",
+    "filament-users::navigation.group": "User Management",
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more error)|(and :count more errors)|(and :count more errors)",
     "A decryption key is required.": "A decryption key is required.",
@@ -226,7 +228,7 @@
     "Whoops!": "Whoops!",
     "Yes": "Yes",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
-    "By clicking you accept our <a href=\":href\" >terms and conditions</a>":  "By clicking you accept our <a href=\":href\" >terms and conditions</a>",
+    "By clicking you accept our <a href=\":href\" >terms and conditions</a>": "By clicking you accept our <a href=\":href\" >terms and conditions</a>",
     "Imprint": "Imprint",
     "Terms": "Terms",
     "Data Policy": "Data Policy",

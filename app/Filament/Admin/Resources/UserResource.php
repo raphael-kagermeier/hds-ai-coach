@@ -66,7 +66,7 @@ class UserResource extends Resource
                 ->label(trans('filament-users::user.resource.name')),
             TextInput::make('email')
                 ->maxLength(255)
-                ->unique()
+                ->unique(ignoreRecord: true)
                 ->email()
                 ->required()
                 ->label(trans('filament-users::user.resource.email')),
@@ -84,6 +84,9 @@ class UserResource extends Resource
                 ->multiple()
                 ->preload()
                 ->searchable(),
+            Forms\Components\DateTimePicker::make('email_verified_at')
+                ->label(trans('filament-users::user.resource.email_verified_at'))
+                ->native(false),
         ];
 
         if (config('filament-users.shield') && class_exists(\BezhanSalleh\FilamentShield\FilamentShield::class)) {
@@ -101,7 +104,7 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-        if (class_exists(STS\FilamentImpersonate\Tables\Actions\Impersonate::class) && config('filament-users.impersonate')) {
+        if (class_exists(Impersonate::class) && config('filament-users.impersonate')) {
             $table->actions([Impersonate::make('impersonate')]);
         }
         $table

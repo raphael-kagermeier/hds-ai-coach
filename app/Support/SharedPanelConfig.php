@@ -25,7 +25,6 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Kainiklas\FilamentScout\FilamentScoutPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
-use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class SharedPanelConfig
 {
@@ -131,7 +130,6 @@ class SharedPanelConfig
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->usingPage(HealthCheckResults::class)
             )
-            ->plugin(FilamentUsersPlugin::make())
             ->plugin(FilamentExceptionsPlugin::make());
 
         return $this;

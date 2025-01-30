@@ -40,7 +40,9 @@ jobs:
           php artisan route:clear
           php artisan filament:optimize-clear
           php artisan filament:optimize
-          php artisan optimize
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
 
       - name: Serverless Deploy
         uses: serverless/github-action@v3.2

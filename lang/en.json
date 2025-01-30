@@ -3,6 +3,7 @@
     "filament-users::navigation.group": "User Management",
     "filament-exceptions::filament-exceptions.labels.navigation_group": "System",
     "filament-spatie-health::health.navigation.label": "Application Health",
+    "health::notifications.check_failed_slack_message": "Some of the health checks on :application_name in :env_name have failed. :url",
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more error)|(and :count more errors)|(and :count more errors)",
     "A decryption key is required.": "A decryption key is required.",

@@ -103,6 +103,9 @@ _environment_base: &base_env
   ADMIN_MAIL_ADDRESS: admin@021-factory.com
   MAIL_FROM_NAME: *app_name
 
+  # Notification Settings
+  HEALTH_SLACK_WEBHOOK_URL: bref-ssm:/prod-primary-projects/health-slack-webhook-url
+  
   # FRONTEND CONFIGURATION
   VITE_APP_NAME: ${self:custom.app_id}
 

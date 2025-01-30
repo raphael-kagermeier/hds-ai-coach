@@ -86,6 +86,9 @@ _environment_base: &base_env
   FILAMENT_FILESYSTEM_DISK: private
   PUBLIC_AWS_BUCKET: !Ref PublicStorage
   PRIVATE_AWS_BUCKET: !Ref PrivateStorage
+  CACHE_STORE: database
+  DB_CACHE_CONNECTION: pgsql
+  DB_CACHE_LOCK_CONNECTION: pgsql
 
   # SESSION CONFIGURATION
   SESSION_DRIVER: Cookie

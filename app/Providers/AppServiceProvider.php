@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
             DatabaseCheck::new(),
             CacheCheck::new(),
             OptimizedAppCheck::new(),
-            ScheduleCheck::new(),
+            // ScheduleCheck::new(),
             SecurityAdvisoriesCheck::new(),
         ]);
 

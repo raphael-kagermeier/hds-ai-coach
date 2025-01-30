@@ -36,6 +36,8 @@ serverless deploy --stage $STAGE --verbose
 serverless bref:cli --stage $STAGE --args='db:provision'
 serverless bref:cli --stage $STAGE --args='migrate --force'
 serverless bref:cli --stage $STAGE --args='config:cache'
+serverless bref:cli --stage $STAGE --args='route:cache'
+serverless bref:cli --stage $STAGE --args='view:cache'
 
 # seed the database
 serverless bref:cli --stage $STAGE --args='db:seed --class=DeploymentSeeder --force'

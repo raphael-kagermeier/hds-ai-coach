@@ -35,14 +35,11 @@ jobs:
 
       - name: Run Filament Optimizations
         run: |
+          php artisan filament:optimize-clear
+          php artisan filament:optimize
           php artisan config:clear
           php artisan view:clear   
           php artisan route:clear
-          php artisan filament:optimize-clear
-          php artisan filament:optimize
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
 
       - name: Serverless Deploy
         uses: serverless/github-action@v3.2

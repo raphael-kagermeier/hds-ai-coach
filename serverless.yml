@@ -58,6 +58,10 @@ functions:
     handler: artisan
     runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
     timeout: 720
+    # events:
+    #   - schedule:
+    #       rate: rate(1 minute)
+    #       input: '"schedule:run"'
 
 constructs:
   website:
@@ -93,6 +97,9 @@ constructs:
       handler: Bref\LaravelBridge\Queue\QueueHandler
       runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
+      # limit concurrency to 1 
+      maxConcurrency: 1
+      reservedConcurrency: 1
 
 resources:
   Resources:

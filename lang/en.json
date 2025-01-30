@@ -2,6 +2,7 @@
     "filament-shield::filament-shield.nav.group": "User Management",
     "filament-users::navigation.group": "User Management",
     "filament-exceptions::filament-exceptions.labels.navigation_group": "System",
+    "filament-spatie-health::health.navigation.label": "Application Health",
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more error)|(and :count more errors)|(and :count more errors)",
     "A decryption key is required.": "A decryption key is required.",

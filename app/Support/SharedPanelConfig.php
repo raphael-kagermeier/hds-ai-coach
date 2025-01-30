@@ -9,8 +9,10 @@ use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Platform;
@@ -75,6 +77,15 @@ class SharedPanelConfig
                 default => null,
             })
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->homeUrl(fn () => Filament::getPanel(auth()->user() ? 'app' : 'guest')->getUrl())
+            ->userMenuItems([
+                'admin' => MenuItem::make()
+                    ->label('Admin Home')
+                    ->icon('heroicon-o-lock-closed')
+                    /** @disregard */
+                    ->visible(fn () => auth()->user()->isSuperAdmin())
+                    ->url(fn () => Filament::getPanel('admin')->getUrl()),
+            ])
             ->plugins([
                 BreezyCore::make()
                     ->myProfile(

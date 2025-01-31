@@ -41,10 +41,9 @@ class AppServiceProvider extends ServiceProvider
 
         Health::checks([
             DatabaseCheck::new(),
-            CacheCheck::new()
-                ->checkViews()
+            CacheCheck::new(),
+            OptimizedAppCheck::new()
                 ->checkConfig(),
-            OptimizedAppCheck::new(),
             // ScheduleCheck::new(),
             SecurityAdvisoriesCheck::new(),
         ]);

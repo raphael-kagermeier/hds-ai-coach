@@ -109,8 +109,6 @@ class SharedPanelConfig
                     ->searchItemTree(false),
             ]);
 
-        $this->withDeveloperLoginButton();
-
         return $this;
     }
 

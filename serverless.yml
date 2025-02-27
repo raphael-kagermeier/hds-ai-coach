@@ -45,6 +45,7 @@ package:
     - '!README.md'
     - '!.env*'
     - '!bin/**'
+    - '!.cursor/**'
 
 functions:
   web:

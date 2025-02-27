@@ -20,5 +20,3 @@ $article->save();
 ```php
 $category->article()->create($request->validated());
 ```
-
-Mass assignment in Laravel allows you to assign multiple model attributes at once. When combined with form requests and the `$fillable` or `$guarded` properties on your models, it provides a secure and concise way to create or update records. Always use `validated()` from form requests to ensure only validated data is used for mass assignment.

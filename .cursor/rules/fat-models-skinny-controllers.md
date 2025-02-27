@@ -2,21 +2,6 @@
 
 Put all DB related logic into Eloquent models.
 
-## Bad Example
-
-```php
-public function index()
-{
-    $clients = Client::verified()
-        ->with(['orders' => function ($q) {
-            $q->where('created_at', '>', Carbon::today()->subWeek());
-        }])
-        ->get();
-
-    return view('index', ['clients' => $clients]);
-}
-```
-
 ## Good Example
 
 ```php

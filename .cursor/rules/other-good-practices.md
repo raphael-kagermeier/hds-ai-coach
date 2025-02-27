@@ -24,8 +24,6 @@ Additional best practices for Laravel development.
 
 10. **Short, declarative functions**: Keep functions short and focused on a single responsibility.
 
-11. **Leverage Laravel's ecosystem**: Take advantage of the Laravel ecosystem (Nova, Horizon, Telescope, etc.) for common needs.
-
-12. **Follow security best practices**: Use Laravel's built-in security features like CSRF protection, input validation, and authentication.
+11. **Follow security best practices**: Use Laravel's built-in security features like CSRF protection, input validation, and authentication.
 
 By following these practices, you'll create Laravel applications that are maintainable, performant, and aligned with the framework's philosophy.

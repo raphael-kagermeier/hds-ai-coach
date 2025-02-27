@@ -1,6 +1,6 @@
 # Chunk Data for Data-Heavy Tasks
 
-When working with large datasets, use chunking to process records in batches.
+Process large datasets in batches to prevent memory issues.
 
 ## Bad Example
 
@@ -22,4 +22,4 @@ $this->chunk(500, function ($users) {
 });
 ```
 
-Chunking data is essential when working with large datasets to prevent memory issues and improve performance. Instead of loading all records into memory at once, chunking processes them in smaller batches. This is particularly important for background jobs, data exports, and other data-intensive operations. Laravel provides the `chunk()` method on query builders and the `chunkById()` method for more efficient processing.
+Use chunking for background jobs, exports, and data-intensive operations. Laravel provides `chunk()` and `chunkById()` methods for efficient processing.

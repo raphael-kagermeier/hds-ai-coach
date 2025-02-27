@@ -1,1 +1,1 @@
-<h1>{{config('app.name')}}</h1>
+<h1 class="text-xl font-bold text-gray-100">{{config('app.name')}}</h1>

@@ -9,8 +9,12 @@ use BezhanSalleh\FilamentExceptions\Models\Exception;
 use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\ScheduleCheck;
 use Spatie\Health\Facades\Health;
+use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
 
         Health::checks([
             DatabaseCheck::new(),
+            CacheCheck::new(),
+            OptimizedAppCheck::new()
+                ->checkConfig(),
+            // ScheduleCheck::new(),
+            SecurityAdvisoriesCheck::new(),
         ]);
 
         TranslateableLabels::make();

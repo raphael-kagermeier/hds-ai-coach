@@ -8,8 +8,10 @@ use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Platform;
@@ -24,7 +26,6 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Kainiklas\FilamentScout\FilamentScoutPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
-use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class SharedPanelConfig
 {
@@ -75,8 +76,31 @@ class SharedPanelConfig
                 default => null,
             })
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->homeUrl(fn () => Filament::getPanel(auth()->user() ? 'app' : 'guest')->getUrl())
+            ->userMenuItems([
+                'admin' => MenuItem::make()
+                    ->label('Admin Home')
+                    ->icon('heroicon-o-lock-closed')
+                    /** @disregard */
+                    ->visible(fn () => auth()->user()->isSuperAdmin())
+                    ->url(fn () => Filament::getPanel('admin')->getUrl()),
+            ])
             ->plugins([
-                BreezyCore::make()->myProfile(),
+                BreezyCore::make()
+                    ->myProfile(
+                        hasAvatars: true,
+                        shouldRegisterNavigation: false,
+                    )
+                    ->enableTwoFactorAuthentication(
+                        force: false,
+                    )
+                    ->avatarUploadComponent(fn ($fileUpload) => $fileUpload
+                        ->extraAttributes(['class' => 'h-full flex items-center px-12'])
+                        ->disableLabel()
+                        ->disk('avatars')
+                        ->avatar()
+                        ->imageEditor()
+                        ->circleCropper()),
                 FilamentScoutPlugin::make(),
                 GlobalSearchModalPlugin::make()
                     ->expandedUrlTarget(enabled: true)
@@ -115,7 +139,6 @@ class SharedPanelConfig
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->usingPage(HealthCheckResults::class)
             )
-            ->plugin(FilamentUsersPlugin::make())
             ->plugin(FilamentExceptionsPlugin::make());
 
         return $this;

@@ -41,7 +41,6 @@ package:
     - '!.github/**'
     - '!.gitattributes'
     - '!.editorconfig'
-    - '!cursorrules'
     - '!README.md'
     - '!.env*'
     - '!bin/**'

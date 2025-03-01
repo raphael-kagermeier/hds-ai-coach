@@ -1,0 +1,38 @@
+---
+description: Writing or improving tests for your Laravel application
+globs:
+alwaysApply: false
+---
+
+## Test using Pest
+
+-   Use Pest's expressive syntax for more readable tests
+-   Take advantage of higher-order testing methods
+-   Example: `it('allows users to login')->expect(fn() => $this->post('/login'))->toBeRedirectedTo('/dashboard')`
+-   Example: `test('user can view profile')->expect(UserCanViewProfile::class)`
+-   Use datasets for testing multiple inputs with the same assertions
+-   Example: `it('validates email', fn($email, $valid) => expect(isValid($email))->toBe($valid))->with(['valid@example.com' => true, 'invalid' => false])`
+
+## Write Focused Unit Tests
+
+-   Test one aspect of functionality at a time
+-   Use descriptive test names that explain what is being tested
+-   Example: `test_user_can_view_their_profile()`
+
+## Use Database Factories
+
+-   Create test data with factories instead of manual creation
+-   Define relationships and states in factories
+-   Example: `User::factory()->hasPosts(3)->create()`
+
+## Mock External Services
+
+-   Don't make real API calls in tests
+-   Use Laravel's HTTP faking capabilities
+-   Example: `Http::fake(['external-api.com/*' => Http::response($fakeResponse, 200)])`
+
+## Test Happy and Unhappy Paths
+
+-   Test successful scenarios and error cases
+-   Verify validation rules, permissions, and error handling
+-   Check both valid and invalid input combinations

@@ -1,0 +1,20 @@
+---
+description: Managing application settings and environment variables securely
+globs: 
+alwaysApply: false
+---
+## Use Config and Language Files
+-   Store text and settings in dedicated files
+-   Place text strings in language files for easy localization
+-   Example: `trans('messages.welcome')` instead of hardcoded strings
+
+## Don't Get Data from .env Directly
+-   Use config files as intermediaries
+-   In config file: `'api_key' => env('API_KEY'),`
+-   In code: `config('services.api_key')` instead of `env('API_KEY')`
+-   This allows for caching of configuration
+
+## Use Constants for Important Values
+-   Define constants for frequently used values
+-   Use enums for related constants in PHP 8.1+
+-   Example: `public const STATUS_ACTIVE = 'active';`

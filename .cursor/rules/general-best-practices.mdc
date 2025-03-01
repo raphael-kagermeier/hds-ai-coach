@@ -1,0 +1,39 @@
+---
+description: Applying universal Laravel development principles
+globs: 
+alwaysApply: false
+---
+## Use Standard Laravel Tools
+-   Stick to community-accepted packages and approaches
+-   Use Laravel Sanctum/Passport for API authentication
+-   Use Laravel's built-in features before third-party packages
+
+## No Logic in Routes Files
+-   Keep route definitions clean and simple
+-   Move complex route logic to controllers
+-   Group related routes together
+
+## Use Standard Laravel Features
+-   Avoid overriding framework fundamentals
+-   Work with Laravel, not against it
+-   Leverage the framework's strengths
+
+## Avoid Patterns Alien to Laravel
+-   Don't mix paradigms from other frameworks
+-   Embrace Laravel's elegant syntax and approach
+-   Learn Laravel-specific solutions to common problems
+
+## Avoid View Composers Unless Necessary
+-   Use simpler solutions when possible
+-   Pass data from controllers to views directly
+-   Use view composers only for truly global data needs
+
+## Follow Consistent Coding Style
+-   Use Laravel Pint or PHP CS Fixer for formatting
+-   Follow PSR-12 standards
+-   Maintain consistent indentation and spacing
+
+## Use Version Control Effectively
+-   Make small, focused commits
+-   Write meaningful commit messages
+-   Use feature branches for new development

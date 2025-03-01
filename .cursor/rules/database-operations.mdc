@@ -1,0 +1,34 @@
+---
+description: Creating and optimizing database interactions in Laravel.
+globs: 
+alwaysApply: false
+---
+## Prefer Eloquent Over Query Builder and Raw SQL
+-   Use Eloquent ORM for most database operations
+-   Leverage Eloquent's powerful features: relationships, scopes, casting
+-   Query Builder and raw SQL should only be used for complex queries when necessary
+
+## Prefer Collections Over Arrays
+-   Take advantage of Laravel's collection methods
+-   Collections provide numerous helper methods for manipulating data
+-   More expressive and readable than array functions
+
+## Mass Assignment
+-   Use model properties like `$fillable` or `$guarded`
+-   Protect against unintended mass assignment vulnerabilities
+-   Example: `protected $fillable = ['name', 'email', 'password'];`
+
+## Avoid N+1 Query Problem
+-   Use eager loading with `with()` relationships
+-   Example: `User::with('posts')->get()` instead of querying in a loop
+-   Monitor query execution with Laravel Debugbar during development
+
+## Chunk Data for Data-Heavy Tasks
+-   Process large datasets in chunks to avoid memory issues
+-   Use `chunk()` method for processing large result sets
+-   Example: `User::chunk(100, function ($users) { /* process chunk */ });`
+
+## Store Dates in Standard Format
+-   Use Carbon for date manipulation
+-   Define date fields in model's `$casts` property
+-   Example: `protected $casts = ['ordered_at' => 'datetime'];`

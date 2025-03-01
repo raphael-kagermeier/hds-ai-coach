@@ -1,0 +1,33 @@
+---
+description: Writing clean, readable, and consistent code within Laravel
+globs: 
+alwaysApply: false
+---
+## Follow Laravel Naming Conventions
+-   Controller: singular, PascalCase (UserController)
+-   Model: singular, PascalCase (User)
+-   Table: plural, snake_case (users)
+-   Variables: camelCase ($userRecord)
+-   Routes: kebab-case (user-profile)
+
+## Use Shorter and More Readable Syntax
+-   Prefer Laravel helpers and shorthand methods
+-   Use `session('cart')` instead of `$request->session()->get('cart')`
+-   Use `$request->name` instead of `$request->input('name')`
+-   Use `back()` instead of `Redirect::back()`
+
+## Prefer Descriptive Names Over Comments
+-   Self-documenting code is better than heavily commented code
+-   Use meaningful variable and method names
+-   Example: `getUsersByStatus($status)` instead of `get_users_filter($s)`
+
+## Do Not Use DocBlocks
+-   Use PHP type hints and descriptive method names instead
+-   Modern PHP supports return type hints, parameter types, etc.
+-   Example: `public function isValidAsciiString(string $string): bool`
+
+## Use Modern PHP Syntax 
+-   Take advantage of newer PHP features (PHP 8+)
+-   Use match expressions, named arguments, constructor property promotion
+-   Use null coalescing and nullsafe operators
+-   Maintain readability while using advanced features

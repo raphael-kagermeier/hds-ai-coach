@@ -1,43 +1,39 @@
-# Code Architecture & Design
-
+---
+description: Structuring this Laravel application for maintainability and separation of concerns.
+globs: 
+alwaysApply: false
+---
 ## Single Responsibility Principle
-
 -   A class should have only one responsibility
 -   Extract separate concerns into different classes
 -   Example: Separate validation, logging, and business logic
 
 ## Methods Should Do Just One Thing
-
 -   Break complex methods into smaller, focused ones
 -   Each method should have a clear and singular purpose
 -   Improved readability and testability
 
 ## Fat Models, Skinny Controllers
-
 -   Keep controllers simple and lightweight
 -   Move business logic to models or service classes
 -   Controllers should only route requests to the appropriate services
 
 ## Business Logic in Service Classes
-
 -   Complex operations should be placed in dedicated service classes
 -   Services can be injected where needed
 -   Makes testing easier and improves separation of concerns
 
 ## Don't Repeat Yourself (DRY)
-
 -   Avoid code duplication through proper abstraction
 -   Create reusable components and methods
 -   Easier maintenance as changes need to be made in only one place
 
 ## Use IoC Container or Facades
-
 -   Use dependency injection instead of creating objects with `new Class`
 -   Makes code more testable and loosely coupled
 -   Example: `public function __construct(protected User $user) {}`
 
 ## Convention Over Configuration
-
 -   Follow Laravel conventions to minimize configuration
 -   Default table names, primary keys, etc. follow conventions
 -   Only configure exceptions to standard conventions

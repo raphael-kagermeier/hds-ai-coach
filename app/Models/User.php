@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -35,6 +33,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
  * @property-read int|null $roles_count
  * @property-read mixed $two_factor_recovery_codes
  * @property-read mixed $two_factor_secret
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -52,6 +51,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar

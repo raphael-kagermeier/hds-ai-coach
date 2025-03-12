@@ -75,7 +75,8 @@
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",
-            "./vendor/bin/sail artisan ide-helper:models -RW"
+            "./vendor/bin/sail artisan ide-helper:models -RW",
+            "@pint app/Models"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -87,7 +88,6 @@
         ],
         "dev": [
             "./vendor/bin/sail up -d",
-            "@ide-helper",
             "@dev-services"
         ],
         "dev-services": [

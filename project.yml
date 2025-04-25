@@ -108,9 +108,13 @@ _environment_base: &base_env
 
   # Notification Settings
   HEALTH_SLACK_WEBHOOK_URL: bref-ssm:/prod-primary-projects/health-slack-webhook-url
-  
+
   # FRONTEND CONFIGURATION
   VITE_APP_NAME: ${self:custom.app_id}
+
+  # Auth
+  DEVELOPER_LOGIN_ENABLED: false
+  DEVELOPER_LOGIN_SWITCHABLE: false
 
 # misc
 # ...
@@ -148,15 +152,14 @@ _environments:
     ALLOW_ROBOTS: false
 
 
-    
+
 # *****************************************************************
 # 🔧 GITHUB VARIABLES                                             +
 # *****************************************************************
-# secret keys for github, key represents the name 
+# secret keys for github, key represents the name
 # and the value the enpass field name
 
 github:
   secrets:
     AWS_ACCESS_KEY_ID:GH_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:GH_AWS_SECRET_ACCESS_KEY
-

@@ -58,11 +58,11 @@ functions:
     handler: artisan
     runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
     timeout: 720
-    # NOTE: Consider turning on schedule health check in AppServiceProvider.php
-    # events:
-    #   - schedule:
-    #       rate: rate(1 minute)
-    #       input: '"schedule:run"'
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input: '"schedule:run"'
+          enabled: ${self:provider.environment.ENABLE_SCHEDULER}
 
 constructs:
   website:
@@ -98,7 +98,7 @@ constructs:
       handler: Bref\LaravelBridge\Queue\QueueHandler
       runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
-      # limit concurrency to 1 
+      # limit concurrency to 1
       maxConcurrency: 1
       reservedConcurrency: 1
 
@@ -138,7 +138,7 @@ resources:
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's hosted zone ID (constant)
           DNSName: ${construct:website.cname}
-          
+
 plugins:
   - ./vendor/bref/bref
   - serverless-lift

@@ -112,4 +112,18 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Developer Login
+    |--------------------------------------------------------------------------
+    |
+    | This array contains the list of allowed email addresses for developer login.
+    | Add the addresses you want to allow for developer login.
+    |
+    */
+    'developer_login' => [
+        'enabled' => env('DEVELOPER_LOGIN_ENABLED', false),
+        'switchable' => env('DEVELOPER_LOGIN_SWITCHABLE', true),
+    ],
+
 ];

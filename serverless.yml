@@ -63,11 +63,11 @@ functions:
     handler: artisan
     runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
     timeout: 720
-    # NOTE: Consider turning on schedule health check in AppServiceProvider.php
-    # events:
-    #   - schedule:
-    #       rate: rate(1 minute)
-    #       input: '"schedule:run"'
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input: '"schedule:run"'
+          enabled: ${self:provider.environment.ENABLE_SCHEDULER}
 
 constructs:
   website:

@@ -12,3 +12,9 @@ CHANGELOG.md export-ignore
 
 # Automatically resolve composer.lock conflicts in favor of local version
 composer.lock merge=ours
+package-lock.json merge=ours
+
+# For manifest files, avoid potentially problematic auto-merges.
+# This flags them as conflicts if both sides changed, requiring manual intervention.
+package.json binary
+composer.json binary

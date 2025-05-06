@@ -6,7 +6,7 @@ alwaysApply: false
 ## Use Form Request Validation
 -   Create dedicated Form Request classes for validation
 -   Keep controllers clean by moving validation logic
--   Example: `php artisan make:request StoreUserRequest`
+-   Example: `sa make:request StoreUserRequest`
 
 ## Mass Assignment Protection
 -   Properly define fillable/guarded attributes on models

@@ -112,8 +112,13 @@ _environment_base: &base_env
   # FRONTEND CONFIGURATION
   VITE_APP_NAME: ${self:custom.app_id}
 
-# misc
-# ...
+  # Auth
+  DEVELOPER_LOGIN_ENABLED: false
+  DEVELOPER_LOGIN_SWITCHABLE: false
+
+  # misc
+  ALLOW_ROBOTS: false
+  ENABLE_SCHEDULER: false
 
 # *****************************************************************
 # 🔧 ENVIRONMENT SPECIFIC VARIABLES                                +
@@ -125,28 +130,22 @@ _environments:
   production:
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: true
 
   staging:
     <<: *base_env
     APP_DEBUG: true
-    ALLOW_ROBOTS: false
 
   development:
     <<: *base_env
     APP_DEBUG: true
-    ALLOW_ROBOTS: false
 
   testing:
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: false
 
   '*':
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: false
-
 
 
 # *****************************************************************

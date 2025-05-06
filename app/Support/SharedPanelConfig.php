@@ -149,7 +149,8 @@ class SharedPanelConfig
         $this->panel->plugin(
             FilamentDeveloperLoginsPlugin::make()
                 ->users(fn () => User::pluck('email', 'name')->toArray())
-                ->enabled(config('app.debug'))
+                ->enabled(config('auth.developer_login.enabled'))
+                ->switchable(config('auth.developer_login.switchable'))
         );
 
         return $this;

@@ -1,0 +1,7 @@
+---
+description: General rules to keep in mind
+globs: 
+alwaysApply: true
+---
+# Artisan Commands
+When interacting with artisan commands, my alias for "php artisan" is "sa" so use "sa" instead.

@@ -46,10 +46,10 @@ package:
     - '!.github/**'
     - '!.gitattributes'
     - '!.editorconfig'
-    - '!cursorrules'
     - '!README.md'
     - '!.env*'
     - '!bin/**'
+    - '!.cursor/**'
 
 functions:
   web:
@@ -63,6 +63,11 @@ functions:
     handler: artisan
     runtime: ${self:custom.project_config._deployment.aws.php_runtime}-console
     timeout: 720
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input: '"schedule:run"'
+          enabled: ${self:provider.environment.ENABLE_SCHEDULER}
 
 constructs:
   website:
@@ -98,6 +103,9 @@ constructs:
       handler: Bref\LaravelBridge\Queue\QueueHandler
       runtime: ${self:custom.project_config._deployment.aws.php_runtime}
       timeout: 900
+      # limit concurrency to 1
+      maxConcurrency: 1
+      reservedConcurrency: 1
 
   private_storage:
     type: storage
@@ -137,7 +145,7 @@ resources:
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's hosted zone ID (constant)
           DNSName: ${construct:website.cname}
-          
+
 plugins:
   - ./vendor/bref/bref
   - serverless-lift

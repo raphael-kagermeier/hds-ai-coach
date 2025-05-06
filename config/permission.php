@@ -123,6 +123,13 @@ return [
     'teams' => false,
 
     /*
+     * Default role that will be assigned to new users.
+     * Set to null to disable automatic role assignment.
+     * Uses App\Enums\RolesEnum for type safety.
+     */
+    'default_role' => \App\Enums\RolesEnum::Basic->value,
+
+    /*
      * Passport Client Credentials Grant
      * When set to true the package will use Passports Client to check permissions
      */

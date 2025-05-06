@@ -13,7 +13,6 @@ class AppPanelProvider extends PanelProvider
     {
         return SharedPanelConfig::make($panel, 'app')
             ->withAuthentication()
-            ->withDeveloperLoginButton()
             ->getPanel()
             ->path('app')
             ->default()

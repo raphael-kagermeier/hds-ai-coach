@@ -63,6 +63,7 @@ return [
 
         'resend' => [
             'transport' => 'resend',
+            'api_key' => env('RESEND_API_KEY'),
         ],
 
         'sendmail' => [
@@ -112,5 +113,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+
+    'admin' => env('ADMIN_EMAIL', 'admin@example.com'),
 
 ];

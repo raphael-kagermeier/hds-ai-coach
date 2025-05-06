@@ -1,0 +1,29 @@
+---
+description: Implementing robust security measures and input validation
+globs: 
+alwaysApply: false
+---
+## Use Form Request Validation
+-   Create dedicated Form Request classes for validation
+-   Keep controllers clean by moving validation logic
+-   Example: `sa make:request StoreUserRequest`
+
+## Mass Assignment Protection
+-   Properly define fillable/guarded attributes on models
+-   Never use `$guarded = []` without careful consideration
+-   Example: `protected $fillable = ['name', 'email'];`
+
+## Use Gates and Policies
+-   Implement authorization with Gates and Policies
+-   Separate authorization logic from controllers
+-   Example: `Gate::define('update-post', fn($user, $post) => $user->id === $post->user_id);`
+
+## Always Escape User Input
+-   Use `{{ $variable }}` instead of `{!! $variable !!}` in Blade templates
+-   Be careful with `raw` in JavaScript frameworks
+-   Sanitize inputs when necessary
+
+## Validate All Inputs
+-   Validate all user inputs, not just form fields
+-   Validate route parameters and query strings
+-   Use available validation rules before creating custom ones

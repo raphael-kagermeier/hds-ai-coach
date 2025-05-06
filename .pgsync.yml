@@ -1,0 +1,39 @@
+# exclude tables
+exclude:
+  - migrations
+  - schema_migrations
+  - users
+  - roles
+  - breezy_sessions
+  - cache
+  - cache_locks
+  - failed_jobs
+  - filament_exceptions_table
+  - health_check_result_history_items
+  - job_batches
+  - jobs
+  - model_has_permissions
+  - model_has_roles
+  - password_reset_tokens
+  - permissions
+  - role_has_permissions
+  - sessions
+  - ar_internal_metadata
+
+# define groups
+# groups:
+#   group1:
+#     - table1
+#     - table2
+
+# sync specific schemas
+schemas:
+  - public
+
+# protect sensitive information
+data_rules:
+  email: unique_email
+  phone: unique_phone
+  last_name: random_letter
+  birthday: random_date
+  encrypted_*: null

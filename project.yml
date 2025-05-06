@@ -52,20 +52,22 @@ _deployment:
 # see: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
 
 _environment_base: &base_env
+  # APPLICATION CORE SETTINGS
   APP_NAME: *app_name
   APP_ID: *app_id
-  APP_URL: https://${self:custom.default_domain_config.domain_name}
   APP_KEY: bref-ssm:/${self:custom.app_id}/app_key
-  OPENAI_API_KEY: bref-ssm:/hds-ai-coach/OPENAI_API_KEY
   APP_ENV: ${self:provider.stage}
-
-  # allows: serverless deploy function --function=web --update-config --param="maintenance=1"
   MAINTENANCE_MODE: ${param:maintenance, null}
 
-  QUEUE_CONNECTION: sqs
-  # reference of handler: Bref\LaravelBridge\Queue\QueueHandler
-  SQS_QUEUE: "${construct:jobs.queueUrl}"
+  # LOCALIZATION SETTINGS
+  APP_LOCALE: en
+  APP_FALLBACK_LOCALE: en
+  APP_FAKER_LOCALE: en_US
 
+  # URL & DOMAIN CONFIGURATION
+  APP_URL: https://${self:custom.default_domain_config.domain_name}
+
+  # DATABASE CONFIGURATION
   DB_CONNECTION: pgsql
   DB_PORT: 5432
   DB_DATABASE: ${self:custom.project_config.app.id}-${self:provider.stage}
@@ -73,34 +75,50 @@ _environment_base: &base_env
   DB_HOST: bref-ssm:/prod-primary-projects/rds-endpoint
   DB_USERNAME: bref-ssm:/prod-primary-projects/rds-user
 
-  BROADCAST_CONNECTION: log
-  LOG_CHANNEL: stderr
-
-  VITE_APP_NAME: ${self:custom.app_id}
-
-  SESSION_DRIVER: Cookie
-
-  FILESYSTEM_DRIVER: s3
-  FILESYSTEM_DISK: public
-  FILAMENT_FILESYSTEM_DISK: public # TODO: change to private
-
-  PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}
-  PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
-
+  # AWS CONFIGURATION
   AWS_PROJECT_DEFAULT_REGION: eu-central-1
   AWS_USE_PATH_STYLE_ENDPOINT: true
+  OPENAI_API_KEY: bref-ssm:/prod-primary-projects/openai-api-key
 
-  RESEND_API_KEY: /prod-primary-projects/rds-endpoint
+  # STORAGE & FILESYSTEM
+  FILESYSTEM_DRIVER: s3
+  FILESYSTEM_DISK: public
+  FILAMENT_FILESYSTEM_DISK: public
+  PUBLIC_AWS_BUCKET: ${construct:public_storage.bucketName}
+  PRIVATE_AWS_BUCKET: ${construct:private_storage.bucketName}
+  CACHE_STORE: database
+  DB_CACHE_CONNECTION: pgsql
+  DB_CACHE_LOCK_CONNECTION: pgsql
+
+  # SESSION CONFIGURATION
+  SESSION_DRIVER: Cookie
+
+  # SYSTEM SERVICES
+  BROADCAST_CONNECTION: log
+  LOG_CHANNEL: stderr
+  QUEUE_CONNECTION: sqs
+  SQS_QUEUE: "${construct:jobs.queueUrl}"
+
+  # MAIL SETTINGS
+  RESEND_API_KEY: bref-ssm:/prod-primary-projects/resend-api-key
   MAIL_MAILER: resend
   MAIL_FROM_ADDRESS: hello@021-fast.fun
   ADMIN_MAIL_ADDRESS: admin@021-factory.com
   MAIL_FROM_NAME: *app_name
 
-  APP_LOCALE: en
-  APP_FALLBACK_LOCALE: en
-  APP_FAKER_LOCALE: en_US
+  # Notification Settings
+  HEALTH_SLACK_WEBHOOK_URL: bref-ssm:/prod-primary-projects/health-slack-webhook-url
 
+  # FRONTEND CONFIGURATION
+  VITE_APP_NAME: ${self:custom.app_id}
 
+  # Auth
+  DEVELOPER_LOGIN_ENABLED: false
+  DEVELOPER_LOGIN_SWITCHABLE: false
+
+  # misc
+  ALLOW_ROBOTS: false
+  ENABLE_SCHEDULER: false
 
 # *****************************************************************
 # 🔧 ENVIRONMENT SPECIFIC VARIABLES                                +
@@ -112,34 +130,28 @@ _environments:
   production:
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: true
 
   staging:
     <<: *base_env
     APP_DEBUG: true
-    ALLOW_ROBOTS: false
 
   development:
     <<: *base_env
     APP_DEBUG: true
-    ALLOW_ROBOTS: false
 
   testing:
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: false
 
   '*':
     <<: *base_env
     APP_DEBUG: false
-    ALLOW_ROBOTS: false
 
 
-    
 # *****************************************************************
 # 🔧 GITHUB VARIABLES                                             +
 # *****************************************************************
-# secret keys for github, key represents the name 
+# secret keys for github, key represents the name
 # and the value the enpass field name
 
 github:

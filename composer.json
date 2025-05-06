@@ -23,18 +23,22 @@
         "kainiklas/filament-scout": "^0.4.0",
         "laravel-lang/common": "^6.4",
         "laravel/framework": "^11.31",
+        "laravel/slack-notification-channel": "^3.4",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "resend/resend-laravel": "^0.15.0",
         "openai-php/client": "^0.10.3",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",
         "spatie/eloquent-sortable": "^4.4",
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-settings": "^3.4",
+        "spatie/security-advisories-health-check": "^1.2",
         "stechstudio/filament-impersonate": "^3.15",
         "tomatophp/filament-users": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
+        "barryvdh/laravel-ide-helper": "^3.5",
         "doctrine/dbal": "^4.2",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
@@ -68,7 +72,13 @@
             "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate",
+            "./vendor/bin/sail artisan ide-helper:models -RW",
+            "@pint app/Models"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -79,12 +89,16 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "dev": [
+            "./vendor/bin/sail up -d",
+            "@dev-services"
+        ],
+        "dev-services": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "trap './vendor/bin/sail down' EXIT && npx concurrently -c \"#c4b5fd,#fb7185,#fdba74\" \"./vendor/bin/sail artisan queue:listen --tries=1\" \"./vendor/bin/sail artisan pail --timeout=0\" \"./vendor/bin/sail npm run dev\" --names=queue,logs,vite"
         ],
         "pest": "./vendor/bin/pest --parallel",
         "pint": "./vendor/bin/pint",
-        "phpstan": "./vendor/bin/phpstan analyse --memory-limit 256M",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit 512M",
         "deploy": "sail php artisan config:clear && npm run build && serverless deploy --stage staging --verbose",
         "deploy-prod": "sail php artisan config:clear && npm run build && serverless deploy --stage production --verbose",
         "review": [

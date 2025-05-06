@@ -12,19 +12,6 @@ return [
             'model' => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
             'keep_history_for_days' => 5,
         ],
-
-        /*
-        Spatie\Health\ResultStores\CacheHealthResultStore::class => [
-            'store' => 'file',
-        ],
-
-        Spatie\Health\ResultStores\JsonFileHealthResultStore::class => [
-            'disk' => 's3',
-            'path' => 'health.json',
-        ],
-
-        Spatie\Health\ResultStores\InMemoryHealthResultStore::class,
-        */
     ],
 
     /*
@@ -38,7 +25,7 @@ return [
         'enabled' => true,
 
         'notifications' => [
-            Spatie\Health\Notifications\CheckFailedNotification::class => ['mail'],
+            App\Notifications\CustomCheckFailedNotification::class => ['slack'],
         ],
 
         /*
@@ -72,9 +59,9 @@ return [
             /*
              * If this is set to null the default channel of the webhook will be used.
              */
-            'channel' => null,
+            'channel' => 'app-healt-notifications',
 
-            'username' => null,
+            'username' => 'Health Check',
 
             'icon' => null,
         ],
@@ -111,7 +98,7 @@ return [
      * - light: light mode
      * - dark: dark mode
      */
-    'theme' => 'light',
+    'theme' => 'dark',
 
     /*
      * When enabled,  completed `HealthQueueJob`s will be displayed

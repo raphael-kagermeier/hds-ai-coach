@@ -1,0 +1,24 @@
+---
+description: Creating Blade templates and frontend integrations.
+globs: 
+alwaysApply: false
+---
+## Don't Put JS and CSS in Blade Templates
+-   Keep frontend code separate from templates
+-   Use proper asset management (Vite, Laravel Mix)
+-   Include compiled assets in templates
+
+## Don't Put HTML in PHP Classes
+-   Maintain separation of concerns
+-   Return data from controllers, not HTML
+-   Use Blade templates for view rendering
+
+## Avoid Queries in Blade Templates
+-   Move data retrieval to controllers
+-   Pass all necessary data to views via controller
+-   Example: `return view('user.profile', compact('user', 'posts'));`
+
+## Minimize Vanilla PHP in Blade Templates
+-   Use Blade directives instead of PHP syntax
+-   Prefer `@if`, `@foreach`, `@include` over `<?php if() ?>`, etc.
+-   Keep templates clean and readable

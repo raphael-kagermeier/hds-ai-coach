@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.44.0.
+ * Generated for Laravel 11.44.7.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -3387,6 +3387,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
             $instance->precompiler($precompiler);
+        }
+
+        /**
+         * Execute the given callback using a custom echo format.
+         *
+         * @param string $format
+         * @param callable $callback
+         * @return string 
+         * @static 
+         */
+        public static function usingEchoFormat($format, $callback)
+        {
+            /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+            return $instance->usingEchoFormat($format, $callback);
         }
 
         /**
@@ -19235,7 +19249,7 @@ namespace Illuminate\Support\Facades {
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function drive($name = null)
@@ -19248,7 +19262,7 @@ namespace Illuminate\Support\Facades {
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function disk($name = null)
@@ -19273,7 +19287,7 @@ namespace Illuminate\Support\Facades {
          * Build an on-demand disk.
          *
          * @param string|array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function build($config)
@@ -19287,7 +19301,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          * @param string $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function createLocalDriver($config, $name = 'local')
@@ -19300,7 +19314,7 @@ namespace Illuminate\Support\Facades {
          * Create an instance of the ftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function createFtpDriver($config)
@@ -19313,7 +19327,7 @@ namespace Illuminate\Support\Facades {
          * Create an instance of the sftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function createSftpDriver($config)
@@ -19339,7 +19353,7 @@ namespace Illuminate\Support\Facades {
          * Create a scoped driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function createScopedDriver($config)
@@ -19440,6 +19454,20 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Get the URL for the file at the given path.
+         *
+         * @param string $path
+         * @return string 
+         * @throws \RuntimeException
+         * @static 
+         */
+        public static function url($path)
+        {
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+            return $instance->url($path);
+        }
+
+        /**
          * Determine if temporary URLs can be generated.
          *
          * @return bool 
@@ -19447,7 +19475,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function providesTemporaryUrls()
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->providesTemporaryUrls();
         }
 
@@ -19462,35 +19490,35 @@ namespace Illuminate\Support\Facades {
          */
         public static function temporaryUrl($path, $expiration, $options = [])
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->temporaryUrl($path, $expiration, $options);
         }
 
         /**
-         * Specify the name of the disk the adapter is managing.
+         * Get a temporary upload URL for the file at the given path.
          *
-         * @param string $disk
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return array 
          * @static 
          */
-        public static function diskName($disk)
+        public static function temporaryUploadUrl($path, $expiration, $options = [])
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->diskName($disk);
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+            return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
 
         /**
-         * Indiate that signed URLs should serve the corresponding files.
+         * Get the underlying S3 client.
          *
-         * @param bool $serve
-         * @param \Closure|null $urlGeneratorResolver
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Aws\S3\S3Client 
          * @static 
          */
-        public static function shouldServeSignedUrls($serve = true, $urlGeneratorResolver = null)
+        public static function getClient()
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->shouldServeSignedUrls($serve, $urlGeneratorResolver);
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+            return $instance->getClient();
         }
 
         /**
@@ -19498,13 +19526,13 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|array $path
          * @param string|null $content
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function assertExists($path, $content = null)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->assertExists($path, $content);
         }
 
@@ -19514,13 +19542,13 @@ namespace Illuminate\Support\Facades {
          * @param string $path
          * @param int $count
          * @param bool $recursive
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function assertCount($path, $count, $recursive = false)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->assertCount($path, $count, $recursive);
         }
 
@@ -19528,13 +19556,13 @@ namespace Illuminate\Support\Facades {
          * Assert that the given file or directory does not exist.
          *
          * @param string|array $path
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function assertMissing($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->assertMissing($path);
         }
 
@@ -19542,13 +19570,13 @@ namespace Illuminate\Support\Facades {
          * Assert that the given directory is empty.
          *
          * @param string $path
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter 
+         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
          * @static 
          */
         public static function assertDirectoryEmpty($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->assertDirectoryEmpty($path);
         }
 
@@ -19562,7 +19590,7 @@ namespace Illuminate\Support\Facades {
         public static function exists($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->exists($path);
         }
 
@@ -19576,7 +19604,7 @@ namespace Illuminate\Support\Facades {
         public static function missing($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->missing($path);
         }
 
@@ -19590,7 +19618,7 @@ namespace Illuminate\Support\Facades {
         public static function fileExists($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->fileExists($path);
         }
 
@@ -19604,7 +19632,7 @@ namespace Illuminate\Support\Facades {
         public static function fileMissing($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->fileMissing($path);
         }
 
@@ -19618,7 +19646,7 @@ namespace Illuminate\Support\Facades {
         public static function directoryExists($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->directoryExists($path);
         }
 
@@ -19632,7 +19660,7 @@ namespace Illuminate\Support\Facades {
         public static function directoryMissing($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->directoryMissing($path);
         }
 
@@ -19646,7 +19674,7 @@ namespace Illuminate\Support\Facades {
         public static function path($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->path($path);
         }
 
@@ -19660,7 +19688,7 @@ namespace Illuminate\Support\Facades {
         public static function get($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->get($path);
         }
 
@@ -19675,7 +19703,7 @@ namespace Illuminate\Support\Facades {
         public static function json($path, $flags = 0)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->json($path, $flags);
         }
 
@@ -19692,7 +19720,7 @@ namespace Illuminate\Support\Facades {
         public static function response($path, $name = null, $headers = [], $disposition = 'inline')
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->response($path, $name, $headers, $disposition);
         }
 
@@ -19709,7 +19737,7 @@ namespace Illuminate\Support\Facades {
         public static function serve($request, $path, $name = null, $headers = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->serve($request, $path, $name, $headers);
         }
 
@@ -19725,7 +19753,7 @@ namespace Illuminate\Support\Facades {
         public static function download($path, $name = null, $headers = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->download($path, $name, $headers);
         }
 
@@ -19741,7 +19769,7 @@ namespace Illuminate\Support\Facades {
         public static function put($path, $contents, $options = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->put($path, $contents, $options);
         }
 
@@ -19757,7 +19785,7 @@ namespace Illuminate\Support\Facades {
         public static function putFile($path, $file = null, $options = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->putFile($path, $file, $options);
         }
 
@@ -19774,7 +19802,7 @@ namespace Illuminate\Support\Facades {
         public static function putFileAs($path, $file, $name = null, $options = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->putFileAs($path, $file, $name, $options);
         }
 
@@ -19788,7 +19816,7 @@ namespace Illuminate\Support\Facades {
         public static function getVisibility($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->getVisibility($path);
         }
 
@@ -19803,7 +19831,7 @@ namespace Illuminate\Support\Facades {
         public static function setVisibility($path, $visibility)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->setVisibility($path, $visibility);
         }
 
@@ -19820,7 +19848,7 @@ namespace Illuminate\Support\Facades {
 ')
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->prepend($path, $data, $separator);
         }
 
@@ -19837,7 +19865,7 @@ namespace Illuminate\Support\Facades {
 ')
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->append($path, $data, $separator);
         }
 
@@ -19851,7 +19879,7 @@ namespace Illuminate\Support\Facades {
         public static function delete($paths)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->delete($paths);
         }
 
@@ -19866,7 +19894,7 @@ namespace Illuminate\Support\Facades {
         public static function copy($from, $to)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->copy($from, $to);
         }
 
@@ -19881,7 +19909,7 @@ namespace Illuminate\Support\Facades {
         public static function move($from, $to)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->move($from, $to);
         }
 
@@ -19895,7 +19923,7 @@ namespace Illuminate\Support\Facades {
         public static function size($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->size($path);
         }
 
@@ -19909,7 +19937,7 @@ namespace Illuminate\Support\Facades {
         public static function checksum($path, $options = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->checksum($path, $options);
         }
 
@@ -19923,7 +19951,7 @@ namespace Illuminate\Support\Facades {
         public static function mimeType($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->mimeType($path);
         }
 
@@ -19937,7 +19965,7 @@ namespace Illuminate\Support\Facades {
         public static function lastModified($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->lastModified($path);
         }
 
@@ -19951,7 +19979,7 @@ namespace Illuminate\Support\Facades {
         public static function readStream($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->readStream($path);
         }
 
@@ -19967,40 +19995,8 @@ namespace Illuminate\Support\Facades {
         public static function writeStream($path, $resource, $options = [])
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->writeStream($path, $resource, $options);
-        }
-
-        /**
-         * Get the URL for the file at the given path.
-         *
-         * @param string $path
-         * @return string 
-         * @throws \RuntimeException
-         * @static 
-         */
-        public static function url($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->url($path);
-        }
-
-        /**
-         * Get a temporary upload URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return array 
-         * @throws \RuntimeException
-         * @static 
-         */
-        public static function temporaryUploadUrl($path, $expiration, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
 
         /**
@@ -20014,7 +20010,7 @@ namespace Illuminate\Support\Facades {
         public static function files($directory = null, $recursive = false)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->files($directory, $recursive);
         }
 
@@ -20028,7 +20024,7 @@ namespace Illuminate\Support\Facades {
         public static function allFiles($directory = null)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->allFiles($directory);
         }
 
@@ -20043,7 +20039,7 @@ namespace Illuminate\Support\Facades {
         public static function directories($directory = null, $recursive = false)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->directories($directory, $recursive);
         }
 
@@ -20057,7 +20053,7 @@ namespace Illuminate\Support\Facades {
         public static function allDirectories($directory = null)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->allDirectories($directory);
         }
 
@@ -20071,7 +20067,7 @@ namespace Illuminate\Support\Facades {
         public static function makeDirectory($path)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->makeDirectory($path);
         }
 
@@ -20085,7 +20081,7 @@ namespace Illuminate\Support\Facades {
         public static function deleteDirectory($directory)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->deleteDirectory($directory);
         }
 
@@ -20098,7 +20094,7 @@ namespace Illuminate\Support\Facades {
         public static function getDriver()
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->getDriver();
         }
 
@@ -20111,7 +20107,7 @@ namespace Illuminate\Support\Facades {
         public static function getAdapter()
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->getAdapter();
         }
 
@@ -20124,7 +20120,7 @@ namespace Illuminate\Support\Facades {
         public static function getConfig()
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->getConfig();
         }
 
@@ -20138,7 +20134,7 @@ namespace Illuminate\Support\Facades {
         public static function serveUsing($callback)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             $instance->serveUsing($callback);
         }
 
@@ -20152,7 +20148,7 @@ namespace Illuminate\Support\Facades {
         public static function buildTemporaryUrlsUsing($callback)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             $instance->buildTemporaryUrlsUsing($callback);
         }
 
@@ -20169,7 +20165,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function when($value = null, $callback = null, $default = null)
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->when($value, $callback, $default);
         }
 
@@ -20186,7 +20182,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function unless($value = null, $callback = null, $default = null)
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->unless($value, $callback, $default);
         }
 
@@ -20202,7 +20198,7 @@ namespace Illuminate\Support\Facades {
         public static function macro($name, $macro)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::macro($name, $macro);
+            \Illuminate\Filesystem\AwsS3V3Adapter::macro($name, $macro);
         }
 
         /**
@@ -20217,7 +20213,7 @@ namespace Illuminate\Support\Facades {
         public static function mixin($mixin, $replace = true)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::mixin($mixin, $replace);
+            \Illuminate\Filesystem\AwsS3V3Adapter::mixin($mixin, $replace);
         }
 
         /**
@@ -20230,7 +20226,7 @@ namespace Illuminate\Support\Facades {
         public static function hasMacro($name)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            return \Illuminate\Filesystem\LocalFilesystemAdapter::hasMacro($name);
+            return \Illuminate\Filesystem\AwsS3V3Adapter::hasMacro($name);
         }
 
         /**
@@ -20242,7 +20238,7 @@ namespace Illuminate\Support\Facades {
         public static function flushMacros()
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::flushMacros();
+            \Illuminate\Filesystem\AwsS3V3Adapter::flushMacros();
         }
 
         /**
@@ -20257,7 +20253,7 @@ namespace Illuminate\Support\Facades {
         public static function macroCall($method, $parameters)
         {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
             return $instance->macroCall($method, $parameters);
         }
 
@@ -22517,8 +22513,9 @@ namespace AnourValar\EloquentSerialize\Facades {
         /**
          * Pack
          *
-         * @param \Illuminate\Database\Eloquent\Builder $builder
+         * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation $builder
          * @return string 
+         * @throws \RuntimeException
          * @static 
          */
         public static function serialize($builder)
@@ -23419,6 +23416,611 @@ namespace Jeffgreco13\FilamentBreezy\Facades {
             }
     }
 
+namespace Jenssegers\Agent\Facades {
+    /**
+     * 
+     *
+     */
+    class Agent {
+        /**
+         * Get all detection rules. These rules include the additional
+         * platforms and browsers and utilities.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getDetectionRulesExtended()
+        {
+            return \Jenssegers\Agent\Agent::getDetectionRulesExtended();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getRules()
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getRules();
+        }
+
+        /**
+         * 
+         *
+         * @return \Jaybizzle\CrawlerDetect\CrawlerDetect 
+         * @static 
+         */
+        public static function getCrawlerDetect()
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getCrawlerDetect();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getBrowsers()
+        {
+            return \Jenssegers\Agent\Agent::getBrowsers();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getOperatingSystems()
+        {
+            return \Jenssegers\Agent\Agent::getOperatingSystems();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getPlatforms()
+        {
+            return \Jenssegers\Agent\Agent::getPlatforms();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getDesktopDevices()
+        {
+            return \Jenssegers\Agent\Agent::getDesktopDevices();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getProperties()
+        {
+            return \Jenssegers\Agent\Agent::getProperties();
+        }
+
+        /**
+         * Get accept languages.
+         *
+         * @param string $acceptLanguage
+         * @return array 
+         * @static 
+         */
+        public static function languages($acceptLanguage = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->languages($acceptLanguage);
+        }
+
+        /**
+         * Get the browser name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */
+        public static function browser($userAgent = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->browser($userAgent);
+        }
+
+        /**
+         * Get the platform name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */
+        public static function platform($userAgent = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->platform($userAgent);
+        }
+
+        /**
+         * Get the device name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */
+        public static function device($userAgent = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->device($userAgent);
+        }
+
+        /**
+         * Check if the device is a desktop computer.
+         *
+         * @param string|null $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */
+        public static function isDesktop($userAgent = null, $httpHeaders = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->isDesktop($userAgent, $httpHeaders);
+        }
+
+        /**
+         * Check if the device is a mobile phone.
+         *
+         * @param string|null $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */
+        public static function isPhone($userAgent = null, $httpHeaders = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->isPhone($userAgent, $httpHeaders);
+        }
+
+        /**
+         * Get the robot name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */
+        public static function robot($userAgent = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->robot($userAgent);
+        }
+
+        /**
+         * Check if device is a robot.
+         *
+         * @param string|null $userAgent
+         * @return bool 
+         * @static 
+         */
+        public static function isRobot($userAgent = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->isRobot($userAgent);
+        }
+
+        /**
+         * Get the device type
+         *
+         * @param null $userAgent
+         * @param null $httpHeaders
+         * @return string 
+         * @static 
+         */
+        public static function deviceType($userAgent = null, $httpHeaders = null)
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->deviceType($userAgent, $httpHeaders);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function version($propertyName, $type = 'text')
+        {
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->version($propertyName, $type);
+        }
+
+        /**
+         * Get the current script version.
+         * 
+         * This is useful for the demo.php file,
+         * so people can check on what version they are testing
+         * for mobile devices.
+         *
+         * @return string The version number in semantic version format.
+         * @static 
+         */
+        public static function getScriptVersion()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getScriptVersion();
+        }
+
+        /**
+         * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
+         *
+         * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
+         *                           the headers. The default null is left for backwards compatibility.
+         * @static 
+         */
+        public static function setHttpHeaders($httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->setHttpHeaders($httpHeaders);
+        }
+
+        /**
+         * Retrieves the HTTP headers.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getHttpHeaders()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getHttpHeaders();
+        }
+
+        /**
+         * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
+         * 
+         * Simply null is returned.
+         *
+         * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
+         *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
+         *                       all-caps, HTTP_ prefixed, underscore separated awesomeness.
+         * @return string|null The value of the header.
+         * @static 
+         */
+        public static function getHttpHeader($header)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getHttpHeader($header);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getMobileHeaders()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getMobileHeaders();
+        }
+
+        /**
+         * Get all possible HTTP headers that
+         * can contain the User-Agent string.
+         *
+         * @return array List of HTTP headers.
+         * @static 
+         */
+        public static function getUaHttpHeaders()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getUaHttpHeaders();
+        }
+
+        /**
+         * Set CloudFront headers
+         * http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device
+         *
+         * @param array $cfHeaders List of HTTP headers
+         * @return boolean If there were CloudFront headers to be set
+         * @static 
+         */
+        public static function setCfHeaders($cfHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->setCfHeaders($cfHeaders);
+        }
+
+        /**
+         * Retrieves the cloudfront headers.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getCfHeaders()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getCfHeaders();
+        }
+
+        /**
+         * Set the User-Agent to be used.
+         *
+         * @param string $userAgent The user agent string to set.
+         * @return string|null 
+         * @static 
+         */
+        public static function setUserAgent($userAgent = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->setUserAgent($userAgent);
+        }
+
+        /**
+         * Retrieve the User-Agent.
+         *
+         * @return string|null The user agent if it's set.
+         * @static 
+         */
+        public static function getUserAgent()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getUserAgent();
+        }
+
+        /**
+         * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
+         * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
+         *
+         * @deprecated since version 2.6.9
+         * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
+         *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
+         * @static 
+         */
+        public static function setDetectionType($type = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->setDetectionType($type);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getMatchingRegex()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getMatchingRegex();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getMatchesArray()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getMatchesArray();
+        }
+
+        /**
+         * Retrieve the list of known phone devices.
+         *
+         * @return array List of phone devices.
+         * @static 
+         */
+        public static function getPhoneDevices()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getPhoneDevices();
+        }
+
+        /**
+         * Retrieve the list of known tablet devices.
+         *
+         * @return array List of tablet devices.
+         * @static 
+         */
+        public static function getTabletDevices()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getTabletDevices();
+        }
+
+        /**
+         * Alias for getBrowsers() method.
+         *
+         * @return array List of user agents.
+         * @static 
+         */
+        public static function getUserAgents()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getUserAgents();
+        }
+
+        /**
+         * Retrieve the list of known utilities.
+         *
+         * @return array List of utilities.
+         * @static 
+         */
+        public static function getUtilities()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getUtilities();
+        }
+
+        /**
+         * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules (but not extended).
+         * @static 
+         */
+        public static function getMobileDetectionRules()
+        {
+            //Method inherited from \Mobile_Detect 
+            return \Jenssegers\Agent\Agent::getMobileDetectionRules();
+        }
+
+        /**
+         * Method gets the mobile detection rules + utilities.
+         * 
+         * The reason this is separate is because utilities rules
+         * don't necessary imply mobile. This method is used inside
+         * the new $detect->is('stuff') method.
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules + extended.
+         * @static 
+         */
+        public static function getMobileDetectionRulesExtended()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->getMobileDetectionRulesExtended();
+        }
+
+        /**
+         * Check the HTTP headers for signs of mobile.
+         * 
+         * This is the fastest mobile check possible; it's used
+         * inside isMobile() method.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function checkHttpHeadersForMobile()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->checkHttpHeadersForMobile();
+        }
+
+        /**
+         * Check if the device is mobile.
+         * 
+         * Returns true if any type of mobile device detected, including special ones
+         *
+         * @param null $userAgent deprecated
+         * @param null $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */
+        public static function isMobile($userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->isMobile($userAgent, $httpHeaders);
+        }
+
+        /**
+         * Check if the device is a tablet.
+         * 
+         * Return true if any type of tablet device is detected.
+         *
+         * @param string $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */
+        public static function isTablet($userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->isTablet($userAgent, $httpHeaders);
+        }
+
+        /**
+         * This method checks for a certain property in the
+         * userAgent.
+         *
+         * @todo : The httpHeaders part is not yet used.
+         * @param string $key
+         * @param string $userAgent deprecated
+         * @param string $httpHeaders deprecated
+         * @return bool|int|null 
+         * @static 
+         */
+        public static function is($key, $userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->is($key, $userAgent, $httpHeaders);
+        }
+
+        /**
+         * Some detection rules are relative (not standard),
+         * because of the diversity of devices, vendors and
+         * their conventions in representing the User-Agent or
+         * the HTTP headers.
+         * 
+         * This method will be used to check custom regexes against
+         * the User-Agent string.
+         *
+         * @param $regex
+         * @param string $userAgent
+         * @return bool 
+         * @todo : search in the HTTP headers too.
+         * @static 
+         */
+        public static function match($regex, $userAgent = null)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->match($regex, $userAgent);
+        }
+
+        /**
+         * Prepare the version number.
+         *
+         * @todo Remove the error supression from str_replace() call.
+         * @param string $ver The string version, like "2.6.21.2152";
+         * @return float 
+         * @static 
+         */
+        public static function prepareVersionNo($ver)
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->prepareVersionNo($ver);
+        }
+
+        /**
+         * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
+         *
+         * @deprecated This is no longer being maintained, it was an experiment at the time.
+         * @return string One of the self::MOBILE_GRADE_* constants.
+         * @static 
+         */
+        public static function mobileGrade()
+        {
+            //Method inherited from \Mobile_Detect 
+            /** @var \Jenssegers\Agent\Agent $instance */
+            return $instance->mobileGrade();
+        }
+
+            }
+    }
+
 namespace Laravel\Octane\Facades {
     /**
      * 
@@ -23744,6 +24346,17 @@ namespace Livewire {
         {
             /** @var \Livewire\LivewireManager $instance */
             return $instance->current();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function findSynth($keyOrTarget, $component)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->findSynth($keyOrTarget, $component);
         }
 
         /**
@@ -28676,7 +29289,7 @@ namespace  {
          * @param string $pageName
          * @param int|null $page
          * @param \Closure|int|null $total
-         * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 
+         * @return \Illuminate\Pagination\LengthAwarePaginator 
          * @throws \InvalidArgumentException
          * @static 
          */
@@ -33233,6 +33846,7 @@ namespace  {
     class FilamentExceptions extends \BezhanSalleh\FilamentExceptions\Facades\FilamentExceptions {}
     class FilamentShield extends \BezhanSalleh\FilamentShield\Facades\FilamentShield {}
     class FilamentBreezy extends \Jeffgreco13\FilamentBreezy\Facades\FilamentBreezy {}
+    class Agent extends \Jenssegers\Agent\Facades\Agent {}
     class Octane extends \Laravel\Octane\Facades\Octane {}
     class Livewire extends \Livewire\Livewire {}
     class Health extends \Spatie\Health\Facades\Health {}
@@ -33240,6 +33854,11 @@ namespace  {
 }
 
 
+namespace Facades\Livewire\Features\SupportFileUploads {
+    /**
+     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
+    class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
+}
 
 
 

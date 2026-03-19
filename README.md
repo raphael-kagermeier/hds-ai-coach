@@ -1,76 +1,27 @@
+# HDS AiCoach — Decommissioned
 
-# HDS AiCoach
+**Status:** Decommissioned
+**Date:** 2026-03-19
+**Region:** eu-central-1
 
-## Quick Start
+## Reason
 
-`./bin/new-project.sh`
+Project is no longer active. All AWS infrastructure (Lambda, S3, SQS, CloudFront, API Gateway, Route53 records, CloudWatch, IAM roles, SSM parameters) has been torn down for all stages (production, development, staging).
 
-## URL Structure
+## Backups
 
-### Default URLs
+- **Production database backup:** stored in `(Nextcloud)/_PerformRomance/ProjectBackups/hds-ai-coach_ba
+  ckup_remote_production_20260319_103804.dump.zip` and Nextcloud/ProjectBackups
 
-Each project is automatically provisioned with URLs by serverless stage (configurable in `project.yml`):
+## What remains
 
--   🚀 **Production**: `https://{app_id}.021-fast.fun`
--   🔧 **Other Stages**: `https://{app_id}-{stage}.021-fast.fun`
+- This GitHub repository (archived, workflows disabled)
+- The shared `021-fast.fun` ACM certificate and Route53 hosted zone (used by other projects)
 
-### Custom Domain Setup
+## Infrastructure removed
 
-1. **Domain Registration**
-
-    - ✅ Register domain ([CloudFlare](https://dash.cloudflare.com/) recommended)
-
-2. **SSL Certificate Setup**
-
-    - ✅ Register [ACM Certificate in AWS](https://eu-central-1.console.aws.amazon.com/acm/home?region=us-east-1#/certificates/list)
-    - Create certificates in:
-        - `us-east-1` region
-        - `eu-central-1` region
-    - Copy CNAME name/value from AWS to CloudFlare (proxy status: OFF)
-
-3. **DNS Configuration**
-
-    - ✅ Create hosted zone in Route 53
-    - ✅ Update `project.yml` with:
-        - `hostedZoneId`
-        - `acm_certificate_arn`
-
-4. **Post-Deployment**
-    - Configure CloudFlare CNAME:
-        - Name: `@` or subdomain
-        - Value: `xyz.cloudfront.net` (from deployment output)
-        - Proxy status: ON
-
-
-### Troubleshooting Guide
-
-#### Common Issues & Solutions
-
-**Invalid Domain Name Identifier**
-ERROR: API Mappings: Invalid domain name identifier specified
-➡️ Solution: Verify domain name validity and format
-
-**Deployment Delays**
-
--   Issue: Extended deployment time after `project.yml` updates
--   Note: This is normal behavior for configuration changes
-
-**Stack Update Conflicts**
-Stack:arn:aws:cloudformation:eu-central-1:[ID]:stack/lft-staging/[...] is in UPDATE_IN_PROGRESS state
-➡️ Wait for current stack update to complete
-
-**Domain Redirect Loop**
-
--   Issue: Too many redirects with new domain
--   Solution: Set CloudFlare SSL/TLS to "Full" (not "Strict")
-
-## Email Configuration
-
-We use [Resend](https://resend.com) as our preferred email provider for its excellent developer experience.
-
-## Debugbar
-
-We use [Debugbar](https://github.com/barryvdh/laravel-debugbar) to debug our application.
-To improve DX with cursor, set the `DEBUGBAR_EDITOR` environment variable to `vscode`. and map vscode to cursor. Find out how to remap vscode to cursor [here](https://gist.github.com/eduwass/e04da7e635e4ef731a2148c86127d42a).
-
-_Pro Tip:_ To make requests filterable and searchable in debugbar, set the `DEBUGBAR_OPEN_STORAGE` environment variable to `true`.
+- CloudFormation stacks: `hds-ai-coach-production`, `hds-ai-coach-development`, `hds-ai-coach-staging`
+- S3 buckets: 12 buckets (deployment, private/public storage, website assets) across all stages
+- SSM parameters: `/hds-ai-coach/app_key`, `/hds-ai-coach/OPENAI_API_KEY`
+- GitHub Actions secrets: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`
+- GitHub Actions workflows: disabled via `if: false`

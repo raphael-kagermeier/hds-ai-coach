@@ -4,6 +4,7 @@ on: [ push ]
 
 jobs:
   tests:
+    if: false
     name: Application Operational Test
     runs-on: ubuntu-latest
 

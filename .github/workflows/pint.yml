@@ -7,6 +7,7 @@ permissions:
 
 jobs:
   lint:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
